@@ -48,6 +48,8 @@ _warning:_To run the script through this method you need to give the permissions
 
 A variable is a container for storing values.As the name indicates variables contain a value that can be changed or modified based on the condition or the information passed to the script.
 
+_*Note*: spaces cannot be used around the '=' assignment operator_
+
 _example:_
 
 ```bash
@@ -126,6 +128,52 @@ _example_:
 echo "$(( 2 + 4 ))"
 
 ```
+
+#### Arithmetic Operators
+- `+` - addition
+- `-` - substraction
+- `*` - multiplication
+- `%` - modulus
+- `/` - division
+
+
+_example_:
+
+```bash
+#!/bin/bash
+
+num1=4
+num2=5
+
+# addition
+
+echo "$(( num1 + num2 ))"
+
+# substraction
+
+echo "$(( num1 - num2 ))"
+
+# multiplication
+
+echo "$(( num1 * num 2 ))"
+
+# division
+
+echo "$(( num1 / num2 ))"
+
+```
+
+#### Relational Operators
+
+Relational operators allow to make comparisons between the operators.
+
+- `=` - Assignment operator
+- `<` or `-lt` - Less than
+- `<=`or `-le` - Less than or equal to
+- `>` or `-gt` - Greator than
+- `>=`or `-ge` - Greator than or equal to
+- `!=`- Not equal to
+
 
 
 
