@@ -41,7 +41,7 @@ The script can be executed in couple of ways:
 bash hello-world.sh
 ```
 
-_warning:_To run the script through this method you need to give the permissions  `chmod +x hello-world.sh`.
+_warning:_ To run the script through this method you need to give the permissions  `chmod +x hello-world.sh`.
 
 
 ### variables
@@ -186,7 +186,183 @@ _example_
 
 ```bash
 
+if [[ 1 -lt 5 && 2 -lt 5 ]];then
+  echo "You are right"
+else 
+  echo "You seem to be incorrect"
+fi
+
 ```
+
+### Conditional statements
+
+The conditional statements like `if` and 'else' are used to make decisions based on the specified conditions.
+
+_example_:
+
+```bash
+
+name="Rahul"
+
+if [[ $name == "Rahul" ]];then
+    echo "hello $name"
+else
+    echo "Invalid user!"
+fi
+
+```
+
+### Switch statement
+
+Switch statement are used to perform tasks based on certain conditions.
+It consists of cases which decide the flow of the program.
+
+```bash
+#!/bin/bash
+
+
+echo "enter a number from 1 to 3"
+read number
+
+case $number in
+	1)
+	   echo "You chose 1"
+          ;;
+
+	2)
+          echo "You chose 2"
+          ;;
+
+	3)
+          echo "You chose 3"
+          ;;
+        *)
+	        echo "You did not pick a correct number"
+          ;;
+esac
+
+```
+
+
+### Iterative statements(loops)
+
+The loops are used to perform a particular task for a certain number of times.
+There are three types of loops in Bash and they are `while`,`until` and `for` loop.
+
+#### While Loop
+
+```bash
+#!/bin/bash
+
+num=$1
+
+while [ $num -lt 5 ]
+do
+    echo "$num"
+    (( num++ ))
+done
+
+```
+
+#### For Loop
+
+```bash
+#!/bin/bash
+
+for i in {1..5}
+do
+   echo $i
+done
+```
+
+#### Until Loop
+
+```bash
+#!/bin/bash
+
+until [[ $choice == "blue" ]]
+do
+	echo "Pick red or blue"
+	read choice
+done
+
+echo "you chose blue"
+```
+
+_*NOTE*_: We can use break and continue statement to break out of loops based on certain conditions.
+
+_example_:
+
+```bash
+#!/bin/bash
+
+for i in {1..10}
+do
+    if [[ $i == 5 ]];then
+       break;
+    else
+       echo "$i"
+    fi
+done
+```
+
+### Arrays
+
+Arrays are used to store multiple values.We can store multiple values in the same variable and access using the array index
+
+_example_:To access the first element we can do `arr[0]`.The index starts from 0.
+
+
+```bash
+#!/bin/bash
+
+arr=("Rahul" "Peter" "Tony")
+
+echo "The first element of the array is ${arr[0]}"
+
+echo "The whole array is ${arr[@]}"
+
+echo "The length of the array is ${#arr[@]}"
+
+```
+
+### Functions
+
+Functions are block of code which are used to perform particular task and break the entire code into small modules.
+Functions make the code more readable and understandable.
+
+
+_example_:
+
+```bash
+func_add ()
+{
+   local x=$1 # 1st argument to the function
+   local y=$2 # 2nd argument  to the function
+
+   result=$(( x + y ))
+}
+
+# the function can be called like this
+
+func_add 2 5
+
+```
+
+_Pro Tip_: *Keep practicing to get good at it.*
+
+*Checkout this* [cheatsheet](https://devhints.io/bash) *for more.*
+
+
+
+
+
+
+
+
+
+
+
 
 
 
