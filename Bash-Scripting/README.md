@@ -174,6 +174,19 @@ Relational operators allow to make comparisons between the operators.
 - `>=`or `-ge` - Greator than or equal to
 - `!=`- Not equal to
 
+### Logical operators
+
+Logical operators are used to combine multiple conditional statements.The outcome is generally a boolean value i'e either true or false.
+
+- `&&` or `-a`- AND
+- `||` or `-o`- OR
+- `!` - NOT
+
+_example_
+
+```bash
+
+```
 
 
 
