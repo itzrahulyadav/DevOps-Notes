@@ -82,6 +82,25 @@ name="Rahul"
 echo "$name"
 #or echo "${name}".
 ```
+### Internal variables
+
+Bash has builtin variables which can be really helpful when writing script.Any task like knowing the current working directory or knowing the hostname can be done using the internal variables.
+
+_example_:
+
+```bash
+#!/bin/bash
+
+# display the current working directory.
+echo $PWD
+
+# prints the hostname.
+echo $HOSTNAME
+
+# prints the path environment variables.
+echo $PATH
+```
+
 
 ### comments
 
