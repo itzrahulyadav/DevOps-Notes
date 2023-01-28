@@ -13,5 +13,5 @@
 
 ## Go
 
-- [Notes](Go/ReadME.md)
+- [Notes](Go/README.md)
 - [Code]
