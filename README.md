@@ -14,4 +14,4 @@
 ## Go
 
 - [Notes](Go/README.md)
-- [Code]
+- [Code](Go/codes)
