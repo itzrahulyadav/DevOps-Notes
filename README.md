@@ -10,3 +10,8 @@
 - [Code](https://github.com/itzrahulyadav/DevOps-Notes/tree/main/Bash-Scripting/Scripts)
 
 <br>
+
+## Go
+
+- [Notes](Go/README.md)
+- [Code](Go/codes)
