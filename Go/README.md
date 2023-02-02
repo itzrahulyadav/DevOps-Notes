@@ -285,6 +285,149 @@ func greet() {
 ```
 In the above code greet function will be called after the main function returns
 
+The deferred statements are executed in last-in-first-out order.
+
+### Pointers
+
+Pointers are variables that hold the memory address of other variable.
+
+In Go we declare pointers using *.
+
+` var p *int`
+
+We can use `&` operator to assign memory address to the pointer.`&`operator returns the
+memory address of the variable.
+
+```Go
+x := 34
+p := &x
+
+fmt.Println(p) //returns the address of x
+
+```
+
+We can access the underlying value of a pointer using the * operator.* operator is called dereferencing operator.
+
+
+### Struct
+
+Go does not support classes.Instead,it has structs.
+Structs are data structure that allows us to group data together.We can group different
+type of data together using structs.
+
+```Go
+type Car struct {
+    name string
+    color string
+    speed int
+}
+
+```
+we can now create a new Car using the following syntax:
+
+```Go
+
+supra := Car{"Supra","Blue",350}
+
+// accessing the value using the . operator
+
+fmt.Println(supra.color)
+
+```
+
+#### Methods
+
+Methods are simply functions with special reciever arguments.
+
+```
+func (x Car) speed() {
+   fmt.Println(x.name)
+   fmt.Println(x.speed)
+}
+
+supra = Car{"Supra","blue",350}
+supra.speed()
+
+```
+
+### Arrays
+
+An array is a fixed size sequence of elements of the same type.
+
+```Go
+// array of fixed size 
+var arr [5]int 
+
+```
+The array elements can be accessed using their index.
+
+### Slices
+
+An array is fixed size,which means once defined it's size can't be changed.To overcome this Go 
+provides with dynamic arrays called slices.
+
+```Go
+
+// declaring slices
+var arr []int
+
+```
+
+We can also declare slices using the make function
+
+```Go
+arr := make(int[],0)
+arr = append(arr,4)
+
+```
+
+The elements in the slices can be added using the `append` function.
+
+```Go
+
+ var cars []string
+ cars = append(cars,"GTR")
+ cars = append(cars,"Mustang")
+ 
+```
+
+### Range 
+
+It is a special form of for loop that allows to iterate over arrays and slices.It returns two values index and the value.
+
+```Go
+      arr := []int{2, 3, 3, 2, 5, 6, 74, 4, 3, 3}
+       for index, value := range arr {
+	   fmt.Println(index, value)
+	}
+
+```
+
+### Maps
+
+Maps are used to store key:value pairs.The key needs to be unique.
+Maps can be created using couple of ways.
+
+1.Using the `make` function just like slices
+
+```Go
+var avengers = make(map[string]int)
+
+avengers["Spiderman"] = 1
+avengers["Thor"] = 3
+
+```
+
+2.
+```Go
+avengers := map[string] int {
+    "spiderman":1,
+    "Thor":2
+}
+
+```
+The elements can be deleted using the delete function `delete(avengers,"spiderman")`
+
 
 
 
