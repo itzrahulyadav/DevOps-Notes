@@ -104,6 +104,187 @@ _Note_: ` The variable that are declared without value take the zero value of th
 false for boolean type,
 "" for strings.`
 
+### Taking input
+
+fmt package also allows to take user input.The `Scanln` function present in the fmt package is used to take user input.
+
+_example_:
+
+```Go
+
+var string name
+
+fmt.Scanln(&name)
+
+fmt.Println(name)
+
+```
+
+*The ampersand operator (&) returns the address of the variable*
+
+### if-else statement
+
+The if else statement is used to make decisions and run code based on certain conditions.
+
+```Go
+package main
+
+import "fmt"
+
+func main() {
+   x := 18
+   
+   if x < 18 {
+     fmt.Println("not allowed to vote")
+   }else{
+     fmt.Println("eligible to vote")
+   }
+}
+
+```
+
+Take care of the curly brackets because Go is strict with its syntax.
+
+#### if else-if chain
+
+```Go
+package main
+
+import "fmt"
+
+func main() {
+   x := "red"
+   
+   if x == "red" {
+     fmt.Println("It is red ")
+   }else if x == "blue"{
+     fmt.Println("It is blue")
+   }else{
+     fmt.Println("It is any other colour")
+   }
+}
+
+```
+
+### Switch statements
+
+Switch statements are used to remove the complex if/else chain of statements.
+
+```Go
+
+x := 3
+
+switch x {
+  case 1:
+       fmt.Println("one")
+  case 2:
+       fmt.Println("Two")
+  case 3:
+       fmt.Println("Three")
+  default:
+       fmt.Prinln("any other number")
+}
+
+```
+
+The default case run when none of the cases are true.
+
+In Go we don't have the break statement because the execution stops when one of the code evaluates to be true.we can use `fallthrough keyword` if we want the next case to evaluate.
+
+### For loops
+
+For loops are the only loop construct in Go.For loops can be used as while loop based on condition.
+
+_example_:
+
+```Go
+// this code prints the number from 0 to 9
+for i := 0;i < 10;i++ {
+   fmt.Println(i)
+}
+
+```
+
+Using for loops as while loops.
+
+```Go
+i := 0
+sum := 0
+
+
+// this code will calculate the sum of numbers from 0 to 9
+for i < 10 {
+   sum += i
+   i += 1
+}
+
+
+```
+
+### Functions
+
+Functions are block of reusable code which can be called multiple times in the different parts of a program.
+
+The func keyword can be used to define the functions in Go
+
+```Go
+// a function without any arguments
+func greet() {
+   fmt.Println("Hello there 👋🏻")
+}
+
+// a function with arguments and a return type
+func add(a,b int) int {
+     return a + b
+}
+
+
+// invoking the functions inside the main function
+
+func main() {
+    greet()
+    fmt.Println(add(2,3))
+}
+```
+
+#### Returning multiple functions from the function
+
+A function can return multiple values. we need to specify the return types in the function definition.
+
+```Go
+
+func add_mul(a, b int) (int, int) {
+	   return a + b, a * b
+}
+
+func main() {
+
+	 y, x := add_mul(3, 4)
+	 fmt.Println(x)
+  fmt.Println(y)
+ 
+}
+
+```
+#### defer keyword
+
+A defer statement ensures that the function is called only after the surrounding function returns.
+
+```Go
+
+
+func main() {
+	defer greet()
+	fmt.Println("I will be printed first")
+}
+
+func greet() {
+	fmt.Println("Hello 👋🏻")
+}
+
+```
+In the above code greet function will be called after the main function returns
+
 
 
 
