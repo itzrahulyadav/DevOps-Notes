@@ -247,7 +247,7 @@ func main() {
 }
 ```
 
-#### Returning multiple functions from the function
+#### Returning multiple values from the function
 
 A function can return multiple values. we need to specify the return types in the function definition.
 
@@ -266,6 +266,34 @@ func main() {
 }
 
 ```
+
+#### variadic functions
+
+Variadic functions are the functions that can be called with any number of arguments.We just need to use `...` 3 dots so define the function as variadic function.
+
+```Go
+func sum(nums ...int) {
+   total := 0
+   for _,v := range nums {
+      total += v
+   }
+}
+
+//callling the function with any number of arguments
+
+sum(2,3,5,6)
+sum(2,3)
+sum(1)
+
+```
+_Note_:To pass the array as argument use
+
+```Go
+arr := []int{2,3,4,5}
+sum(arr ...)
+
+```
+
 #### defer keyword
 
 A defer statement ensures that the function is called only after the surrounding function returns.
