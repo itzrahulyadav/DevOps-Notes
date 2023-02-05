@@ -29,5 +29,10 @@ It is the practice of automating the integration of code changes from multiple c
 
 
 
+### Jenkins UI
+![Screenshot (81)](https://user-images.githubusercontent.com/65400893/216839683-4947b295-8050-4b4b-9114-c885cf445e38.png)
+
+
+
 
 
