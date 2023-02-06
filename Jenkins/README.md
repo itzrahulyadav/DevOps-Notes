@@ -33,6 +33,12 @@ It is the practice of automating the integration of code changes from multiple c
 ![Screenshot (81)](https://user-images.githubusercontent.com/65400893/216839683-4947b295-8050-4b4b-9114-c885cf445e38.png)
 
 
+### Jenkins multibranch pipeline
+
+- The multibranch Pipeline  project type enables you to implement different Jenkinsfile for different branches of the same project
+
+- Jenkins automatically discovers,manages and executes Pipelines for branches which contain a Jenkinsfile in source control.
+
 
 
 
