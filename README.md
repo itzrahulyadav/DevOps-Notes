@@ -26,7 +26,7 @@
 
 
 
-<img align="right" src="https://user-images.githubusercontent.com/65400893/217517772-ab727cf3-f325-434b-8fc6-033322b1152a.png" height="100" alt="Bash">
+<img align="right" src="https://user-images.githubusercontent.com/65400893/217628771-ac2e31bd-4e15-4028-9bc4-edd4dbc09738.png" height="100" alt="Bash">
 
 - [Notes](Jenkins/README.md)
 
