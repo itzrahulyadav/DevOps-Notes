@@ -367,7 +367,31 @@ func_add ()
 func_add 2 5
 
 ```
+# Debugging your file
+- You can use bash -x before your filename to debug your file
 
+_example_
+
+
+- To debug a file named hello.sh you can run it like  `bash -x ./hello.sh`
+- You can also add pointers in your script to debug 
+
+_example_
+
+```bash
+#!/bin/bash
+
+set -x
+echo "enter your name"
+read name 
+
+for i in [1..5]
+do
+	echo $i
+
+set -x
+
+```
 _Pro Tip_: *Keep practicing to get good at it.*
 
 *Checkout this* [cheatsheet](https://devhints.io/bash) *for more.*
