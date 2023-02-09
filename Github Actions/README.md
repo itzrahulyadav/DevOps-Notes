@@ -112,3 +112,114 @@ In the example above job 3 depends on job1 and job2 to run successfully.
 
 This are used to specify the tasks based on the condition
 For this we need to create a new block
+
+
+
+### Using the actions from the Github marketplace
+
+-  The actions in the GitHub Marketplace are pre-built scripts that can be used to automate a wide range of tasks, from building and testing code, to deploying applications, to managing your workflows and projects.
+
+
+### Using the actions from a Repository
+
+- Actions can be used from workflow's repo
+
+```
+steps:
+     - uses: "./github/action1"
+
+```
+- From any public repository
+
+```
+steps:
+     - uses: "user/repo@ref"
+```
+- Docker images from an image registry
+- Specify the "docker://" path to the image and tag
+- Docker hub is used by default
+
+
+```
+steps:
+     -uses: "docker://image:tag"
+```
+
+### Passing arguments to an action
+- steps use the `with` attribute to pass argument
+- With creates a new block for mapping arguments to inputs
+
+
+syntax:
+
+```
+steps:
+     - name: Checkout the code
+     uses: actions/checkout@v3
+     with:
+          key:value
+          key:value
+          
+```
+
+### Passing environment variables
+
+- Environment variables are dynamic key value pair stored in the memory.
+- Environment variables are not already stored in the memory rather they are injected when the process starts
+- This are case sensitive
+- We can define our own environment variables  in `env` attribute.
+- The env can be defined in the workflow,jobs or steps level.
+
+_Scope_ of the variables
+
+1. If the variables are declared at the workflow level they can be accessed by all jobs,steps,all actions and all commands.
+2. If the variables are declared at the jobs level they can be accessed by all steps,all actions and commands within the job.
+3. If the variables are declared at the steps level they can be accessed by all the step.
+
+
+#### Accessing the env variables
+
+The variable can be accessed by two ways:
+- Shell variable syntax
+
+      1. Bash (Linux/macOS) - `$VARIABLE_NAME`      
+      2. Powershell (Windows) - `$Env:VARIABLE_NAME` 
+          
+- YAML syntax - `- ${{ env.VARIABLE_NAME }}`
+
+
+example:
+
+```YAML
+
+name: Environment Variables
+env:
+    MY_ENVIRONMENT_VARIABLE: 'Hello there :)'
+    
+on: [push]
+jobs:
+    first-job:
+          runs-on: ubuntu-latest
+          steps:
+            - name: Print env variable
+              run: | 
+                 echo "$MY_ENVIRONMENT_VARIABLE"
+```
+
+
+### Using secrets in the workflow
+Sometimes we need to store passwords,API keys etc in the workflows
+
+- Secrets are stored in the github repository settings.
+- Can't be viewed or edited once created
+-  Workflows can have up to 100 secrets
+-  Secrets limited to 64 KB
+
+To access the secret 
+
+```
+
+${{ secrets.SECRET_NAME }}
+
+```
+Secrets can be passed as env variables or parameters
