@@ -8,7 +8,7 @@
 
 - [Notes](Bash-Scripting/README.md)
 - [Code](https://github.com/itzrahulyadav/DevOps-Notes/tree/main/Bash-Scripting/Scripts)
-
+- [PDF(Ebooks)](Bash-Scripting/Ebooks)
 <br>
 
 ## Go!
