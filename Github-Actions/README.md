@@ -278,6 +278,27 @@ ${{ secrets.SECRET_NAME }}
 ```
 Secrets can be passed as env variables or parameters
 
+_example_
+
+```
+name: My Workflow
+
+on: push
+
+env:
+  MY_SECRET_VAR: ${{ secrets.MY_SECRET_VAR }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Print the secret
+      run: echo "The secret is: ${MY_SECRET_VAR}"
+
+
+```
+
 ### Artifacts
 
 - Artifacts are data preserved from a workflow.
