@@ -242,6 +242,30 @@ Job 2 - Wait for the Job 1 to complete and then download and use the artifact
 
 - Artifacts are by default stored for 90 days.
 
+_example_:
+
+```
+name: Artifact
+
+on: [push]
+
+env:
+   ARTIFACT_NAME: myartifact
+   
+jobs:
+   main:
+      runs-on: ubuntu-latest
+      steps:
+         - name: checkout the code
+           uses: actions/checkout@v2
+         - name: upload the artifact
+           uses: actions/upload-artifact@v2
+           with:
+               name: ${{ env.ARTIFACT_NAME }}
+               path: .
+               
+```
+
 
 ### Managing PR's using the github actions
 
