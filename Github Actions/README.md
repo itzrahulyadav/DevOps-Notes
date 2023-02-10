@@ -223,3 +223,33 @@ ${{ secrets.SECRET_NAME }}
 
 ```
 Secrets can be passed as env variables or parameters
+
+### Artifacts
+
+- Artifacts are data preserved from a workflow.
+- They may be files or collection of files like archieves,log files
+
+Artifacts can be used to pass data between workflows jobs.
+
+For example suppose there are two jobs where second job needs a file which is created by first job.
+
+Job 1 - Creates and upload artifact
+Job 2 - Wait for the Job 1 to complete and then download and use the artifact
+
+- Artifacts can only be uploaded by a workflow using `actions/upload-artifact`
+
+- And can only be downloaded by the uploading workflow using `actions/download-artifact`
+
+- Artifacts are by default stored for 90 days.
+
+
+### Managing PR's using the github actions
+
+Github actions can be use to 
+
+- Automatically approve and merge the PR's based on criteria
+- Run automated tests to check the code in the PR
+- Check the username that submitted the PR
+- Approve and merge the PR
+- Delete the branch associated with the PR
+
