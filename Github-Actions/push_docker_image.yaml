@@ -1,0 +1,16 @@
+name: push 
+
+on:
+  push:
+     branches: [ main ]
+     
+jobs:
+    deploy:
+       runs-on: ubuntu-latest
+       
+       steps:
+          - uses: actions/checkout@v2
+          - run: docker build -t itzrahulyadav/my_image .
+          # inside the CI we cannot get a prompt so we use stdin
+          - run: echo "${{secrets.DOCKER_PASSWORD}}" | docker login -u ${{secrets.DOCKER_USERNAME}} --password-stdin
+          - run: docker push itzrahulyadav/my_image
