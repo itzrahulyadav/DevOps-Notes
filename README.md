@@ -34,10 +34,11 @@
 
 ## Github Actions
 
-<img align="right" src="https://user-images.githubusercontent.com/65400893/218035888-8d01a6b3-8aff-4f35-87df-d6d32d5fadd6.png" height="100" alt="Bash">
+<img align="right" src="https://user-images.githubusercontent.com/65400893/218035888-8d01a6b3-8aff-4f35-87df-d6d32d5fadd6.png" height="100" alt="github-actions">
 
 
-- [Notes](Github Actions/README.md)
+
+- [Notes](Github-Actions/README.md)
 
 
 
