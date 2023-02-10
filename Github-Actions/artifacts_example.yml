@@ -1,0 +1,48 @@
+name: Just a sample workflow file
+
+on: push
+
+env:
+  MY_SECRET: "This is my Secret"
+  
+jobs:
+    first:
+        runs-on: ubuntu-latest
+        steps:
+          - name: Step One
+            uses: actions/checkout@v3
+          - name: Generate artifacts
+            run: |
+                mkdir artifacts
+                echo "hello world" > artifacts/file.txt
+          - name: Upload artifacts
+            uses: actions/upload-artifact@v2
+            with:
+              name: my-artifacts
+              path: artifacts
+    second:
+       runs-on: windows-latest
+       steps:
+          - name: Step one
+            run: |
+               echo "$MY_SECRET"
+          - name: Download artifacts
+            uses: actions/download-artifact@v2
+            with:
+              name: my-artifacts
+            
+          - name: Print file
+            run: | 
+               echo "hello world" > file.txt
+               
+    third:
+      needs: [first,second]
+      runs-on: ubuntu-latest
+      steps:
+         - name: download artifacts
+           uses: actions/download-artifact@v2
+           with:
+             name: my-artifacts
+         - name: print file
+           run: |
+            cat file.txt
