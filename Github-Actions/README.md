@@ -351,3 +351,75 @@ Github actions can be use to
 - Approve and merge the PR
 - Delete the branch associated with the PR
 
+### Matrix strategy
+
+Using matrix strategy we can make one job to create a variety of different configuration.
+
+```
+jobs:
+   build:
+     strategy:
+         matrix: 
+            version: [15,16,10]
+            platform: [ubuntu-latest,windows-latest,windows-latest]
+     runs-on: ${{ matrix.platform }}
+     steps:
+       - uses: actions/setup-node@v2
+         with:
+            node-version: ${{ matrix.version }}
+
+```
+
+-   We can use the word include and exclude
+-   we can use include to set additional values
+
+
+```
+
+jobs:
+   build:
+     strategy:
+         matrix: 
+            version: [15,16,10]
+            platform: [ubuntu-latest,windows-latest,windows-latest]
+            include:
+             - platform: ubuntu-latest
+               version: 18
+               
+```
+
+- Exclude can be used to remove values from the combination.
+
+```
+
+jobs:
+   build:
+     strategy:
+         matrix: 
+            version: [15,16,10]
+            platform: [ubuntu-latest,windows-latest,windows-latest]
+            exclude:
+             - platform: windows-latest
+               version: 18
+
+```
+
+-  Includes are processed after excludes
+-  fail-fast enables to remove job if even one job fails
+-  Default value is true,but can be configured to false
+
+```
+strategy:
+    fail-fast: false
+    matrix:
+        version: [2,3,6]
+        platform: [ubuntu-latest,windows-latest]
+        experimental: [ false]
+    include:
+       - platform: ubuntu-latest
+         version: 15
+         experimental: true
+    continue-on-error: ${{matrix.experimental}}
+
+```
+-   A maximum of 256 jobs can be created per workflow.we can set the limit using  `max-parallel: 4`
