@@ -7,12 +7,12 @@ Github actions are event driven
 
 | events | (trigger)  -----> |workflows| (use) ------> | actions |
 
-_Events_: When something happens in or to your repository.
+_Events_: When something happens in or to your repository.eg. Push,pull request etc.
 
 ### Actions
 
 - This are scripts that run in response to specific events in repositories.
-- This are written in YAML format.
+- This are helpful for running common tasks in repeatable manner without writing it again and again.
 - Actions perform specific tasks like checking the code,building your code,publishing packages etc.
 - There are large number of actions created by community that we can use and we can also create our own custom actions.
 
@@ -34,19 +34,18 @@ _Events_: When something happens in or to your repository.
 - It is an optional attribute.
 
 2.on
-- It defines the Github event that triggers the workflow,which may be:
-
-          -  Repository events
-                - push
-                - pull_request
-                - release
-          -  Webhooks
-                - Branch creation
-                - issues
-                - members
+-  It defines the Github event that triggers the workflow,which may be:
+    -  Repository events
+          -  push
+          -  pull_request
+          -  release
+    -  Webhooks
+          -  Branch creation
+          -  issues
+          -  members
                 
-          -  Scheduled
-                - Cron format
+     -  Scheduled
+          -  Cron format
                 
 - It is a required attribute.
 
