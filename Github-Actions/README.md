@@ -4,8 +4,7 @@ Github actions enable us to create custom software development lifecycle workflo
 
 Github actions are event driven
 
-
-| events | (trigger)  -----> |workflows| (use) ------> | actions |
+![20230212_110951](https://user-images.githubusercontent.com/65400893/218295091-6878c6b3-f2e1-4aac-b26f-1a33ab986cee.jpg)
 
 _Events_: When something happens in or to your repository.eg. Push,pull request etc.
 
@@ -19,6 +18,7 @@ _Events_: When something happens in or to your repository.eg. Push,pull request 
 
 ### Workflows 
 
+- Orchestration of all the jobs that will occur in our action.
 - Workflow consist of number of actions that occur in a particular order.
 - Workflow can be triggered after an event occur in Github.
 - A bunch of actions together is called a Job.
@@ -46,6 +46,9 @@ _Events_: When something happens in or to your repository.eg. Push,pull request 
                 
      -  Scheduled
           -  Cron format
+          
+     -  Manually triggered 
+          -  Workflow_dispatch(Third party like API's)
                 
 - It is a required attribute.
 
@@ -423,3 +426,13 @@ strategy:
 
 ```
 -   A maximum of 256 jobs can be created per workflow.we can set the limit using  `max-parallel: 4`
+
+### Self Hosted Runners
+
+Runners are servers consisting of Hardware,operating Systems,programs etc. that run jobs in a workflow.Github provides hosted runners
+that are already present in github.com.
+
+Self Hosted Runners are type of runners in GitHub actions that we can create and manage on our own infrstructure which may be a virtual machine,a physical server or a container.
+
+Self Hosted Runners allow us to customize our runners according to our own need,we can install dependencies and tools according to our
+specific needs.
