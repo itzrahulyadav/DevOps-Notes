@@ -21,7 +21,7 @@ jobs:
         uses: actions/checkout@v1
       - uses: EddieHubCommunity/gh-action-community/src/welcome@main
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.MY_SECRET }}
           issue-message: "<h3>Hey! contributor, thank you for opening an Issue 🎉.</h3>"
           pr-message: "<h3>Hey! contributor, thank you for opening a Pull Request 🎉.</h3>"
           
