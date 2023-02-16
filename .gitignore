@@ -1,0 +1,10 @@
+# local .terraform dir
+/Terraform/Concepts/.terraform/*
+
+# tf state file
+/Terraform/Concepts/*.tfstate
+/Terraform/Concepts/*.tfstate.*
+
+# terraform variable files
+/Terraform/Concepts/*.tfvars
+
