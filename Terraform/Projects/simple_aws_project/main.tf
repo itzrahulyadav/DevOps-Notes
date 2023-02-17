@@ -120,6 +120,9 @@ output "aws_ami_id" {
     value = data.aws_ami.latest-amazon-linux-image.id
 }
 
+output "ec2_public_ip" {
+    value = aws_instance.myapp-server.public_ip
+}
 # resource "aws_key_pair" "ssh-key" {
 #     key_name = "server-key"
 #     public_key = "file(var.public_key_location)" #your public ssh key located in .ssh foler
@@ -151,6 +154,22 @@ resource "aws_instance" "myapp-server" {
             echo "<html><body><h1>Rahul Yadav's server</h1></body></html>" >> /var/www/html/index.html
         EOF
 
+    # connection {
+    #     type = "ssh"
+    #     host = self.public_ip
+    #     user = "ec2-user"
+    #     private_key = "rxhxl-key-pair"
+    # }
+    # provisioner "remote-exec" {
+    #     inline = [
+    #         "export ENV=env",
+    #         "mkdir newdir"
+    #     ]
+    # }
+
+    provisioner "local-exec" {
+        command = "echo hello "
+    }
 
 }
 

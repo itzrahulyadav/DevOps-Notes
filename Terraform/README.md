@@ -214,3 +214,71 @@ variable "aws_region" {
 
 - AWS stores the credentials by default in the `~/.aws/credentials` folder.
 - Just do aws configure and AWS will store the credentials in that folder.
+
+## Provisioners 
+
+-  Provisioners are used to execute scripts or commands on a resource after it has been created or updated
+-  Provisioners can be used for installing a software on the server,initializing a database etc.
+- Provisioners consist of :
+   - inline : list of commands
+   - script : path
+
+_example_:
+
+```
+resource "aws_instance" "example" {
+
+  ami = "ami-0c55b159cbfafe1f0"
+  instance_type = "t2.micro"
+
+  provisioner "remote-exec" {
+    inline = [
+      "mkdir newdir",
+      "sudo yum update -y"
+    ]
+  }
+}
+
+```
+
+In the above example we are running an ec2 instance and running the script given in 
+the provisioner block.
+
+### Type of provisioners
+
+1. Local-exec Provisioner
+      - this provisioner run commands on the local machine where terraform is installed.
+
+2. Remote-exec Provisioner
+     -  this provisioner run commands on the resource that is created or updated.
+
+3. File provisioners
+
+-  It allows us to transfer files or directories to the remote servers or resources
+-  _example_
+
+```
+
+resource "aws_instance" "example" {
+  ami           = "ami-0c55b159cbfafe1f0"
+  instance_type = "t2.micro"
+
+  provisioner "file" {
+    source      = "path/to/local/file"
+    destination = "/path/on/remote/server"
+  }
+}
+
+```
+-  Here source is our local machine and destination refers to the remote server.
+
+
+__Note__ : Terraform advices to avoid the use of provisioners for the following reasons:
+               -  it breaks the idempotency concept
+               -  TF doesn't know what to execute
+               -  breaks current desired state comparison
+               -  provisioners can slow down the deployment process
+
+- instead we can use configuration management tools like chef,ansible etc.
+
+
