@@ -8,3 +8,13 @@
 # terraform variable files
 /Terraform/Concepts/*.tfvars
 
+
+# local .terraform dir
+/Terraform/Projects/simple_aws_project/.terraform/*
+
+# tf state file
+/Terraform/Projects/simple_aws_project/*.tfstate
+/Terraform/Projects/simple_aws_project/*.tfstate.*
+
+# terraform variable files
+/Terraform/Projects/simple_aws_project/*.tfvars

@@ -213,4 +213,4 @@ variable "aws_region" {
 - export AWS_ACCESS_KEY_ID=<your AWS access key ID>
 
 - AWS stores the credentials by default in the `~/.aws/credentials` folder.
-- Just do aws configure and AWS store the credentials in that folder.
+- Just do aws configure and AWS will store the credentials in that folder.
