@@ -1,6 +1,9 @@
-#Docker 
+# Docker 
 
 ### Docker Volume
+
+Dockers are ephemeral in nature which means the moment you stop the container all its data is erased.So you need some sort of storage for 
+storing and persisting data outside of containers.
 
 - Create a volume
 
