@@ -1,7 +1,5 @@
 <h1 align="center"> DevOps-Notes </h1>
 
-code- sqp_334f8bb1b40c4d7979722a45856dbb00fdc3af77
-
 <p align="center"> Resources and Notes to get started with DevOps</p>
 
 ## Bash Scripting 
