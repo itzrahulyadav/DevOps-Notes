@@ -3,7 +3,7 @@ Docker is a tool that helps in developing building,deploying and executing softw
 
 # What is a Container ?
 
-Contaiener are softwares that wrap up all the parts of a code and all its dependencies into a single deployable unit that can be used on different systems and servers.
+Containers are softwares that wrap up all the parts of a code and all its dependencies into a single deployable unit that can be used on different systems and servers.
 
 Multiple isolated containers can be launched together to form microservices which can be easily managed using any orchestration tool. 
 Eg - Docker swarm,Kubernetes etc.
@@ -66,4 +66,20 @@ docker run -v $(pwd)/myvol:/myvol -itd <image_name>
 - Then you can use exec command to execute the command inside the running container like this `docker exec it <container-hashcode> /bin/bash`
 
 
+
+## Docker Swarm
+
+- use docker swarm init in the manager node 
+- you wull recieve a command with token which can be used with docker to create docker swarm workers
+- The command looks something like this 
+
+```
+docker swarm join --token SWMTKN-1-4ymm0j36p1v6nl2t0bn4vxazqtlehdogd5ir19hw9hf71wx5zt-es1ormjsg42etm9ldstij1umr 172.31.46.23:2377
+```
+
+- use docker info to get all the info
+- use docker node ls to see the list of docker nodes
+- use docker swarm leave to leave the swarm
+- use  `docker swarm join-token worker `to get token which can be used to add workers to the swarm
+- 
 
