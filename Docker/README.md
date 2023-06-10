@@ -81,5 +81,18 @@ docker swarm join --token SWMTKN-1-4ymm0j36p1v6nl2t0bn4vxazqtlehdogd5ir19hw9hf71
 - use docker node ls to see the list of docker nodes
 - use docker swarm leave to leave the swarm
 - use  `docker swarm join-token worker `to get token which can be used to add workers to the swarm
+
+#### Docker service
+- Run the basic httpd container using the following command
+ ```
+ Docker service create  --name myservice --replicas 3 --publish 80:80 httpd
+ 
+ ```
+ - Replicas are the replicas of the service who are similar to each other
+
+-  `docker service ls` is used to know the list of running services
+- To see the list of running containers in a service use: `docker service ps <service name> `
+- To remove the service use the command `docker service rm <service> `
 - 
+  
 
