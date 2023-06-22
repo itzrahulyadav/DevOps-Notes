@@ -51,6 +51,9 @@ docker run -itd --name <name> --mount source=myvol.target=/vol <image_name>
 
 ```
 docker run -itd --name <another_name> -v myvol:/vol <image_name>
+// or
+
+docker run -it --rm --mount source=my-volume,destination=<location inside container like /data> <image_name>
 
 ```
 
