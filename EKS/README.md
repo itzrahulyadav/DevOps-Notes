@@ -10,3 +10,5 @@ you can use the following command to check the node groups(eksctl must be instal
 ```
 eksctl get nodegroup --cluster $EKS_CLUSTER_NAME --name $EKS_DEFAULT_MNG_NAME
 ```
+- Nodes are distributed over multiple subnets in various availability zones, providing high availability
+- 
