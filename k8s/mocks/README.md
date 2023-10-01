@@ -298,3 +298,204 @@ Now we can run the command: kubectl expose deployment hr-web-app-cka08-svcn --ty
 Now, in generated service definition file add the nodePort field with the given port number under the ports section and create a service
 
 ```
+
+17. We have created a service account called blue-sa-cka21-arch, a cluster role called blue-role-cka21-arch and a cluster role binding called blue-role-binding-cka21-arch.
+Update the permissions of this service account so that it can get the pods only in default namespace of cluster1.
+
+```
+Edit the blue-role-cka21-arch to update permissions:
+
+student-node ~ ➜  kubectl edit clusterrole blue-role-cka21-arch --context cluster1
+
+
+
+Under rules: -> - apiGroups: replace apps with ""
+
+resources: replace - deployments with - pods and save the changes.
+
+
+You can verify it as below:
+
+student-node ~ ➜  kubectl auth can-i get pods --as=system:serviceaccount:default:blue-sa-cka21-arch
+yes
+
+
+```
+
+18. Create a generic secret called db-user-pass-cka17-arch in the default namespace on cluster1 using the contents of the file /opt/db-user-pass on the student-node
+
+```
+kubectl create secret generic db-user-pass-cka17-arch --from-file=/opt/db-user-pass
+
+```
+
+19. Find the node across all clusters that consumes the most CPU and store the result to the file /opt/high_cpu_node in the following format cluster_name,node_name.
+The node could be in any clusters that are currently configured on the student-node.
+
+```
+Let's look into the network policy
+
+kubectl edit networkpolicy cyan-np-cka28-trb -n cyan-ns-cka28-trb
+Under spec: -> egress: you will notice there is not cidr: block has been added, since there is no restrcitions on egress traffic so we can update it as below. Further you will notice that the port used in the policy is 8080 but the app is running on default port which is 80 so let's update this as well (under egress and ingress):
+
+Change port: 8080 to port: 80
+- ports:
+  - port: 80
+    protocol: TCP
+  to:
+  - ipBlock:
+      cidr: 0.0.0.0/0
+Now, lastly notice that there is no POD selector has been used in ingress section but this app is supposed to be accessible from cyan-white-cka28-trb pod under default namespace. So let's edit it to look like as below:
+
+ingress:
+- from:
+  - namespaceSelector:
+      matchLabels:
+        kubernetes.io/metadata.name: default
+   podSelector:
+      matchLabels:
+        app: cyan-white-cka28-trb
+Now, let's try to access the app from cyan-white-pod-cka28-trb
+
+kubectl exec -it cyan-white-cka28-trb -- sh
+curl cyan-svc-cka28-trb.cyan-ns-cka28-trb.svc.cluster.local
+Also make sure its not accessible from the other pod(s)
+
+kubectl exec -it cyan-black-cka28-trb -- sh
+curl cyan-svc-cka28-trb.cyan-ns-cka28-trb.svc.cluster.local
+It should not work from this pod. So its looking good now.
+```
+
+
+21. 
+One of the nginx based pod called cyan-pod-cka28-trb is running under cyan-ns-cka28-trb namespace and it is exposed within the cluster using cyan-svc-cka28-trb service.
+This is a restricted pod so a network policy called cyan-np-cka28-trb has been created in the same namespace to apply some restrictions on this pod.
+Two other pods called cyan-white-cka28-trb1 and cyan-black-cka28-trb are also running in the default namespace.
+The nginx based app running on the cyan-pod-cka28-trb pod is exposed internally on the default nginx port (80).
+Expectation: This app should only be accessible from the cyan-white-cka28-trb1 pod.
+Problem: This app is not accessible from anywhere.
+Troubleshoot this issue and fix the connectivity as per the requirement listed above.
+Note: You can exec into cyan-white-cka28-trb and cyan-black-cka28-trb pods and test connectivity using the curl utility
+You may update the network policy, but make sure it is not deleted from the cyan-ns-cka28-trb namespace.
+
+
+```
+Let's look into the network policy
+
+kubectl edit networkpolicy cyan-np-cka28-trb -n cyan-ns-cka28-trb
+Under spec: -> egress: you will notice there is not cidr: block has been added, since there is no restrcitions on egress traffic so we can update it as below. Further you will notice that the port used in the policy is 8080 but the app is running on default port which is 80 so let's update this as well (under egress and ingress):
+
+Change port: 8080 to port: 80
+- ports:
+  - port: 80
+    protocol: TCP
+  to:
+  - ipBlock:
+      cidr: 0.0.0.0/0
+Now, lastly notice that there is no POD selector has been used in ingress section but this app is supposed to be accessible from cyan-white-cka28-trb pod under default namespace. So let's edit it to look like as below:
+
+ingress:
+- from:
+  - namespaceSelector:
+      matchLabels:
+        kubernetes.io/metadata.name: default
+   podSelector:
+      matchLabels:
+        app: cyan-white-cka28-trb
+Now, let's try to access the app from cyan-white-pod-cka28-trb
+
+kubectl exec -it cyan-white-cka28-trb -- sh
+curl cyan-svc-cka28-trb.cyan-ns-cka28-trb.svc.cluster.local
+Also make sure its not accessible from the other pod(s)
+
+kubectl exec -it cyan-black-cka28-trb -- sh
+curl cyan-svc-cka28-trb.cyan-ns-cka28-trb.svc.cluster.local
+It should not work from this pod. So its looking good now.
+
+
+```
+
+
+22.  A service account called deploy-cka19-trb is created in cluster1 along with a cluster role called deploy-cka19-trb-role. This role should have the permissions to get all the deployments under the default namespace. However, at the moment, it is not able to.
+Find out what is wrong and correct it so that the deploy-cka19-trb service account is able to get deployments under default namespace.
+
+
+
+```
+Let's see if deploy-cka19-trb service account is able to get the deployments.
+kubectl auth can-i get deployments --as=system:serviceaccount:default:deploy-cka19-trb
+We can see its not since we are getting no in the output.
+
+Let's look into the cluster role:
+kubectl get clusterrole deploy-cka19-trb-role -o yaml
+The rules would be fine but we can see that there is no cluster role binding and service account associated with this. So let's create a cluster role binding.
+
+kubectl create clusterrolebinding deploy-cka19-trb-role-binding --clusterrole=deploy-cka19-trb-role --serviceaccount=default:deploy-cka19-trb
+Let's see if deploy-cka19-trb service account is able to get the deployments now.
+
+kubectl auth can-i get deployments --as=system:serviceaccount:default:deploy-cka19-trb
+
+```
+23. There is a deployment called nodeapp-dp-cka08-trb created in the default namespace on cluster1. This app is using an ingress resource named nodeapp-ing-cka08-trb.
+From cluster1-controlplane host we should be able to access this app using the command: curl http://kodekloud-ingress.app. However, it is not working at the moment. Troubleshoot and fix the issue.
+
+```
+SSh into cluster1-controlplane
+ssh cluster1-controlplane
+Try to access the app using curl http://kodekloud-ingress.app command. You will see 404 Not Found error.
+
+Look into the ingress to make sure its configued properly.
+
+kubectl get ingress
+kubectl edit ingress nodeapp-ing-cka08-trb
+Under rules: -> host: change example.com to kodekloud-ingress.app
+Under backend: -> service: -> name: Change example-service to nodeapp-svc-cka08-trb
+Change port: -> number: from 80 to 3000
+You should be able to access the app using curl http://kodekloud-ingress.app command now.
+
+```
+
+24. The yello-cka20-trb pod is stuck in a Pending state. Fix this issue and get it to a running state. Recreate the pod if necessary.
+Do not remove any of the existing taints that are set on the cluster nodes.
+
+```
+
+
+```
+
+
+25. We have deployed a 2-tier web application on the cluster3 nodes in the canara-wl05 namespace. However, at the moment, the web app pod cannot establish a connection with the MySQL pod successfully.
+You can check the status of the application from the terminal by running the curl command with the following syntax:
+curl http://cluster3-controlplane:NODE-PORT
+To make the application work, create a new secret called db-secret-wl05 with the following key values: -
+
+1. DB_Host=mysql-svc-wl05
+2. DB_User=root
+3. DB_Password=password123
+
+Next, configure the web application pod to load the new environment variables from the newly created secret.
+Note: Check the web application again using the curl command, and the status of the application should be success
+You can SSH into the cluster3 using ssh cluster3-controlplane command.
+
+```
+kubectl create secret generic db-secret-wl05 -n canara-wl05 --from-literal=DB_Host=mysql-svc-wl05 --from-literal=DB_User=root --from-literal=DB_Password=password123
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: webapp-pod-wl05
+  name: webapp-pod-wl05
+  namespace: canara-wl05
+spec:
+  containers:
+  - image: kodekloud/simple-webapp-mysql
+    name: webapp-pod-wl05
+    envFrom:
+    - secretRef:
+        name: db-secret-wl05
+
+```
+
+25. 
