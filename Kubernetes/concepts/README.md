@@ -50,3 +50,36 @@
 4. container runtime
    - responsible for running containers
    - k8s supports containerD, crio and other container runtimes like rocket
+  
+Control plane architecture:
+
+<img width="993" alt="Screenshot 2024-10-28 at 10 12 43 PM" src="https://github.com/user-attachments/assets/f8e28d98-c2f4-4eca-82b4-49b92b212d92">
+
+
+
+
+Networking in EKS:
+
+Few points to consider :
+
+- AWS control plane is launched in AWS managed account and VPC
+- Data plane nodes are launched in customer managed account & vpc
+- Although the control plane is launched in AWS vpc but the ENIs are launched in customer VPC and that's how the communication between control plane and data plane happens.
+- It is recommended to have seperate subnets for EKS ENIs. EKS ENIs need to have 6 IPs in each subnet
+- EKS creates default security groups and associates to these ENIs
+- kube-apiserver can be accessed over the internet
+- Dual stack mode is not allowed for pods, either ipv4 or ipv6
+
+EKS architecture
+
+- If EKS cluster endpoint access (public is enabled) then the worker nodes will communicate with the control plane over the internet and for that to happen the worker nodes must be in public subnet and have internet gateway attached to it.
+- But it can be restricted , we can specify the CIDR block to who can connect to the control plane (whitelist the worker nodes subnet IP)
+-  We can enable public and private access using which users can connect to controlplane from public internet while the worker node will connect using the private enis created in our subnet
+-  The public endpoint access can be disabled altogether but then we should have some sort of layer 4 connection like DX or AWS VPN to connect. It will connect to eks owned enis and allow communication with control plane
+-  
+
+
+
+
+
+
