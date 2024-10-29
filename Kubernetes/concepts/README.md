@@ -4,7 +4,8 @@
 
 - It identifies the right node to place the pod on based on the pod requirement ,worker node capacity ,taint & tolerations.
 - It does not place the pods on the nodes ,it just decides which node to go for,the pods are actually placed by kubelet.
-- 
+
+  
 
 2. Controller - manager
   - Node Controller
@@ -76,7 +77,20 @@ EKS architecture
 - But it can be restricted , we can specify the CIDR block to who can connect to the control plane (whitelist the worker nodes subnet IP)
 -  We can enable public and private access using which users can connect to controlplane from public internet while the worker node will connect using the private enis created in our subnet
 -  The public endpoint access can be disabled altogether but then we should have some sort of layer 4 connection like DX or AWS VPN to connect. It will connect to eks owned enis and allow communication with control plane
--  
+-  Seperate public subnet is required if we want to expose our services.Load balancers and NAT gateways will be launched in the public subnet.
+-  AWS VPC endpoint privatelink can be used to access other AWS services.
+
+
+### POD Networking
+
+ #### CNCF network specifications: (CNI)
+ 
+ - Every pod has it's own IP
+ - Containers in the same POD share the same network address
+ - All pods can communicate with other pod without the use of NAT
+ - All nodes can communicate with other pods without the use of NAT
+ - 
+ 
 
 
 
