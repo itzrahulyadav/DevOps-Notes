@@ -89,7 +89,22 @@ EKS architecture
  - Containers in the same POD share the same network address
  - All pods can communicate with other pod without the use of NAT
  - All nodes can communicate with other pods without the use of NAT
- - 
+
+ #### Amazon VPC CNI plugin
+
+ - CNI plugin attaches ENI to the worker nodes
+ - ENI consists of one primary address (assigned to node) and multiple secondary ip addresses (for PODS)
+ - This also depends on ec2 instance type.
+ - EKS supports VPC CNI plugin but we can also integrate 3rd party CNIs like calico,cilium,Weave net etc.
+
+   ##### Maximum pods per node
+   - It depends on how many CNIs can be attached
+   - Total pods = no: of ENIs that can be attached * (max IPs per network interfaces - 1) + 2(this is used by aws for kubeproxy and host network)
+     
+   #### Prefix delegation
+   - It allows to assign CIDR to the ENIs (so instead of ips we can assign entire CIDR)
+   - /28 can be used for ipv4
+   
  
 
 
