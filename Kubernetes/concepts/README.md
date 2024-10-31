@@ -104,10 +104,18 @@ EKS architecture
    #### Prefix delegation
    - It allows to assign CIDR to the ENIs (so instead of ips we can assign entire CIDR)
    - /28 can be used for ipv4
-   
- 
+  
+#### POD to external communication
+ - When a pod communicates to any IPv4 address that isn't within a CIDR block of VPC, the Amazon VPC CNI plugin translates the pod's IPv4 address to the primary private IPv4 address of the primary ENI of the node that the pod is running on.
+ - If a pod needs to communicate with the external services located outside the VPC then it can be done using node_level_natting because of which pods private IP gets translates to nodes primary cni primary ip. Learn more [here](https://docs.aws.amazon.com/eks/latest/userguide/external-snat.html)  
+ - Read about multus CNI [here](https://github.com/aws-samples/eks-install-guide-for-multus/blob/main/README.md)
 
-
+#### PODS SG
+- security group is assigned to nodes ENI and hence all the pods will use the same SGs because they get secondary IPs from the same ENIs
+- To use different sgs for each pod we can use network policy engine like Calico which provide network security policies to restrict inter pod traffic using iptables.
+- VPC CNI provides something called trunk/branch ENI.
+- Read about it [here](https://docs.aws.amazon.com/eks/latest/userguide/security-groups-for-pods.html)
+- 
 
 
 
