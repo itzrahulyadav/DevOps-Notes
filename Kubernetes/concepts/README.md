@@ -115,8 +115,48 @@ EKS architecture
 - To use different sgs for each pod we can use network policy engine like Calico which provide network security policies to restrict inter pod traffic using iptables.
 - VPC CNI provides something called trunk/branch ENI.
 - Read about it [here](https://docs.aws.amazon.com/eks/latest/userguide/security-groups-for-pods.html)
-- 
+
+#### Accessing pods in kubernetes
+
+- Accessing pods using their ip addresses is not feasible because
+     - pods are temporary
+     - pods may be created and destroyed
+     - Pods move between the nodes during deployment,scaling or other events.
+- A Service is a method for exposing a network application that is running as one or more Pods in your cluster.
+     - Default service type is ClusterIP
+     - default IP is provided from pool which is configured using the following parameter in kube-apiserver `--service-cluster-ip-range` and it it's not passed eks uses 10.100.0.0/16 or   172.0.0.0/16
+     - Service is accessible using private DNS service-name.namespace-name.svc.cluster.local
+
+     ##### Node Port
+     - It's used to make service accessible from outside the cluster
+     - one node port per service
+     - Port range 30000-32767
+
+     #### Ingress
+     - Handled by AWS load balancer controller
+     - Deploy ALB in instance & IP for ingress resource
+     - Annotations used:  `kubernetes.io/ingress.class.alb`
+     - Share ALB with multiple services by using annotation `alb.ingress.kubernetes.io/group-name:my-group`
+       
+     #### service type=Loadbalancer
+  
+      - externaltrafficpolicy service spec defines how load balancing happens in the cluster
+      - hIf extemal Traffic Policy=Cluster, the traffic may be sent to another node and source IP is changed to node's IP address thereby 
+        Client IP is not preserved. However load is evenly spread across the nodes. By setting extemal Traffic Policy=Local, traffic is not routed outside of the node and client IP 
+        addresses is propagated to the end Pods. This could result in uneven distribution of traffic.
+      - For ALB Ingress service:
+         • HTTP header X-Forwarded-For is used to get the Client IP.
 
 
+  #### Custom networking in pods
+  - Add Secondary VPC CIDR in the range 100.64.0.0/16 (~65000 IPs) to the VPC 
+  - This CIDR IP addresses are routable only within the VPC 
+  -  Enable VPC CNI Custom Networking
+  -  VPC CNI plugin creates Secondary ENI in the separate subnet Only IPs from Secondary ENI are assigned to Pods
+  -  Custom Networking can be combined with SNAT
+  -  ```
+      kubectl set env daemonset aws-node -n kube-system AWS_VPC_K8S_CNI_CUSTOM_NETWORK_CFG=true
+      kubectl set env daemonset aws-node -n kube-system AWS_VPC_K8S_CNI_EXTERNALSNAT=false
+     ```
 
 
