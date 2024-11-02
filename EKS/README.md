@@ -12,6 +12,10 @@
 myAmazonEKSNodeRole) with trust type=ec2 and attach the following policies ` arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy && arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy && arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly`
 8. Install helm and use the charts to install load balancer controller,metrics server.
 
+ ### Enable container insights in eks 
+   - add the following policy to the ec2 nodes iam roles - CloudWatchAgentServerPolicy
+   - use the following command to install ` aws eks create-addon --cluster-name my-cluster-name --addon-name amazon-cloudwatch-observability `
+
 ### Managed Node Groups
 
 -  Managed node groups are Amazon Elastic Compute Cloud (EC2) instances that run as worker nodes in your EKS cluster.
