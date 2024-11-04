@@ -1,5 +1,21 @@
 ## EKS - Elastic Kubernetes Service
 
+
+
+### Managed Node Groups
+
+-  Managed node groups are Amazon Elastic Compute Cloud (EC2) instances that run as worker nodes in your EKS cluster.
+-  A node group is one or more EC2 instances that are deployed in an EC2 Auto Scaling group.
+
+you can use the following command to check the node groups(eksctl must be installed)
+
+```
+eksctl get nodegroup --cluster $EKS_CLUSTER_NAME --name $EKS_DEFAULT_MNG_NAME
+```
+- Nodes are distributed over multiple subnets in various availability zones, providing high availability
+- 
+
+
 ### Create a new EKS cluster
 
 1. Create a vpc with with the following cidr ` 10.0.0.0/16`
@@ -57,16 +73,20 @@ myAmazonEKSNodeRole) with trust type=ec2 and attach the following policies ` arn
 
   ```
 
+#### Install aws load balancer controller
+- follow the steps in the docs to install load balancer controller [Link](https://docs.aws.amazon.com/eks/latest/userguide/lbc-helm.html)
 
-### Managed Node Groups
 
--  Managed node groups are Amazon Elastic Compute Cloud (EC2) instances that run as worker nodes in your EKS cluster.
--  A node group is one or more EC2 instances that are deployed in an EC2 Auto Scaling group.
 
-you can use the following command to check the node groups(eksctl must be installed)
+#### USE eksctl without installing.(docker must be installed though)
+```
+docker run --rm -it  -v ~/.aws:/root/.aws  public.ecr.aws/eksctl/eksctl create iamserviceaccount \
+--cluster=Main-cluster \
+--region=ap-south-1 \
+--namespace=kube-system \
+--name=aws-load-balancer-controller \
+--role-name AmazonEKSLoadBalancerControllerRole \
+--attach-policy-arn=arn:aws:iam::533267257785:policy/AWSLoadBalancerControllerIAMPolicy \
+--approve
 
 ```
-eksctl get nodegroup --cluster $EKS_CLUSTER_NAME --name $EKS_DEFAULT_MNG_NAME
-```
-- Nodes are distributed over multiple subnets in various availability zones, providing high availability
-- 
