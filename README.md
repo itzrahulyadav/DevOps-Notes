@@ -11,6 +11,14 @@
 - [PDF(Ebooks)](Bash-Scripting/Ebooks)
 <br>
 
+
+## EKS
+<img align="right" src="https://github.com/user-attachments/assets/a02b78af-6331-464d-87a4-9e59929f0959" height="100" alt="EKS">
+
+- [Notes](EKS/README.md)
+
+<br>
+
 ## Go!
 
 
