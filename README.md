@@ -55,3 +55,9 @@
 
 
 
+## Kubernetes
+
+
+<img align="right" src="https://github.com/user-attachments/assets/9de72509-0fac-4d6a-9ece-3934db870c1d" height="100" alt="Bash">
+
+- [Notes](Kubernetes/concepts)
