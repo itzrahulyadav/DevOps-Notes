@@ -54,11 +54,11 @@ resource "aws_vpc" "example_vpc" {
 
 - export your aws credentials using the following commands
 
-- ```
+ ```
 export AWS_ACCESS_KEY_ID="YOUR_ACCESS_KEY"
 export AWS_SECRET_ACCESS_KEY="YOUR_SECRET_ACCESS_KEY"
 
-  ```
+```
 
 #### Difference between Declarative and imperative approach
 
@@ -288,5 +288,8 @@ __Note__ : Terraform advices to avoid the use of provisioners for the following 
                -  provisioners can slow down the deployment process
 
 - instead we can use configuration management tools like chef,ansible etc.
+
+
+
 
 
