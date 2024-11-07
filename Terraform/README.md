@@ -290,6 +290,12 @@ __Note__ : Terraform advices to avoid the use of provisioners for the following 
 - instead we can use configuration management tools like chef,ansible etc.
 
 
+### Backends
 
+- It defines where terraform stores its state file
+- States can be stored in:
+    - local
+    - terraform cloud
+    - third party remote backends
 
 
