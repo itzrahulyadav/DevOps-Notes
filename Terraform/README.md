@@ -215,6 +215,17 @@ variable "aws_region" {
 
 ```
 
+- Variables can be passed using multiple ways
+    1. default values
+    2. environment values
+    3. terraform.tfvars file
+    4. terraform.tfvars.json
+    5. *.auto.tfvars.json
+    6. *.auto.tfvars
+    7. command line -var --var file
+  
+
+
 ### Terraform env variables
 
 - export AWS_SECRET_ACCESS_KEY=<your AWS secret access key>
