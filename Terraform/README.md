@@ -224,8 +224,20 @@ variable "aws_region" {
     6. *.auto.tfvars
     7. command line -var --var file
   
+- Storing values in *.terraform.tfvars
+
+```
+variable = value
+e.g
+
+ec2_instance_type=t2.micro
 
 
+```
+and then it can be used by ` terraform plan --var-file="dev.terraform.tfvars"`
+
+- *.auto.tfvars file always override the tf.vars file's values
+  
 ### Terraform env variables
 
 - export AWS_SECRET_ACCESS_KEY=<your AWS secret access key>
@@ -309,4 +321,4 @@ __Note__ : Terraform advices to avoid the use of provisioners for the following 
     - terraform cloud
     - third party remote backends
 
-
+- 
