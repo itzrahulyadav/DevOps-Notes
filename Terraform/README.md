@@ -321,4 +321,15 @@ __Note__ : Terraform advices to avoid the use of provisioners for the following 
     - terraform cloud
     - third party remote backends
 
-- 
+### Splat expression
+
+- A splat expression provides a more concise way to express a common operation that could otherwise be performed with a for expression.
+```
+locals {
+    first_name = var.object_list[*].names
+    ## same using for expression
+    first_name = [for name in var.object_list:name]
+ } 
+```
+
+- More complete docs follow this [link](https://developer.hashicorp.com/terraform/language/expressions/splat)
