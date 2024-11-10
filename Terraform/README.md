@@ -1,3 +1,4 @@
+
 # Terraform
 
 
@@ -333,3 +334,21 @@ locals {
 ```
 
 - More complete docs follow this [link](https://developer.hashicorp.com/terraform/language/expressions/splat)
+
+
+### Modules
+- Modules are used to combine different resources that are generally used together.They are just collection of .tf files kept in the same directory.
+- Modules are used because of the following reasons:
+     - organize configurations
+     - Encapsulate configurations.
+     - Re-use configurations
+     - Ensure best practices
+- Minimal module structure
+- A module must connect atleast the following files
+     - LICENCSE
+     - main.tf
+       `This is the entry point for the module.Although complex modules can split the resources into multiple files.`
+     - variables.tf
+     - outputs.tf
+     - README.md
+- 
