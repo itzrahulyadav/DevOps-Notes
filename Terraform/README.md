@@ -351,4 +351,17 @@ locals {
      - variables.tf
      - outputs.tf
      - README.md
-- 
+
+
+### Workspace
+- Terraform workspaces enable us to manage multiple deployments of the same configuration. When we create cloud resources using the Terraform configuration language, the resources are created in the default workspace.
+- Workspaces allow users to manage different sets of infrastructure using the same configuration by isolating state files. Modules, on the other hand, are a logical container for multiple resources that are used together, facilitating reusability and better organization of your code.
+
+```
+ terraform workspace --help
+
+```
+
+- We can leverage the use of .tfvars files to deploy our applications
+- Create a file <workspace>.tfvars and provide the value for variables and then use the follwoing command  ` terraform apply -var-file=$(terraform workspace show).tfvars `
+  
