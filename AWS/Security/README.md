@@ -30,3 +30,10 @@
 - Also supports custom actions to send events to eventbridge.
 - Learn more about it [here](https://docs.aws.amazon.com/securityhub/latest/userguide/what-is-securityhub.html)
 
+### Amazon Detective
+
+- Analyzes,investigates and quickly identifies the root cause of security issues or suspecious activities. (using ML and Graph)
+- Collects events from vpc flow logs,cloudtrail , guardduty and creates unified view.
+
+
+NOTE: DDOS simulation testing can be done on AWS resources adhering to a few rules 
