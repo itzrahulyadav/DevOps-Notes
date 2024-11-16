@@ -37,3 +37,9 @@
 
 
 NOTE: DDOS simulation testing can be done on AWS resources adhering to a few rules 
+
+### EC2 Key pairs
+
+- The public key is stored in ec2 ebs volume in the ~/.ssh/authorized_keys location and the private key gets downloaded into the users system.
+- In case ec2 instance gets compromised delete all the keys from ~/.ssh/authorized_keys location and then upload the new keys.
+- This process can be automated using ssm run command.
