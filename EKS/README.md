@@ -90,3 +90,7 @@ docker run --rm -it  -v ~/.aws:/root/.aws  public.ecr.aws/eksctl/eksctl create
 --approve
 
 ```
+
+
+### Security in EKS 
+- Go through this article to learn about [Pod identity](https://aws.amazon.com/blogs/containers/amazon-eks-pod-identity-a-new-way-for-applications-on-eks-to-obtain-iam-credentials/)
