@@ -62,10 +62,17 @@
 - [Code](Terraform/Concepts)
 
 
-
 ## Kubernetes
 
 
 <img align="right" src="https://github.com/user-attachments/assets/9de72509-0fac-4d6a-9ece-3934db870c1d" height="100" alt="Bash">
 
 - [Notes](Kubernetes/concepts)
+
+<br>
+
+## AWS
+
+<img align="right" src="https://github.com/user-attachments/assets/c0058e8a-9133-44fb-89a9-a766de3dcf61" height="100" alt="Bash">
+
+- [Notes](AWS)
