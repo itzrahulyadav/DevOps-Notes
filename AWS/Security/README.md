@@ -43,3 +43,52 @@ NOTE: DDOS simulation testing can be done on AWS resources adhering to a few rul
 - The public key is stored in ec2 ebs volume in the ~/.ssh/authorized_keys location and the private key gets downloaded into the users system.
 - In case ec2 instance gets compromised delete all the keys from ~/.ssh/authorized_keys location and then upload the new keys.
 - This process can be automated using ssm run command.
+
+### Handling lost ec2 ssh key pairs
+
+- use user data script using cloud-config format(which will run on every reboot) and attach the new public key in the commands section,once the instance restarts we can connect cause we have new private key with us.
+- we can run ssm document called awssupport-Resetaccess automation document, it will create new key pair and store the private key in parameter store (ec2rl/openssh/instance_id/key) and store the public key inside ec2 for us to connect
+- Use instance connect ,store new key in ~/.ssh/authorized_keys .
+- Use ec2 serial console and store the new key,just like instance connect
+- Detach the ebs volume, create a new instance and attach the ebs volume of previous one,now the new key pair will also get stored in the ebs volume. Detach it and attach it to the previous ec2 instance.
+
+### Rescue tools for ec2
+- rescue tools can be used on ec2 instances and store the logs in ec2.
+- can be run using ssm documents.
+
+### AWS AUP
+- https://aws.amazon.com/aup/
+
+### Amazon Inspector
+- Performs automated security accessment
+- Leverages ssm agent and use it on ec2
+- Analyzes running os against known vulnerabilities
+- Accessment of container images when they are pushed to ecr
+- Identifies function code and package vulnerabilites
+- access of lambda function when they are deployed.
+- Can be integrated with Security Hub
+- Sends findings to eventbridge
+
+### Logging
+- Read [this whitepaper](https://aws.amazon.com/blogs/security/new-whitepaper-security-at-scale-logging-in-aws/)
+- Service logs are available in aws:
+  - cloudtrail logs
+  - AWS config
+  - AWS cloudwatch
+  - vpc flowlogs
+  - ELB logs
+  - cloudfront logs
+  - WAF logs
+- All the above logs can be stored in s3 bucket and can be queried using athena.
+
+
+### AWS cloudwatch unified agent
+- Agent that can be installed in EC2 instances.
+- Collect additional metrics like RAM utilization,process and disk space
+- Send logs to cloudwatch logs
+- Can be managed using SSM parameter store
+- Sends logs to namespace called CWAgent(can be configured/changed)
+
+   ## - procstat_plugin
+   - can be used to collect metrics of individual processes
+   - supports both windows and linux servers
