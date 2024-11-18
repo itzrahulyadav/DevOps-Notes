@@ -92,3 +92,14 @@ NOTE: DDOS simulation testing can be done on AWS resources adhering to a few rul
    ## - procstat_plugin
    - can be used to collect metrics of individual processes
    - supports both windows and linux servers
+
+
+### IAM
+- We can leverage notAction and deny policies which server the different purpose
+- We can use different conditional operators:
+    - StringEquals/StringNotEquals - case sensitive/exact matching
+    - Stringlike/StringNotlike - case sensitive/optional matching is allowed like *
+    - DateEquals/DateLessThan - use to compare dates
+    - ArnLike/ArnNotLike - used for ARNs
+    - Bool - used for boolean values
+    - IpAddress/NotIPAddress(CIDR) 
