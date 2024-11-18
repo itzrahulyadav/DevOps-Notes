@@ -102,4 +102,20 @@ NOTE: DDOS simulation testing can be done on AWS resources adhering to a few rul
     - DateEquals/DateLessThan - use to compare dates
     - ArnLike/ArnNotLike - used for ARNs
     - Bool - used for boolean values
-    - IpAddress/NotIPAddress(CIDR) 
+    - IpAddress/NotIPAddress(CIDR)
+ 
+- IAM conditions
+    - Requested region
+    - PrincipalArn
+    - Arnlike(SourceArn)
+    - CalledVia (only supports dynamodb,athena,cloudformation,kms)
+    - IP & VPC conditions
+    - aws:Sourcelp 
+       - Public requester IP (e.g., public EC2 IP if coming from EC2) • Not present in requests through VPC Endpoints
+       - aws:VpcSourcelp - requester IP through VPC Endpoints (private IP)
+       - aws:SourceVpce - restrict access to a specific VPC Endpoint
+       - aws:SourceVpc • Restrict to a specific VPC ID • Request must be made through a VPC Endpoint 
+       - Common to use these conditions with S3 Bucket Policies
+     
+    - ResourceTag & PrincipalTag
+    - 
