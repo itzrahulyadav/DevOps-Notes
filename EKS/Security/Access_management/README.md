@@ -53,3 +53,46 @@ aws eks associate-access-policy --cluster-name $EKS_CLUSTER_NAME \
   --access-scope type=namespace,namespaces=assets
 
 ```
+
+### Kubernetes RBAC
+- Access entries can be combined with kubernetes RBAC
+- Let's create a role in kubernetes and associate it with our IAM role that we created earlier.
+```
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: carts
+  name: carts-team-role
+rules:
+  - apiGroups: [""]
+    resources: ["*"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["delete"]
+
+```
+- Create a rolebinding that will map the role with the kubernetes group named devs
+```
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: carts-team-role-binding
+  namespace: carts
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: carts-team-role
+subjects:
+  - kind: Group
+    name: devs
+    apiGroup: rbac.authorization.k8s.io
+```
+
+- Create an access entry that will map kubernetes rbac with iam role
+  
+```
+aws eks create-access-entry --cluster-name $EKS_CLUSTER_NAME \
+  --principal-arn <iam_role_ARN> \
+  --kubernetes-groups devs
+```
