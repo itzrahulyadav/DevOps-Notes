@@ -85,3 +85,136 @@ aws eks create-pod-identity-association --cluster-name ${EKS_CLUSTER_NAME} \
   --namespace carts --service-account carts
 
 ```
+
+
+### Pod security standard
+- Pod Security Standards (PSS) are a set of predefined security policies in Kubernetes that enforce best practices for securing pods at various levels of privilege and isolation
+- It defines three policies
+   - Privileged
+   - Baseline
+   - Restricted
+- Useful links [1](https://kubernetes.io/docs/concepts/security/pod-security-standards/),[2](https://kubernetes.io/docs/reference/command-line-tools-reference/feature-gates/),[3](https://kubernetes.io/docs/tasks/configure-pod-container/enforce-standards-admission-controller/#configure-the-admission-controller)
+-  We need to set specific PSS profiles and PSA modes at the Kubernetes Namespace level, to opt Namespaces into Pod security provided by the PSA and PSS.
+- Example:
+```
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: psa-pss-test-ns
+  labels:
+    # pod-security.kubernetes.io/enforce: privileged
+    # pod-security.kubernetes.io/audit: privileged
+    # pod-security.kubernetes.io/warn: privileged
+
+    # pod-security.kubernetes.io/enforce: baseline
+    # pod-security.kubernetes.io/audit: baseline
+    # pod-security.kubernetes.io/warn: baseline
+
+    # pod-security.kubernetes.io/enforce: restricted
+    # pod-security.kubernetes.io/audit: restricted
+    # pod-security.kubernetes.io/warn: restricted
+
+```
+- The PSS can be implemented using admission controllers like:
+
+   Pod Security Admission (native in Kubernetes 1.23+)
+   Policy enforcement tools like:
+   - Kyverno
+   - OPA (Open Policy Agent) / Gatekeeper
+
+
+### Kyverno
+
+- It's a policy engine for kubernetes that integrates with kube-api server as a Dynamic Admission Controller, allowing policies to mutate and validate inbound Kubernetes API requests
+- Kyverno uses declarative Kubernetes resources written in YAML, eliminating the need to learn a new policy language. Results are available as Kubernetes resources and events.
+- Install and configure kyverno
+```
+helm repo add kyverno https://kyverno.github.io/kyverno/
+helm repo update
+helm install kyverno --namespace kyverno kyverno/kyverno --create-namespace
+
+```
+- Create a sample policy
+```
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: require-labels
+spec:
+  validationFailureAction: Enforce
+  rules:
+    - name: check-team
+      match:
+        any:
+          - resources:
+              kinds:
+                - Pod
+      validate:
+        message: "Label 'CostCenter' is required to deploy the Pod"
+        pattern:
+          metadata:
+            labels:
+              CostCenter: "?*"
+
+```
+- The above policy will check if the requested pod has the label costcenter,if not request will be rejected.
+- Kyverno can also be used for mutating rules
+```
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: add-labels
+spec:
+  rules:
+    - name: add-labels
+      match:
+        any:
+          - resources:
+              kinds:
+                - Pod
+      mutate:
+        patchStrategicMerge:
+          metadata:
+            labels:
+              CostCenter: IT
+
+
+```
+
+- The above mentioned rule automatically adds labels to the pod.
+ ## Restricting image registries
+ - Kyverno can be used to restrict pulling images from unknown repos
+ - The following policy enforces pulling image only from the ecr.
+```
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: restrict-image-registries
+spec:
+  validationFailureAction: Enforce
+  background: true
+  rules:
+    - name: validate-registries
+      match:
+        any:
+          - resources:
+              kinds:
+                - Pod
+      validate:
+        message: "Unknown Image registry."
+        pattern:
+          spec:
+            containers:
+              - image: "public.ecr.aws/*"
+```
+- Kyverno can also be used for auditing purpose.
+- Kyverno saves all events and other audits in the same namespace where the event occured, it doesn't save historical information
+- Kyverno has two types of validationFailureAction:
+  - Audit mode: Allows resources to be created and reports the action in the Policy Reports.
+  - Enforce mode: Denies resource creation but does not add an entry in the Policy Reports.
+- For the action type audit kyverno will record the FAIL output in the policy report.
+- Policy report can be seen using
+
+```
+kubectl get policyreports -A
+```
