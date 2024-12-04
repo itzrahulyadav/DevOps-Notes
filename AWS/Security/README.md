@@ -116,6 +116,12 @@ NOTE: DDOS simulation testing can be done on AWS resources adhering to a few rul
        - aws:SourceVpce - restrict access to a specific VPC Endpoint
        - aws:SourceVpc • Restrict to a specific VPC ID • Request must be made through a VPC Endpoint 
        - Common to use these conditions with S3 Bucket Policies
-     
+    - Multi factor authentication present
+    - aws:PrincipalOrgID
     - ResourceTag & PrincipalTag
+    ```
+    example:
+     "ec2:ResourceTag/Project": "Dataanalytics"
+      "aws:PrincipalTag/Department": "Data"
+    ```
     - 
