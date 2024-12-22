@@ -135,4 +135,24 @@ NOTE: DDOS simulation testing can be done on AWS resources adhering to a few rul
  
 - IAM credentials report can be used to get the details of the users IAM usage
 - Aws config remediations can also be used.
-- 
+
+
+  ### STS
+  - Read about the confused deputy problem [here](https://docs.aws.amazon.com/IAM/latest/UserGuide/confused-deputy.html)
+  - External ID can be used to prevent confused deputy problem.
+  - We can revoke the sessions of users who have used role in case the credentials are compromised [Read more] (https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_revoke-sessions.html)
+
+  ### AWS IMDS
+   - It gives information about ec2 instance (eg. Hostname,instance type ,networking )
+   - Can be accessed using curl or wget - http://169.254.169.254/latest/meta-data
+     
+   - ```
+        ami-id, block-device-mapping/, instance-id, instance-type, network/
+      • hostname, local-hostname, local-ipv4, public-hostname, public-ipv4
+      • lam - Instance ProfileArn, Instanceld
+      • iam/security-credentials/role-name - temporary credentials for the role attached to your instance
+      • placement/ - launch Region, launch AZ, placement group name...
+      • security-groups - names of security groups
+      • tags/instance - tags attached to the instance
+     ```
+   - 
