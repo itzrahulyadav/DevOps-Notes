@@ -125,3 +125,14 @@ NOTE: DDOS simulation testing can be done on AWS resources adhering to a few rul
       "aws:PrincipalTag/Department": "Data"
     ```
     - 
+
+- ABAC (Attribute based access control)
+   - Attribute-based access control (ABAC) is an authorization strategy that defines permissions based on attributes. AWS calls these attributes tags.
+   - Eg. You can use a single policy that allows access when the IAM role and the AWS resource that have the same tag value.
+   - Requires fewer policies
+   - Scales permissions dynamically
+   - Full [docs](https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction_attribute-based-access-control.html)
+ 
+- IAM credentials report can be used to get the details of the users IAM usage
+- Aws config remediations can also be used.
+- 
