@@ -155,4 +155,11 @@ NOTE: DDOS simulation testing can be done on AWS resources adhering to a few rul
       • security-groups - names of security groups
       • tags/instance - tags attached to the instance
      ```
-   - 
+ 
+   - Refer to this [Link](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html)
+ 
+  ### AWS s3
+
+  - Access can provided using s3 bucket policies,IAM policies , SCP.
+  - VPC inteface endpoint and VPC gateway endpoints can be used to access buckets within the VPC
+  - 
