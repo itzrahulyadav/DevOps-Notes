@@ -162,4 +162,25 @@ NOTE: DDOS simulation testing can be done on AWS resources adhering to a few rul
 
   - Access can provided using s3 bucket policies,IAM policies , SCP.
   - VPC inteface endpoint and VPC gateway endpoints can be used to access buckets within the VPC
-  - 
+  - AWS s3 access points/Global access points can be used to provide fine grained permissions.
+
+
+  ### AWS Directory services
+
+   ## Microsoft AD
+    - Found on any windows server
+    - It is a database of objects: user,accounts,computers,printers,security group
+    - Objects are organized in trees
+ 
+      
+   ## AWS Directory services
+
+   1. AWS managed microsoft AD
+      - Create your own AD in aws,manage users locally
+      - establish trust connection with your on-premise AD
+   3. AD connector
+      - Directory gateway to redirect to on-premises AD, supports MFA
+      - Users are managed in on-premise AD
+   3. Simple AD
+      - can't be connected to on-premise AD
+      - managed on AWS
