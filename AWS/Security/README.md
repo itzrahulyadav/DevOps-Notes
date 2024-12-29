@@ -184,3 +184,28 @@ NOTE: DDOS simulation testing can be done on AWS resources adhering to a few rul
    3. Simple AD
       - can't be connected to on-premise AD
       - managed on AWS
+
+
+  ### KMS
+  - Read about asymmetric encryption [here](https://www.cloudflare.com/learning/ssl/what-is-asymmetric-encryption/)
+  - AWS Kms multi-region key can be used in multi region
+  -  Each set of related multi-Region keys has the same key material and key ID, so you can encrypt data in one AWS Region and decrypt it in a different AWS Region without re-encrypting or making a cross-Region call to AWS KMS.
+  -  Read the [docs](https://docs.aws.amazon.com/kms/latest/developerguide/multi-region-keys-overview.html)
+
+  ### Envelope encryption
+  - Anything over 4KB of data that needs to encrypted must use envelope encryption which used generateDataKeyAPI
+  - Link to the [topic](https://stackoverflow.com/questions/75445235/how-does-envelope-encryption-work-in-aws-kms)
+
+  ### KMS Grant
+  - Read [here](https://docs.aws.amazon.com/kms/latest/developerguide/grants.html)
+  - We can use kms condition keys in IAM policies and key policies [doc](https://docs.aws.amazon.com/kms/latest/developerguide/conditions-kms.html)
+  - Data key caching can be used to reduce latency,imporove throughput,reduce cost and number of API calls
+ 
+### S3 Object encryption
+- Objects in s3 can be encrypted using 4 methods
+- SSE-S3 (enabled by default,encryptes objects using aws managed and owned keys)
+- SSE-KMS (leverage AWS key management service to manage encryption keys)
+- SSE-C (use our own encryption keys)
+- Client side encryption
+
+- S3 can leverage something called data key (called s3 bucket key) which can be used to reduce the api calls by 99%
