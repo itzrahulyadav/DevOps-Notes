@@ -209,3 +209,15 @@ NOTE: DDOS simulation testing can be done on AWS resources adhering to a few rul
 - Client side encryption
 
 - S3 can leverage something called data key (called s3 bucket key) which can be used to reduce the api calls by 99%
+
+  ### EC2 rescue tool for Linux
+  - open source tool that helps to diagnose and troubleshoot common issues
+  - Gather syslogs,diagnose problems
+  - See the full documentation [here](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Linux-Server-EC2Rescue.html)
+    
+  ### AWS acceptable use policy
+  - Governs your use of service offered by AWS
+  - It can not be used for illegal or fraudant activity
+  - Violate the rights of others
+  - AWS abuse report [info](https://repost.aws/knowledge-center/report-aws-abuse)
+  - 
