@@ -220,4 +220,31 @@ NOTE: DDOS simulation testing can be done on AWS resources adhering to a few rul
   - It can not be used for illegal or fraudant activity
   - Violate the rights of others
   - AWS abuse report [info](https://repost.aws/knowledge-center/report-aws-abuse)
-  - 
+
+
+
+  ### AWS Systems manager
+  - AWS feature that allow us to handle multiple operations on a group of resources
+
+    ## EC2 instance with ssm agent
+    - Allows us to connect to ec2 instance without any ports or ssh keys
+    - EC2 instance must have permissions and ssm agent must be insalled on the server
+
+   ## Resource groups
+    - Allow us to group resources on the basis of tags
+    - Operations can be performed on all the resources present in the resource group
+      
+   ## SSM - Documents
+    - Documents can be in json or YAML
+    - you define parameters
+    - you define actions
+   ## SSM Run command
+    - use to run commands/scripts in the ec2 servers/other resources
+
+   ## SSM Automation
+    - Allow us to perform operations on the fleet of ec2 instances
+    - Used for performing operations like restarting ec2 instances etc.
+
+
+   ## SSM parameter store
+    - 
