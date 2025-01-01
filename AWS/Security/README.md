@@ -226,25 +226,37 @@ NOTE: DDOS simulation testing can be done on AWS resources adhering to a few rul
   ### AWS Systems manager
   - AWS feature that allow us to handle multiple operations on a group of resources
 
-    ## EC2 instance with ssm agent
+    #### EC2 instance with ssm agent
     - Allows us to connect to ec2 instance without any ports or ssh keys
     - EC2 instance must have permissions and ssm agent must be insalled on the server
 
-   ## Resource groups
+   #### Resource groups
     - Allow us to group resources on the basis of tags
     - Operations can be performed on all the resources present in the resource group
       
-   ## SSM - Documents
+   #### SSM - Documents
     - Documents can be in json or YAML
     - you define parameters
     - you define actions
-   ## SSM Run command
+   #### SSM Run command
     - use to run commands/scripts in the ec2 servers/other resources
 
-   ## SSM Automation
+   #### SSM Automation
     - Allow us to perform operations on the fleet of ec2 instances
     - Used for performing operations like restarting ec2 instances etc.
 
 
-   ## SSM parameter store
-    - 
+   #### SSM parameter store
+
+
+   #### SSM inventory
+    - your managed instances and the software installed on them. It helps you gain insights into your environment by automatically gathering information about your systems, including their configuration, applications, and associated updates.
+    - Works seamlessly with AWS Config, AWS Organizations, and AWS Resource Groups for enhanced governance and reporting.
+ 
+   #### SSM state manager
+    - Automates the process of keeping your managed instances in a consistent state. It helps you define, enforce, and monitor desired states for your instances, such as applying patches, installing software, configuring operating systems, and more.
+
+   #### SSM Patch manager
+    - automates the process of patching managed instances
+    - os updates,security updates,app updates
+  
