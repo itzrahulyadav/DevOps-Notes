@@ -4,7 +4,7 @@ tasks:
       npm i -g aws-cdk
   - name: terraform
     before: |
-       chmod +x ./bin/terraform_cli_install.sh ./bin/aws_cli_install.sh ./bin/powershell_cli_install.sh
+       sudo chmod +x ./bin/terraform_cli_install.sh ./bin/aws_cli_install.sh ./bin/powershell_cli_install.sh
        ./bin/terraform_cli_install.sh
   # random utilities
   - name: utils
