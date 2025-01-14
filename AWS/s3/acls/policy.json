@@ -1,0 +1,16 @@
+{
+    "Grants": [
+      {
+        "Grantee": {
+          "DisplayName": "cloudsurfer",
+          "ID": "89e43d554577fd439a228baee93ba52643cef9a077ee89f636b065b752e2454f",
+          "Type": "CanonicalUser"
+        },
+        "Permission": "FULL_CONTROL"
+      }
+    ],
+    "Owner": {
+      "DisplayName": "ligh1",
+      "ID": "78514d58b7c467a70ed67f7b8499af7118de1566eb08f74a21c33d3eb18eb85c"
+    }
+  }
