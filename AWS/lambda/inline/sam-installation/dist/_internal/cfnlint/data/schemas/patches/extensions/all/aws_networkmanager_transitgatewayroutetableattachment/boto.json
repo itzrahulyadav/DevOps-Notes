@@ -1,0 +1,22 @@
+[
+ {
+  "op": "add",
+  "path": "/properties/PeeringId/pattern",
+  "value": "^peering-([0-9a-f]{8,17})$"
+ },
+ {
+  "op": "add",
+  "path": "/properties/TransitGatewayRouteTableArn/pattern",
+  "value": "[\\s\\S]*"
+ },
+ {
+  "op": "add",
+  "path": "/definitions/Tag/properties/Key/pattern",
+  "value": "[\\s\\S]*"
+ },
+ {
+  "op": "add",
+  "path": "/definitions/Tag/properties/Value/pattern",
+  "value": "[\\s\\S]*"
+ }
+]

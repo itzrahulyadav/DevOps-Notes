@@ -1,0 +1,38 @@
+[
+ {
+  "op": "add",
+  "path": "/definitions/ActionTypeId/properties/Category/enum",
+  "value": [
+   "Approval",
+   "Build",
+   "Compute",
+   "Deploy",
+   "Invoke",
+   "Source",
+   "Test"
+  ]
+ },
+ {
+  "op": "add",
+  "path": "/definitions/ActionTypeId/properties/Owner/enum",
+  "value": [
+   "AWS",
+   "Custom",
+   "ThirdParty"
+  ]
+ },
+ {
+  "op": "add",
+  "path": "/definitions/ArtifactStore/properties/Type/enum",
+  "value": [
+   "S3"
+  ]
+ },
+ {
+  "op": "add",
+  "path": "/definitions/BlockerDeclaration/properties/Type/enum",
+  "value": [
+   "Schedule"
+  ]
+ }
+]

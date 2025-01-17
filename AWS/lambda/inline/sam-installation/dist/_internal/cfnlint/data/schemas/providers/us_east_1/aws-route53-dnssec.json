@@ -1,0 +1,22 @@
+{
+ "additionalProperties": false,
+ "createOnlyProperties": [
+  "/properties/HostedZoneId"
+ ],
+ "primaryIdentifier": [
+  "/properties/HostedZoneId"
+ ],
+ "properties": {
+  "HostedZoneId": {
+   "pattern": "^[A-Z0-9]{1,32}$",
+   "type": "string"
+  }
+ },
+ "required": [
+  "HostedZoneId"
+ ],
+ "tagging": {
+  "taggable": false
+ },
+ "typeName": "AWS::Route53::DNSSEC"
+}

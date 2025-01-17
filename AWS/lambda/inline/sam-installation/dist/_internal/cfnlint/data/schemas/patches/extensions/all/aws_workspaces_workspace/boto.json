@@ -1,0 +1,26 @@
+[
+ {
+  "op": "add",
+  "path": "/definitions/WorkspaceProperties/properties/RunningMode/enum",
+  "value": [
+   "ALWAYS_ON",
+   "AUTO_STOP",
+   "MANUAL"
+  ]
+ },
+ {
+  "op": "add",
+  "path": "/definitions/WorkspaceProperties/properties/ComputeTypeName/enum",
+  "value": [
+   "GRAPHICS",
+   "GRAPHICSPRO",
+   "GRAPHICSPRO_G4DN",
+   "GRAPHICS_G4DN",
+   "PERFORMANCE",
+   "POWER",
+   "POWERPRO",
+   "STANDARD",
+   "VALUE"
+  ]
+ }
+]

@@ -1,0 +1,28 @@
+{
+ "additionalProperties": false,
+ "createOnlyProperties": [
+  "/properties/Name",
+  "/properties/SecurityConfiguration"
+ ],
+ "primaryIdentifier": [
+  "/properties/Name"
+ ],
+ "properties": {
+  "Name": {
+   "type": "string"
+  },
+  "SecurityConfiguration": {
+   "type": [
+    "object",
+    "string"
+   ]
+  }
+ },
+ "required": [
+  "SecurityConfiguration"
+ ],
+ "tagging": {
+  "taggable": false
+ },
+ "typeName": "AWS::EMR::SecurityConfiguration"
+}

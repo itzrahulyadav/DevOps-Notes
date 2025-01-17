@@ -1,0 +1,43 @@
+[
+ {
+  "op": "add",
+  "path": "/definitions/Tag/properties/Key/pattern",
+  "value": "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$"
+ },
+ {
+  "op": "add",
+  "path": "/definitions/Tag/properties/Value/pattern",
+  "value": "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$"
+ },
+ {
+  "op": "add",
+  "path": "/definitions/LogConfiguration/properties/LogDriver/enum",
+  "value": [
+   "awsfirelens",
+   "awslogs",
+   "fluentd",
+   "gelf",
+   "journald",
+   "json-file",
+   "splunk",
+   "syslog"
+  ]
+ },
+ {
+  "op": "add",
+  "path": "/definitions/EBSTagSpecification/properties/ResourceType/enum",
+  "value": [
+   "volume"
+  ]
+ },
+ {
+  "op": "add",
+  "path": "/definitions/ServiceManagedEBSVolumeConfiguration/properties/FilesystemType/enum",
+  "value": [
+   "ext3",
+   "ext4",
+   "ntfs",
+   "xfs"
+  ]
+ }
+]

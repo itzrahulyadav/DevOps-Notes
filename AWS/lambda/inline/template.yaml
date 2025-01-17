@@ -1,0 +1,8 @@
+AWSTemplateFormatVersion: "2010-09-09"   # This is needed if an AWS::EFS::MountTarget resource is declared for EFS
+Resources:
+  DemoLambdaFunction:
+   Type: AWS::Serverless::Function
+   Properties:
+     Handler: function.lambda_handler
+     Runtime: python3.12
+     CodeUri: ./

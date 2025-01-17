@@ -1,0 +1,15 @@
+[
+ {
+  "op": "add",
+  "path": "/definitions/Predicate/properties/Type/enum",
+  "value": [
+   "ByteMatch",
+   "GeoMatch",
+   "IPMatch",
+   "RegexMatch",
+   "SizeConstraint",
+   "SqlInjectionMatch",
+   "XssMatch"
+  ]
+ }
+]

@@ -1,0 +1,10 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Resources:
+  DemoLambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: function.lambda_handler
+      Runtime: python3.12
+      CodeUri: DemoLambdaFunction
+    Metadata:
+      SamResourceId: DemoLambdaFunction

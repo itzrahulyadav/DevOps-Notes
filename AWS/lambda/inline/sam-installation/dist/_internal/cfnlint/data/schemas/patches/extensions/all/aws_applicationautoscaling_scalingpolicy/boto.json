@@ -1,0 +1,144 @@
+[
+ {
+  "op": "add",
+  "path": "/definitions/PredefinedMetricSpecification/properties/PredefinedMetricType/enum",
+  "value": [
+   "ALBRequestCountPerTarget",
+   "AppStreamAverageCapacityUtilization",
+   "CassandraReadCapacityUtilization",
+   "CassandraWriteCapacityUtilization",
+   "ComprehendInferenceUtilization",
+   "DynamoDBReadCapacityUtilization",
+   "DynamoDBWriteCapacityUtilization",
+   "EC2SpotFleetRequestAverageCPUUtilization",
+   "EC2SpotFleetRequestAverageNetworkIn",
+   "EC2SpotFleetRequestAverageNetworkOut",
+   "ECSServiceAverageCPUUtilization",
+   "ECSServiceAverageMemoryUtilization",
+   "ElastiCacheDatabaseCapacityUsageCountedForEvictPercentage",
+   "ElastiCacheDatabaseMemoryUsageCountedForEvictPercentage",
+   "ElastiCachePrimaryEngineCPUUtilization",
+   "ElastiCacheReplicaEngineCPUUtilization",
+   "KafkaBrokerStorageUtilization",
+   "LambdaProvisionedConcurrencyUtilization",
+   "NeptuneReaderAverageCPUUtilization",
+   "RDSReaderAverageCPUUtilization",
+   "RDSReaderAverageDatabaseConnections",
+   "SageMakerInferenceComponentConcurrentRequestsPerCopyHighResolution",
+   "SageMakerInferenceComponentInvocationsPerCopy",
+   "SageMakerVariantConcurrentRequestsPerModelHighResolution",
+   "SageMakerVariantInvocationsPerInstance",
+   "SageMakerVariantProvisionedConcurrencyUtilization",
+   "WorkSpacesAverageUserSessionsCapacityUtilization"
+  ]
+ },
+ {
+  "op": "add",
+  "path": "/properties/PolicyName/pattern",
+  "value": "\\p{Print}+"
+ },
+ {
+  "op": "add",
+  "path": "/properties/ServiceNamespace/enum",
+  "value": [
+   "appstream",
+   "cassandra",
+   "comprehend",
+   "custom-resource",
+   "dynamodb",
+   "ec2",
+   "ecs",
+   "elasticache",
+   "elasticmapreduce",
+   "kafka",
+   "lambda",
+   "neptune",
+   "rds",
+   "sagemaker",
+   "workspaces"
+  ]
+ },
+ {
+  "op": "add",
+  "path": "/properties/ScalableDimension/enum",
+  "value": [
+   "appstream:fleet:DesiredCapacity",
+   "cassandra:table:ReadCapacityUnits",
+   "cassandra:table:WriteCapacityUnits",
+   "comprehend:document-classifier-endpoint:DesiredInferenceUnits",
+   "comprehend:entity-recognizer-endpoint:DesiredInferenceUnits",
+   "custom-resource:ResourceType:Property",
+   "dynamodb:index:ReadCapacityUnits",
+   "dynamodb:index:WriteCapacityUnits",
+   "dynamodb:table:ReadCapacityUnits",
+   "dynamodb:table:WriteCapacityUnits",
+   "ec2:spot-fleet-request:TargetCapacity",
+   "ecs:service:DesiredCount",
+   "elasticache:replication-group:NodeGroups",
+   "elasticache:replication-group:Replicas",
+   "elasticmapreduce:instancegroup:InstanceCount",
+   "kafka:broker-storage:VolumeSize",
+   "lambda:function:ProvisionedConcurrency",
+   "neptune:cluster:ReadReplicaCount",
+   "rds:cluster:ReadReplicaCount",
+   "sagemaker:inference-component:DesiredCopyCount",
+   "sagemaker:variant:DesiredInstanceCount",
+   "sagemaker:variant:DesiredProvisionedConcurrency",
+   "workspaces:workspacespool:DesiredUserSessions"
+  ]
+ },
+ {
+  "op": "add",
+  "path": "/properties/PolicyType/enum",
+  "value": [
+   "PredictiveScaling",
+   "StepScaling",
+   "TargetTrackingScaling"
+  ]
+ },
+ {
+  "op": "add",
+  "path": "/definitions/StepScalingPolicyConfiguration/properties/AdjustmentType/enum",
+  "value": [
+   "ChangeInCapacity",
+   "ExactCapacity",
+   "PercentChangeInCapacity"
+  ]
+ },
+ {
+  "op": "add",
+  "path": "/definitions/StepScalingPolicyConfiguration/properties/MetricAggregationType/enum",
+  "value": [
+   "Average",
+   "Maximum",
+   "Minimum"
+  ]
+ },
+ {
+  "op": "add",
+  "path": "/definitions/CustomizedMetricSpecification/properties/Statistic/enum",
+  "value": [
+   "Average",
+   "Maximum",
+   "Minimum",
+   "SampleCount",
+   "Sum"
+  ]
+ },
+ {
+  "op": "add",
+  "path": "/definitions/PredictiveScalingPolicyConfiguration/properties/Mode/enum",
+  "value": [
+   "ForecastAndScale",
+   "ForecastOnly"
+  ]
+ },
+ {
+  "op": "add",
+  "path": "/definitions/PredictiveScalingPolicyConfiguration/properties/MaxCapacityBreachBehavior/enum",
+  "value": [
+   "HonorMaxCapacity",
+   "IncreaseMaxCapacity"
+  ]
+ }
+]

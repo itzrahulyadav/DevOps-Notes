@@ -1,0 +1,20 @@
+[
+ {
+  "op": "add",
+  "path": "/properties/Name/pattern",
+  "value": "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$"
+ },
+ {
+  "op": "add",
+  "path": "/definitions/S3Location/properties/S3Bucket/pattern",
+  "value": "^[0-9a-z\\.\\-]*(?<!\\.)$"
+ },
+ {
+  "op": "add",
+  "path": "/definitions/PackagingType/enum",
+  "value": [
+   "APPSTREAM2",
+   "CUSTOM"
+  ]
+ }
+]

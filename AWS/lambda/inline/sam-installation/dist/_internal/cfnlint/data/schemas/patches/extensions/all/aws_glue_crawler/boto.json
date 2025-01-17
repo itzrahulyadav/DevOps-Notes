@@ -1,0 +1,36 @@
+[
+ {
+  "op": "add",
+  "path": "/definitions/SchemaChangePolicy/properties/DeleteBehavior/enum",
+  "value": [
+   "DELETE_FROM_DATABASE",
+   "DEPRECATE_IN_DATABASE",
+   "LOG"
+  ]
+ },
+ {
+  "op": "add",
+  "path": "/definitions/SchemaChangePolicy/properties/UpdateBehavior/enum",
+  "value": [
+   "LOG",
+   "UPDATE_IN_DATABASE"
+  ]
+ },
+ {
+  "op": "add",
+  "path": "/definitions/JdbcTarget/properties/EnableAdditionalMetadata/items/enum",
+  "value": [
+   "COMMENTS",
+   "RAWTYPES"
+  ]
+ },
+ {
+  "op": "add",
+  "path": "/definitions/RecrawlPolicy/properties/RecrawlBehavior/enum",
+  "value": [
+   "CRAWL_EVENT_MODE",
+   "CRAWL_EVERYTHING",
+   "CRAWL_NEW_FOLDERS_ONLY"
+  ]
+ }
+]

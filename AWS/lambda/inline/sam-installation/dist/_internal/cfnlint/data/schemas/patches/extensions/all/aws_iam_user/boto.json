@@ -1,0 +1,22 @@
+[
+ {
+  "op": "add",
+  "path": "/properties/UserName/pattern",
+  "value": "[\\w+=,.@-]+"
+ },
+ {
+  "op": "add",
+  "path": "/properties/Path/pattern",
+  "value": "(\\u002F)|(\\u002F[\\u0021-\\u007E]+\\u002F)"
+ },
+ {
+  "op": "add",
+  "path": "/definitions/Tag/properties/Key/pattern",
+  "value": "[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]+"
+ },
+ {
+  "op": "add",
+  "path": "/definitions/Tag/properties/Value/pattern",
+  "value": "[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*"
+ }
+]

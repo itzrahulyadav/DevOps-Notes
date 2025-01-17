@@ -1,0 +1,12 @@
+[
+ {
+  "op": "add",
+  "path": "/properties/AccessToken/pattern",
+  "value": "(?s).+"
+ },
+ {
+  "op": "add",
+  "path": "/definitions/AutoBranchCreationConfig/properties/BuildSpec/pattern",
+  "value": "(?s).+"
+ }
+]

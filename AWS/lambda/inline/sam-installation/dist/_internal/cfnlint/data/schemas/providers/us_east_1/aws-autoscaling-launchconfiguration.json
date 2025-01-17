@@ -1,0 +1,218 @@
+{
+ "additionalProperties": false,
+ "createOnlyProperties": [
+  "/properties/AssociatePublicIpAddress",
+  "/properties/BlockDeviceMappings",
+  "/properties/ClassicLinkVPCId",
+  "/properties/ClassicLinkVPCSecurityGroups",
+  "/properties/EbsOptimized",
+  "/properties/IamInstanceProfile",
+  "/properties/ImageId",
+  "/properties/InstanceId",
+  "/properties/InstanceMonitoring",
+  "/properties/InstanceType",
+  "/properties/KernelId",
+  "/properties/KeyName",
+  "/properties/LaunchConfigurationName",
+  "/properties/MetadataOptions",
+  "/properties/PlacementTenancy",
+  "/properties/RamDiskId",
+  "/properties/SecurityGroups",
+  "/properties/SpotPrice",
+  "/properties/UserData"
+ ],
+ "definitions": {
+  "BlockDevice": {
+   "additionalProperties": false,
+   "properties": {
+    "DeleteOnTermination": {
+     "type": "boolean"
+    },
+    "Encrypted": {
+     "type": "boolean"
+    },
+    "Iops": {
+     "type": "integer"
+    },
+    "SnapshotId": {
+     "type": "string"
+    },
+    "Throughput": {
+     "type": "integer"
+    },
+    "VolumeSize": {
+     "type": "integer"
+    },
+    "VolumeType": {
+     "enum": [
+      "gp2",
+      "gp3",
+      "io1",
+      "io2",
+      "sc1",
+      "st1",
+      "standard"
+     ],
+     "type": "string"
+    }
+   },
+   "type": "object"
+  },
+  "BlockDeviceMapping": {
+   "additionalProperties": false,
+   "properties": {
+    "DeviceName": {
+     "type": "string"
+    },
+    "Ebs": {
+     "$ref": "#/definitions/BlockDevice"
+    },
+    "NoDevice": {
+     "type": "boolean"
+    },
+    "VirtualName": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "DeviceName"
+   ],
+   "requiredXor": [
+    "VirtualName",
+    "Ebs",
+    "NoDevice"
+   ],
+   "type": "object"
+  },
+  "MetadataOptions": {
+   "additionalProperties": false,
+   "properties": {
+    "HttpEndpoint": {
+     "enum": [
+      "disabled",
+      "enabled"
+     ],
+     "type": "string"
+    },
+    "HttpPutResponseHopLimit": {
+     "type": "integer"
+    },
+    "HttpTokens": {
+     "enum": [
+      "optional",
+      "required"
+     ],
+     "type": "string"
+    }
+   },
+   "type": "object"
+  }
+ },
+ "primaryIdentifier": [
+  "/properties/LaunchConfigurationName"
+ ],
+ "properties": {
+  "AssociatePublicIpAddress": {
+   "type": "boolean"
+  },
+  "BlockDeviceMappings": {
+   "insertionOrder": false,
+   "items": {
+    "$ref": "#/definitions/BlockDeviceMapping"
+   },
+   "type": "array",
+   "uniqueItems": true
+  },
+  "ClassicLinkVPCId": {
+   "type": "string"
+  },
+  "ClassicLinkVPCSecurityGroups": {
+   "insertionOrder": false,
+   "items": {
+    "type": "string"
+   },
+   "type": "array"
+  },
+  "EbsOptimized": {
+   "type": "boolean"
+  },
+  "IamInstanceProfile": {
+   "type": "string"
+  },
+  "ImageId": {
+   "format": "AWS::EC2::Image.Id",
+   "type": "string"
+  },
+  "InstanceId": {
+   "type": "string"
+  },
+  "InstanceMonitoring": {
+   "type": "boolean"
+  },
+  "InstanceType": {
+   "type": "string"
+  },
+  "KernelId": {
+   "type": "string"
+  },
+  "KeyName": {
+   "type": "string"
+  },
+  "LaunchConfigurationName": {
+   "maxLength": 255,
+   "minLength": 1,
+   "type": "string"
+  },
+  "MetadataOptions": {
+   "$ref": "#/definitions/MetadataOptions"
+  },
+  "PlacementTenancy": {
+   "type": "string"
+  },
+  "RamDiskId": {
+   "type": "string"
+  },
+  "SecurityGroups": {
+   "format": "AWS::EC2::SecurityGroup.Ids",
+   "insertionOrder": false,
+   "items": {
+    "anyOf": [
+     {
+      "relationshipRef": {
+       "propertyPath": "/properties/GroupId",
+       "typeName": "AWS::EC2::SecurityGroup"
+      }
+     },
+     {
+      "relationshipRef": {
+       "propertyPath": "/properties/Id",
+       "typeName": "AWS::EC2::SecurityGroup"
+      }
+     }
+    ],
+    "format": "AWS::EC2::SecurityGroup.GroupId",
+    "type": "string"
+   },
+   "type": "array"
+  },
+  "SpotPrice": {
+   "type": "string"
+  },
+  "UserData": {
+   "maxLength": 21847,
+   "type": "string"
+  }
+ },
+ "required": [
+  "ImageId",
+  "InstanceType"
+ ],
+ "sourceUrl": "https://github.com/aws-cloudformation/aws-cloudformation-resource-providers-autoscaling.git",
+ "tagging": {
+  "taggable": false
+ },
+ "typeName": "AWS::AutoScaling::LaunchConfiguration",
+ "writeOnlyProperties": [
+  "/properties/InstanceId"
+ ]
+}

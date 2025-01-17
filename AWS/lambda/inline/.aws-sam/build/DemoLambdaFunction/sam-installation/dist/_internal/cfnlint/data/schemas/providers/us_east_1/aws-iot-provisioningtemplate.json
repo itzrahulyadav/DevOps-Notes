@@ -1,0 +1,102 @@
+{
+ "additionalProperties": false,
+ "createOnlyProperties": [
+  "/properties/TemplateName",
+  "/properties/TemplateType"
+ ],
+ "definitions": {
+  "ProvisioningHook": {
+   "additionalProperties": false,
+   "properties": {
+    "PayloadVersion": {
+     "pattern": "^[0-9-]+$",
+     "type": "string"
+    },
+    "TargetArn": {
+     "type": "string"
+    }
+   },
+   "type": "object"
+  },
+  "Tag": {
+   "additionalProperties": false,
+   "properties": {
+    "Key": {
+     "pattern": "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$",
+     "type": "string"
+    },
+    "Value": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "Key",
+    "Value"
+   ],
+   "type": "object"
+  }
+ },
+ "primaryIdentifier": [
+  "/properties/TemplateName"
+ ],
+ "properties": {
+  "Description": {
+   "maxLength": 500,
+   "pattern": "[^\\p{C}]*",
+   "type": "string"
+  },
+  "Enabled": {
+   "type": "boolean"
+  },
+  "PreProvisioningHook": {
+   "$ref": "#/definitions/ProvisioningHook"
+  },
+  "ProvisioningRoleArn": {
+   "type": "string"
+  },
+  "Tags": {
+   "insertionOrder": false,
+   "items": {
+    "$ref": "#/definitions/Tag"
+   },
+   "type": "array",
+   "uniqueItems": true
+  },
+  "TemplateArn": {
+   "type": "string"
+  },
+  "TemplateBody": {
+   "pattern": "[\\s\\S]*",
+   "type": "string"
+  },
+  "TemplateName": {
+   "maxLength": 36,
+   "minLength": 1,
+   "pattern": "^[0-9A-Za-z_-]+$",
+   "type": "string"
+  },
+  "TemplateType": {
+   "enum": [
+    "FLEET_PROVISIONING",
+    "JITP"
+   ],
+   "type": "string"
+  }
+ },
+ "readOnlyProperties": [
+  "/properties/TemplateArn"
+ ],
+ "required": [
+  "ProvisioningRoleArn",
+  "TemplateBody"
+ ],
+ "sourceUrl": "https://github.com/aws-cloudformation/aws-cloudformation-rpdk.git",
+ "tagging": {
+  "cloudFormationSystemTags": true,
+  "tagOnCreate": true,
+  "tagProperty": "/properties/Tags",
+  "tagUpdatable": true,
+  "taggable": true
+ },
+ "typeName": "AWS::IoT::ProvisioningTemplate"
+}

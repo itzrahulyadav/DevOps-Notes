@@ -1,0 +1,17 @@
+[
+ {
+  "op": "add",
+  "path": "/properties/EncryptionKey/pattern",
+  "value": "\\S+"
+ },
+ {
+  "op": "add",
+  "path": "/definitions/Tag/properties/Key/pattern",
+  "value": "\\P{C}+"
+ },
+ {
+  "op": "add",
+  "path": "/definitions/Tag/properties/Value/pattern",
+  "value": "\\P{C}*"
+ }
+]

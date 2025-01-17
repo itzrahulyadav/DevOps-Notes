@@ -1,0 +1,39 @@
+[
+ {
+  "op": "add",
+  "path": "/definitions/Predicate/properties/Logical/enum",
+  "value": [
+   "AND",
+   "ANY"
+  ]
+ },
+ {
+  "op": "add",
+  "path": "/definitions/Condition/properties/LogicalOperator/enum",
+  "value": [
+   "EQUALS"
+  ]
+ },
+ {
+  "op": "add",
+  "path": "/properties/Type/enum",
+  "value": [
+   "CONDITIONAL",
+   "EVENT",
+   "ON_DEMAND",
+   "SCHEDULED"
+  ]
+ },
+ {
+  "op": "add",
+  "path": "/definitions/Condition/properties/CrawlState/enum",
+  "value": [
+   "CANCELLED",
+   "CANCELLING",
+   "ERROR",
+   "FAILED",
+   "RUNNING",
+   "SUCCEEDED"
+  ]
+ }
+]

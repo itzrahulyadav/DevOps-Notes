@@ -1,0 +1,12 @@
+[
+ {
+  "op": "add",
+  "path": "/definitions/DocumentClassificationConfig/properties/Labels/items/pattern",
+  "value": "^\\P{C}*$"
+ },
+ {
+  "op": "add",
+  "path": "/definitions/KmsKeyId/pattern",
+  "value": "^\\p{ASCII}+$"
+ }
+]
