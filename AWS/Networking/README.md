@@ -33,3 +33,17 @@
 - AWS automatically creates and associates a DHCP option set for your VPC upon creation and sets following parameters: • domain-name-servers: This defaults to Amazon Provided DNS • domain-name: This defaults to the internal Amazon domain name for your region (e.g <ip>.ap-south-1.compute.internal)
 
 
+#### Route 53 resolver dns firewall
+- With Route 53 Resolver DNS Firewall, you can filter and regulate outbound DNS traffic for your virtual private cloud (VPC). To do this, you create reusable collections of filtering rules in DNS Firewall rule groups, associate the rule groups to your VPC, and then monitor activity in DNS Firewall logs and metrics. Based on the activity, you can adjust the behavior of DNS Firewall accordingly.
+- full docs [here](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resolver-dns-firewall.html)
+
+#### Ipsec tunnel
+
+#### DNS64 and NAT64
+
+
+#### AWS Network firwall
+- Stateful managed firewall
+- It utilizes suricata IDS/IPS open source software
+- Full doc [here](https://docs.aws.amazon.com/network-firewall/latest/developerguide/what-is-aws-network-firewall.html)
+
