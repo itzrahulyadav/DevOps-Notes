@@ -15,3 +15,29 @@
 
   ## Subscriptions
   - To recive message from a topic we need to create subscriptions
+
+  ## Message data protection
+  - It safeguards the data that's published to sns topic.It scans for PII,PHI
+  - [Read more](https://docs.aws.amazon.com/sns/latest/dg/sns-message-data-protection-policies.html)
+
+  ## Raw message delivery
+  - It avoids having Amazon data firehose,amazon sqs and http/s endpoint process the json fomatting of messages.
+  - ```sh
+     aws sns set-subscription-attributes \
+    --subscription-arn arn:aws:sns:us-east-1:123456789012:mytopic:f248de18-2cf6-578c-8592-b6f1eaa877dc \
+    --attribute-name RawMessageDelivery \
+    --attribute-value true
+    ```
+  ## Delivery policy
+  - It determines how the sns will try to deliver the message
+  - ```
+     aws sns set-subscription-attributes \
+    --subscription-arn arn:aws:sns:us-east-1:123456789012:mytopic:f248de18-2cf6-578c-8592-b6f1eaa877dc \
+    --attribute-name DeliveryPolicy \
+    --attribute-value file://deliverypolicy.json
+    ```
+  - It can also send messages to sqs dead-letter-queue
+
+  ## Application as subscriber
+  - sqs can send push notifications directly to apps on mobile device
+  - Select platform application endpoint
