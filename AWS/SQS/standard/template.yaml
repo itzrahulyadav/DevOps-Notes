@@ -1,0 +1,8 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "A sample standard sqs queue"
+Resources: 
+  MyQueue: 
+    Type: AWS::SQS::Queue
+    Properties: 
+      QueueName: "StandardQueue"
+      FifoQueue: false
