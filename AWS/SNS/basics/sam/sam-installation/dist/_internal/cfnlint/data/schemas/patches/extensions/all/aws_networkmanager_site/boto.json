@@ -1,0 +1,37 @@
+[
+ {
+  "op": "add",
+  "path": "/properties/GlobalNetworkId/pattern",
+  "value": "[\\s\\S]*"
+ },
+ {
+  "op": "add",
+  "path": "/properties/Description/pattern",
+  "value": "[\\s\\S]*"
+ },
+ {
+  "op": "add",
+  "path": "/definitions/Location/properties/Address/pattern",
+  "value": "[\\s\\S]*"
+ },
+ {
+  "op": "add",
+  "path": "/definitions/Location/properties/Latitude/pattern",
+  "value": "[\\s\\S]*"
+ },
+ {
+  "op": "add",
+  "path": "/definitions/Location/properties/Longitude/pattern",
+  "value": "[\\s\\S]*"
+ },
+ {
+  "op": "add",
+  "path": "/definitions/Tag/properties/Key/pattern",
+  "value": "[\\s\\S]*"
+ },
+ {
+  "op": "add",
+  "path": "/definitions/Tag/properties/Value/pattern",
+  "value": "[\\s\\S]*"
+ }
+]

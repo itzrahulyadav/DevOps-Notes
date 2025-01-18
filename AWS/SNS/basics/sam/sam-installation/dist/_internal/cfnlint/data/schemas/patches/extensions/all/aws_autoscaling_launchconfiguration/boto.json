@@ -1,0 +1,31 @@
+[
+ {
+  "op": "add",
+  "path": "/definitions/BlockDevice/properties/VolumeType/enum",
+  "value": [
+   "gp2",
+   "gp3",
+   "io1",
+   "io2",
+   "sc1",
+   "st1",
+   "standard"
+  ]
+ },
+ {
+  "op": "add",
+  "path": "/definitions/MetadataOptions/properties/HttpTokens/enum",
+  "value": [
+   "optional",
+   "required"
+  ]
+ },
+ {
+  "op": "add",
+  "path": "/definitions/MetadataOptions/properties/HttpEndpoint/enum",
+  "value": [
+   "disabled",
+   "enabled"
+  ]
+ }
+]

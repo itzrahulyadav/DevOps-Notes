@@ -1,0 +1,192 @@
+{
+ "additionalProperties": false,
+ "createOnlyProperties": [
+  "/properties/Vpc",
+  "/properties/Type"
+ ],
+ "definitions": {
+  "InputDestinationRequest": {
+   "additionalProperties": false,
+   "properties": {
+    "StreamName": {
+     "type": "string"
+    }
+   },
+   "type": "object"
+  },
+  "InputDeviceSettings": {
+   "additionalProperties": false,
+   "properties": {
+    "Id": {
+     "type": "string"
+    }
+   },
+   "type": "object"
+  },
+  "InputSourceRequest": {
+   "additionalProperties": false,
+   "properties": {
+    "PasswordParam": {
+     "type": "string"
+    },
+    "Url": {
+     "type": "string"
+    },
+    "Username": {
+     "type": "string"
+    }
+   },
+   "type": "object"
+  },
+  "InputVpcRequest": {
+   "additionalProperties": false,
+   "properties": {
+    "SecurityGroupIds": {
+     "format": "AWS::EC2::SecurityGroup.Ids",
+     "items": {
+      "format": "AWS::EC2::SecurityGroup.GroupId",
+      "type": "string"
+     },
+     "type": "array",
+     "uniqueItems": false
+    },
+    "SubnetIds": {
+     "items": {
+      "type": "string"
+     },
+     "type": "array",
+     "uniqueItems": false
+    }
+   },
+   "type": "object"
+  },
+  "MediaConnectFlowRequest": {
+   "additionalProperties": false,
+   "properties": {
+    "FlowArn": {
+     "type": "string"
+    }
+   },
+   "type": "object"
+  },
+  "SrtCallerDecryptionRequest": {
+   "additionalProperties": false,
+   "properties": {
+    "Algorithm": {
+     "type": "string"
+    },
+    "PassphraseSecretArn": {
+     "type": "string"
+    }
+   },
+   "type": "object"
+  },
+  "SrtCallerSourceRequest": {
+   "additionalProperties": false,
+   "properties": {
+    "Decryption": {
+     "$ref": "#/definitions/SrtCallerDecryptionRequest"
+    },
+    "MinimumLatency": {
+     "type": "integer"
+    },
+    "SrtListenerAddress": {
+     "type": "string"
+    },
+    "SrtListenerPort": {
+     "type": "string"
+    },
+    "StreamId": {
+     "type": "string"
+    }
+   },
+   "type": "object"
+  },
+  "SrtSettingsRequest": {
+   "additionalProperties": false,
+   "properties": {
+    "SrtCallerSources": {
+     "items": {
+      "$ref": "#/definitions/SrtCallerSourceRequest"
+     },
+     "type": "array",
+     "uniqueItems": false
+    }
+   },
+   "type": "object"
+  }
+ },
+ "primaryIdentifier": [
+  "/properties/Id"
+ ],
+ "properties": {
+  "Arn": {
+   "type": "string"
+  },
+  "Destinations": {
+   "items": {
+    "$ref": "#/definitions/InputDestinationRequest"
+   },
+   "type": "array",
+   "uniqueItems": false
+  },
+  "Id": {
+   "type": "string"
+  },
+  "InputDevices": {
+   "items": {
+    "$ref": "#/definitions/InputDeviceSettings"
+   },
+   "type": "array",
+   "uniqueItems": false
+  },
+  "InputSecurityGroups": {
+   "items": {
+    "type": "string"
+   },
+   "type": "array",
+   "uniqueItems": false
+  },
+  "MediaConnectFlows": {
+   "items": {
+    "$ref": "#/definitions/MediaConnectFlowRequest"
+   },
+   "type": "array",
+   "uniqueItems": false
+  },
+  "Name": {
+   "type": "string"
+  },
+  "RoleArn": {
+   "type": "string"
+  },
+  "Sources": {
+   "items": {
+    "$ref": "#/definitions/InputSourceRequest"
+   },
+   "type": "array",
+   "uniqueItems": false
+  },
+  "SrtSettings": {
+   "$ref": "#/definitions/SrtSettingsRequest"
+  },
+  "Tags": {
+   "format": "json",
+   "type": [
+    "object",
+    "string"
+   ]
+  },
+  "Type": {
+   "type": "string"
+  },
+  "Vpc": {
+   "$ref": "#/definitions/InputVpcRequest"
+  }
+ },
+ "readOnlyProperties": [
+  "/properties/Id",
+  "/properties/Arn"
+ ],
+ "typeName": "AWS::MediaLive::Input"
+}

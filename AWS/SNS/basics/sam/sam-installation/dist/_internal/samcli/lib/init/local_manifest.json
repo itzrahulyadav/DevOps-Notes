@@ -1,0 +1,118 @@
+{
+    "dotnet6": [
+        {
+            "directory": "template/cookiecutter-aws-sam-hello-dotnet",
+            "displayName": "Hello World Example",
+            "dependencyManager": "cli-package",
+            "appTemplate": "hello-world",
+            "packageType": "Zip",
+            "useCaseName": "Hello World Example"
+        }
+    ],
+    "go1.x": [
+        {
+            "directory": "template/cookiecutter-aws-sam-hello-golang",
+            "displayName": "Hello World Example",
+            "dependencyManager": "mod",
+            "appTemplate": "hello-world",
+            "packageType": "Zip",
+            "useCaseName": "Hello World Example"
+        }
+    ],
+    "java11": [
+        {
+            "directory": "template/cookiecutter-aws-sam-hello-java-gradle",
+            "displayName": "Hello World Example: Gradle",
+            "dependencyManager": "gradle",
+            "appTemplate": "hello-world",
+            "packageType": "Zip",
+            "useCaseName": "Hello World Example"
+        },
+        {
+            "directory": "template/cookiecutter-aws-sam-hello-java-gradle",
+            "displayName": "Hello World Example: Maven",
+            "dependencyManager": "maven",
+            "appTemplate": "hello-world",
+            "packageType": "Zip",
+            "useCaseName": "Hello World Example"
+        }
+    ],
+    "java8.al2": [
+        {
+            "directory": "template/cookiecutter-aws-sam-hello-java-gradle",
+            "displayName": "Hello World Example: Gradle",
+            "dependencyManager": "gradle",
+            "appTemplate": "hello-world",
+            "packageType": "Zip",
+            "useCaseName": "Hello World Example"
+        },
+        {
+            "directory": "template/cookiecutter-aws-sam-hello-java-maven",
+            "displayName": "Hello World Example: Maven",
+            "dependencyManager": "maven",
+            "appTemplate": "hello-world",
+            "packageType": "Zip",
+            "useCaseName": "Hello World Example"
+        }
+    ],
+    "nodejs22.x": [
+        {
+            "directory": "template/cookiecutter-aws-sam-hello-nodejs",
+            "displayName": "Hello World Example",
+            "dependencyManager": "npm",
+            "appTemplate": "hello-world",
+            "packageType": "Zip",
+            "useCaseName": "Hello World Example"
+        }
+    ],
+    "nodejs20.x": [
+        {
+            "directory": "template/cookiecutter-aws-sam-hello-nodejs",
+            "displayName": "Hello World Example",
+            "dependencyManager": "npm",
+            "appTemplate": "hello-world",
+            "packageType": "Zip",
+            "useCaseName": "Hello World Example"
+        }
+    ],
+    "nodejs18.x": [
+        {
+            "directory": "template/cookiecutter-aws-sam-hello-nodejs",
+            "displayName": "Hello World Example",
+            "dependencyManager": "npm",
+            "appTemplate": "hello-world",
+            "packageType": "Zip",
+            "useCaseName": "Hello World Example"
+        }
+    ],
+    "nodejs16.x": [
+        {
+            "directory": "template/cookiecutter-aws-sam-hello-nodejs",
+            "displayName": "Hello World Example",
+            "dependencyManager": "npm",
+            "appTemplate": "hello-world",
+            "packageType": "Zip",
+            "useCaseName": "Hello World Example"
+        }
+    ],
+    "python3.9": [
+        {
+            "directory": "template/cookiecutter-aws-sam-hello-python",
+            "displayName": "Hello World Example",
+            "dependencyManager": "pip",
+            "appTemplate": "hello-world",
+            "packageType": "Zip",
+            "useCaseName": "Hello World Example"
+        }
+    ],
+    "python3.8": [
+        {
+            "directory": "template/cookiecutter-aws-sam-hello-python",
+            "displayName": "Hello World Example",
+            "dependencyManager": "pip",
+            "appTemplate": "hello-world",
+            "packageType": "Zip",
+            "useCaseName": "Hello World Example"
+        }
+    ]
+}

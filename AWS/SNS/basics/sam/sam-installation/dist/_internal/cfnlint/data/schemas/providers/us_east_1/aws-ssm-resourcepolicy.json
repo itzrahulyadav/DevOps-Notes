@@ -1,0 +1,41 @@
+{
+ "additionalProperties": false,
+ "createOnlyProperties": [
+  "/properties/ResourceArn"
+ ],
+ "primaryIdentifier": [
+  "/properties/PolicyId",
+  "/properties/ResourceArn"
+ ],
+ "properties": {
+  "Policy": {
+   "pattern": "^(?!\\s*$).+",
+   "type": [
+    "object",
+    "string"
+   ]
+  },
+  "PolicyHash": {
+   "type": "string"
+  },
+  "PolicyId": {
+   "type": "string"
+  },
+  "ResourceArn": {
+   "type": "string"
+  }
+ },
+ "readOnlyProperties": [
+  "/properties/PolicyId",
+  "/properties/PolicyHash"
+ ],
+ "required": [
+  "ResourceArn",
+  "Policy"
+ ],
+ "sourceUrl": "https://github.com/aws-cloudformation/aws-cloudformation-rpdk.git",
+ "tagging": {
+  "taggable": false
+ },
+ "typeName": "AWS::SSM::ResourcePolicy"
+}

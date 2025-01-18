@@ -1,0 +1,52 @@
+[
+ {
+  "op": "add",
+  "path": "/definitions/CrlConfiguration/properties/CustomCname/pattern",
+  "value": "[-a-zA-Z0-9;/?:@&=+$,%_.!~*()']*"
+ },
+ {
+  "op": "add",
+  "path": "/definitions/CrlConfiguration/properties/S3BucketName/pattern",
+  "value": "[-a-zA-Z0-9._/]+"
+ },
+ {
+  "op": "add",
+  "path": "/definitions/CrlConfiguration/properties/S3ObjectAcl/enum",
+  "value": [
+   "BUCKET_OWNER_FULL_CONTROL",
+   "PUBLIC_READ"
+  ]
+ },
+ {
+  "op": "add",
+  "path": "/definitions/OcspConfiguration/properties/OcspCustomCname/pattern",
+  "value": "[-a-zA-Z0-9;/?:@&=+$,%_.!~*()']*"
+ },
+ {
+  "op": "add",
+  "path": "/properties/KeyStorageSecurityStandard/enum",
+  "value": [
+   "CCPC_LEVEL_1_OR_HIGHER",
+   "FIPS_140_2_LEVEL_2_OR_HIGHER",
+   "FIPS_140_2_LEVEL_3_OR_HIGHER"
+  ]
+ },
+ {
+  "op": "add",
+  "path": "/definitions/Tag/properties/Key/pattern",
+  "value": "([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)"
+ },
+ {
+  "op": "add",
+  "path": "/definitions/Tag/properties/Value/pattern",
+  "value": "([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)"
+ },
+ {
+  "op": "add",
+  "path": "/properties/UsageMode/enum",
+  "value": [
+   "GENERAL_PURPOSE",
+   "SHORT_LIVED_CERTIFICATE"
+  ]
+ }
+]

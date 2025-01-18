@@ -1,0 +1,25 @@
+{
+ "additionalProperties": false,
+ "createOnlyProperties": [
+  "/properties/AssessmentTargetName"
+ ],
+ "primaryIdentifier": [
+  "/properties/Arn"
+ ],
+ "properties": {
+  "Arn": {
+   "type": "string"
+  },
+  "AssessmentTargetName": {
+   "type": "string"
+  },
+  "ResourceGroupArn": {
+   "type": "string"
+  }
+ },
+ "readOnlyProperties": [
+  "/properties/Arn"
+ ],
+ "taggable": false,
+ "typeName": "AWS::Inspector::AssessmentTarget"
+}

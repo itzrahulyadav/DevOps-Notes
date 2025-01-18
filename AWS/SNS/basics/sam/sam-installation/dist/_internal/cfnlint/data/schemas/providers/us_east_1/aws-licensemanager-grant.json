@@ -1,0 +1,68 @@
+{
+ "additionalProperties": false,
+ "definitions": {
+  "Arn": {
+   "maxLength": 2048,
+   "pattern": "^arn:aws(-(cn|us-gov|iso-b|iso-c|iso-d))?:[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$",
+   "type": "string"
+  }
+ },
+ "primaryIdentifier": [
+  "/properties/GrantArn"
+ ],
+ "properties": {
+  "AllowedOperations": {
+   "items": {
+    "enum": [
+     "CheckInLicense",
+     "CheckoutBorrowLicense",
+     "CheckoutLicense",
+     "CreateGrant",
+     "CreateToken",
+     "ExtendConsumptionLicense",
+     "ListPurchasedLicenses"
+    ],
+    "type": "string"
+   },
+   "type": "array",
+   "uniqueItems": true
+  },
+  "GrantArn": {
+   "$ref": "#/definitions/Arn"
+  },
+  "GrantName": {
+   "type": "string"
+  },
+  "HomeRegion": {
+   "type": "string"
+  },
+  "LicenseArn": {
+   "$ref": "#/definitions/Arn"
+  },
+  "Principals": {
+   "items": {
+    "$ref": "#/definitions/Arn"
+   },
+   "type": "array",
+   "uniqueItems": true
+  },
+  "Status": {
+   "type": "string"
+  },
+  "Version": {
+   "type": "string"
+  }
+ },
+ "readOnlyProperties": [
+  "/properties/GrantArn",
+  "/properties/Version"
+ ],
+ "required": [],
+ "sourceUrl": "https://github.com/aws-cloudformation/aws-cloudformation-rpdk.git",
+ "typeName": "AWS::LicenseManager::Grant",
+ "writeOnlyProperties": [
+  "/properties/Principals",
+  "/properties/AllowedOperations",
+  "/properties/Status"
+ ]
+}

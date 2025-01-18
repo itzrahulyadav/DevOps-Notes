@@ -1,0 +1,200 @@
+{
+ "additionalProperties": false,
+ "createOnlyProperties": [
+  "/properties/Name",
+  "/properties/Version",
+  "/properties/Components",
+  "/properties/ParentImage",
+  "/properties/Description",
+  "/properties/BlockDeviceMappings",
+  "/properties/WorkingDirectory",
+  "/properties/Tags"
+ ],
+ "definitions": {
+  "AdditionalInstanceConfiguration": {
+   "additionalProperties": false,
+   "properties": {
+    "SystemsManagerAgent": {
+     "$ref": "#/definitions/SystemsManagerAgent"
+    },
+    "UserDataOverride": {
+     "pattern": "^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$",
+     "type": "string"
+    }
+   },
+   "type": "object"
+  },
+  "ComponentConfiguration": {
+   "additionalProperties": false,
+   "properties": {
+    "ComponentArn": {
+     "pattern": "^arn:aws[^:]*:imagebuilder:[^:]+:(?:[0-9]{12}|aws(?:-[a-z-]+)?):component/[a-z0-9-_]+/(?:(?:([0-9]+|x)\\.([0-9]+|x)\\.([0-9]+|x))|(?:[0-9]+\\.[0-9]+\\.[0-9]+/[0-9]+))$",
+     "type": "string"
+    },
+    "Parameters": {
+     "insertionOrder": false,
+     "items": {
+      "$ref": "#/definitions/ComponentParameter"
+     },
+     "type": "array"
+    }
+   },
+   "type": "object"
+  },
+  "ComponentParameter": {
+   "additionalProperties": false,
+   "properties": {
+    "Name": {
+     "pattern": "[^\\x00]+",
+     "type": "string"
+    },
+    "Value": {
+     "insertionOrder": true,
+     "items": {
+      "pattern": "[^\\x00]*",
+      "type": "string"
+     },
+     "type": "array"
+    }
+   },
+   "required": [
+    "Name",
+    "Value"
+   ],
+   "type": "object"
+  },
+  "EbsInstanceBlockDeviceSpecification": {
+   "additionalProperties": false,
+   "properties": {
+    "DeleteOnTermination": {
+     "type": "boolean"
+    },
+    "Encrypted": {
+     "type": "boolean"
+    },
+    "Iops": {
+     "type": "integer"
+    },
+    "KmsKeyId": {
+     "type": "string"
+    },
+    "SnapshotId": {
+     "type": "string"
+    },
+    "Throughput": {
+     "type": "integer"
+    },
+    "VolumeSize": {
+     "type": "integer"
+    },
+    "VolumeType": {
+     "enum": [
+      "standard",
+      "io1",
+      "io2",
+      "gp2",
+      "gp3",
+      "sc1",
+      "st1"
+     ],
+     "type": "string"
+    }
+   },
+   "type": "object"
+  },
+  "InstanceBlockDeviceMapping": {
+   "additionalProperties": false,
+   "properties": {
+    "DeviceName": {
+     "type": "string"
+    },
+    "Ebs": {
+     "$ref": "#/definitions/EbsInstanceBlockDeviceSpecification"
+    },
+    "NoDevice": {
+     "type": "string"
+    },
+    "VirtualName": {
+     "type": "string"
+    }
+   },
+   "type": "object"
+  },
+  "SystemsManagerAgent": {
+   "additionalProperties": false,
+   "properties": {
+    "UninstallAfterBuild": {
+     "type": "boolean"
+    }
+   },
+   "type": "object"
+  }
+ },
+ "primaryIdentifier": [
+  "/properties/Arn"
+ ],
+ "properties": {
+  "AdditionalInstanceConfiguration": {
+   "$ref": "#/definitions/AdditionalInstanceConfiguration"
+  },
+  "Arn": {
+   "type": "string"
+  },
+  "BlockDeviceMappings": {
+   "insertionOrder": false,
+   "items": {
+    "$ref": "#/definitions/InstanceBlockDeviceMapping"
+   },
+   "type": "array"
+  },
+  "Components": {
+   "insertionOrder": true,
+   "items": {
+    "$ref": "#/definitions/ComponentConfiguration"
+   },
+   "type": "array"
+  },
+  "Description": {
+   "type": "string"
+  },
+  "Name": {
+   "pattern": "^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$",
+   "type": "string"
+  },
+  "ParentImage": {
+   "type": "string"
+  },
+  "Tags": {
+   "additionalProperties": false,
+   "patternProperties": {
+    ".{1,}": {
+     "type": "string"
+    }
+   },
+   "type": "object"
+  },
+  "Version": {
+   "type": "string"
+  },
+  "WorkingDirectory": {
+   "type": "string"
+  }
+ },
+ "propertyTransform": {
+  "/properties/BlockDeviceMappings/*/Ebs/VolumeType": "$uppercase(VolumeType)"
+ },
+ "readOnlyProperties": [
+  "/properties/Arn"
+ ],
+ "required": [
+  "Name",
+  "Version",
+  "Components",
+  "ParentImage"
+ ],
+ "sourceUrl": "https://github.com/aws-cloudformation/aws-cloudformation-resource-providers-imagebuilder.git",
+ "tagging": {
+  "taggable": false
+ },
+ "typeName": "AWS::ImageBuilder::ImageRecipe"
+}

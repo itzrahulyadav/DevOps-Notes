@@ -1,0 +1,23 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: A sample standard sqs queue
+Transform: AWS::Serverless-2016-10-31
+Resources:
+  MySNSTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      TopicName: SampleTopic
+  LambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: index.handler
+      Runtime: python3.12
+      PackageType: Zip
+      InlineCode: "def handler(event,context):\n    message = \"Hello\"\n    print(\"\
+        This is a demo function\")\n    return {\n        'message': message\n   \
+        \ }\n"
+      Events:
+        SNSEvent:
+          Type: SNS
+          Properties:
+            Topic:
+              Ref: MySNSTopic
