@@ -1,0 +1,54 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "An application load balancer"
+Resources:
+  MyLoadBalancer:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      IpAddressType: ipv4
+      Scheme: internet-facing
+      SecurityGroups: 
+      - !Ref AlbSg
+      Subnets: 
+      - subnet-025211a17a085733d
+      - subnet-00334308ee9207d0c
+      - subnet-08860e80be5542cc1
+      Type: application
+  AlbSg: 
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: ALB security group
+      GroupName: alb-security-group
+      VpcId: vpc-09c473f0e177c4657
+      SecurityGroupEgress: 
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+      SecurityGroupIngress: 
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+  ALBListener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+        DefaultActions: 
+          - Type: "forward"
+            ForwardConfig: 
+              TargetGroups: 
+                - TargetGroupArn: !Ref MyTargetGroup
+                  Weight: 1
+        LoadBalancerArn: !Ref MyLoadBalancer
+        Port: 80
+        Protocol: HTTP
+  MyTargetGroup:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      HealthCheckEnabled: true
+      HealthCheckPort: 80
+      Name: MyTargets
+      TargetType: instance
+      VpcId: vpc-09c473f0e177c4657
+      Protocol: HTTP
+      Port: 80
+        
