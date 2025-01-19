@@ -1,0 +1,13 @@
+
+Resources:
+  DataStream:
+    Type: AWS::Kinesis::Stream
+    Properties:
+      Name: demo-stream
+      RetentionPeriodHours: 24
+      ShardCount: 1
+      StreamModeDetails: 
+             StreamMode: ON_DEMAND 
+      Tags: 
+        - Key: created-by
+          Value: cloudformation
