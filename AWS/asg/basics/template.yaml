@@ -1,0 +1,12 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "My launch template"
+Resources:
+  MyLaunchTemplate:
+  Type: AWS::EC2::LaunchTemplate
+  Properties:
+    LaunchTemplateData: 
+      LaunchTemplateData
+    LaunchTemplateName: String
+    TagSpecifications: 
+      - LaunchTemplateTagSpecification
+    VersionDescription: String
