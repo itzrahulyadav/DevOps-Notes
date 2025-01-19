@@ -47,3 +47,35 @@
 - It utilizes suricata IDS/IPS open source software
 - Full doc [here](https://docs.aws.amazon.com/network-firewall/latest/developerguide/what-is-aws-network-firewall.html)
 
+### Transit Gateway
+
+```mermaid
+graph TD
+    TG[Transit Gateway]
+    
+    VPC1[VPC 1]
+    VPC2[VPC 2]
+    VPC3[VPC 3]
+    VPC4[VPC 4]
+
+    NAT[NAT Gateway]
+    
+    IGW[Internet Gateway]
+
+    TG -- Attachments --> VPC1
+    TG -- Attachments --> VPC2
+    TG -- Attachments --> VPC3
+    TG -- Attachments --> VPC4
+
+    VPC1 -- Route --> NAT
+    VPC2 -- Route --> NAT
+    VPC3 -- Route --> NAT
+    VPC4 -- Route --> NAT
+    
+    NAT -- Route --> IGW
+
+    IGW -- Internet Traffic --> VPC1
+    IGW -- Internet Traffic --> VPC2
+    IGW -- Internet Traffic --> VPC3
+    IGW -- Internet Traffic --> VPC4
+```
