@@ -1,0 +1,24 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "An application load balancer"
+Resources:
+  MyFileSystem:
+    Type: AWS::EFS::FileSystem
+    Properties:
+      AvailabilityZoneName: ap-south-1a
+      BackupPolicy: 
+           Status: DISABLED
+      BypassPolicyLockoutSafetyCheck: Boolean
+      Encrypted: True
+      FileSystemPolicy: Json
+      FileSystemProtection: 
+        FileSystemProtection
+      FileSystemTags: 
+        - ElasticFileSystemTag
+      KmsKeyId: String
+      LifecyclePolicies: 
+        - LifecyclePolicy
+      PerformanceMode: generalPurpose
+      ProvisionedThroughputInMibps: Number
+      ReplicationConfiguration: 
+        ReplicationConfiguration
+      ThroughputMode: String
