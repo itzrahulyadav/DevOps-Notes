@@ -1,0 +1,15 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "My demo s3 bucket"
+Parameters:
+  BucketName:
+    Type: String
+    Default: "whatever-you-want"
+Resources:
+  S3Bucket:
+    Type: 'AWS::S3::Bucket'
+    DeletionPolicy: Retain
+    Properties:
+      BucketName: !Ref BucketName
+      Tags:
+        - Key: "createdBy"
+          Value: "Cloudformation"
