@@ -1,0 +1,11 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Parameters:
+  BucketName:
+    Type: String
+    Default: 'a-gibberish-text'
+    Description: 'S3 bucket name'
+Resources:
+  NestedStack:
+    Type: 'AWS::CloudFormation::Stack'
+    Properties:
+      TemplateURL: 'https://cf-templates-15eh2rxsfpcf8-ap-south-1.s3.amazonaws.com/template.yaml'
