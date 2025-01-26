@@ -1,0 +1,22 @@
+AWSTemplateFormatVersion: 2010-09-09
+Parameters:
+  ECSClusterName:
+    Type: String
+    Description: The name of the ECS cluster
+    Default: ProdCluster
+Resources:  
+  ECSCluster:
+    Type: AWS::ECS::Cluster
+    Properties: 
+      ClusterName: !Ref ECSClusterName
+      ClusterSettings: 
+        - Name: "containerInsights"
+          Value: "disabled"
+      Tags: 
+       - Key: "created-by"
+         Value: CloudFormation
+  ECSAutoScalingGroup:
+    Type: AWS::AutoScaling::AutoScalingGroup
+    Properties:
+      AutoScalingGroupName: "ProASG"
+      LaunchTemplate:
