@@ -1,1 +1,17 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Parameters:
+   InstanceType:
+    Type: String
+    Default: t3.micro
 Resource:
+  MyEC2Instace:
+    Type: AWS::EC2::Instance
+    Properties:
+       AvailabilityZone: ap-south-1a
+       IamInstanceProfile: EC2RoleforSSM
+       InstanceType: !Ref InstanceType
+       ImageId: ami-0b7207e48d1b6c06f
+       Tenancy: default
+       SecurityGroupIds:
+             - sg-0c09c492e6ed00ee6
+       
