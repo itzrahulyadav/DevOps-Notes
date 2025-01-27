@@ -33,6 +33,21 @@ Resources:
            Value: CloudFormationEC2
          - Key: Environment
            Value: Development
+  NewVolume:
+    Type: AWS::EC2::Volume
+    Properties:
+      AvailabilityZone: !GetAtt MyEC2Instace.AvailabilityZone
+      Size: 8
+      VolumeType: gp2
+  
+  MountPoint:
+    Type: AWS::EC2::VolumeAttachment 
+    Properties:
+      InstanceId: !Ref MyEC2Instace
+      VolumeId: !Ref NewVolume
+      Device: /dev/sdh
+  
+
     
 
 

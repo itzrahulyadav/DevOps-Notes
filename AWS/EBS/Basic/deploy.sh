@@ -2,7 +2,7 @@
 
 echo "deploying to cloudformation"
 
-STACK_NAME="ec2-stack4"
+STACK_NAME="ec2-stack5"
 root_path=$(realpath .)
 template_path="./template.yaml"
 parameters="ParameterKey=InstanceType,ParameterValue=t2.micro"
@@ -17,8 +17,8 @@ aws cloudformation deploy \
 --parameter-overrides InstanceType=t2.micro
 
 # command to update the stack
-aws cloudformation update-stack \
---stack-name ec2-stack4 \
---parameters ParameterKey=InstanceType,ParameterValue=t2.micro \
---template-body file://template.yaml
+# aws cloudformation update-stack \
+# --stack-name ec2-stack4 \
+# --parameters ParameterKey=InstanceType,ParameterValue=t2.micro \
+# --template-body file://template.yaml
 
