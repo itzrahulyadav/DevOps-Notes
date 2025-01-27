@@ -1,0 +1,182 @@
+Description: General ECS pipeline
+
+Parameters:
+  AppName:
+    Description: Application name to be used for naming codebuild project and in Tags
+    Type: String
+    AllowedPattern: "[a-zA-Z0-9]+"
+  CodeCommitRepoName:
+    Type: String
+    AllowedPattern: .+
+  BranchName:
+    Type: String
+    AllowedPattern: .+
+  ImageIdentifier:
+    Description: CodeBuild image to be used
+    Type: String
+    Default: amazonlinux2-x86_64-standard:4.0
+    AllowedPattern: .+
+  RoleName:
+    Type: String
+    Default: IL_IAM_CodeBuildSharedRole_CD
+    AllowedPattern: .+
+  ECSClusterName:
+    Type: String
+    AllowedPattern: .+
+  ECSServiceName:
+    Type: String
+    AllowedPattern: .+
+  AppOwner:
+    Type: String
+    AllowedPattern: "[a-zA-Z ]+"
+  Portfolio:
+    Type: String
+    AllowedPattern: "[a-zA-Z ]+"
+  CreationDate:
+    Type: Number
+    MinValue: 20220000
+    MaxValue: 20999999
+  CreatedBy:
+    Type: String
+    AllowedPattern: "[a-zA-Z ]+"
+
+Resources:
+  BuildProject:
+    Type: AWS::CodeBuild::Project
+    Properties: 
+      Name: !Sub IL_CB__${AppName}P3_CD
+      Source: 
+        Type: CODECOMMIT
+        Location: !Sub https://git-codecommit.ap-south-1.amazonaws.com/v1/repos/${CodeCommitRepoName}
+        GitSubmodulesConfig:
+          FetchSubmodules: true
+        BuildSpec: buildspec-p3.yml
+      SourceVersion: !Sub refs/heads/${BranchName}
+      Artifacts: 
+        Type: NO_ARTIFACTS
+      BadgeEnabled: false
+      Environment: 
+        Type: LINUX_CONTAINER
+        Image: !Sub aws/codebuild/${ImageIdentifier}
+        ComputeType: BUILD_GENERAL1_SMALL
+        PrivilegedMode: true
+        ImagePullCredentialsType: CODEBUILD
+      ServiceRole: !Sub arn:aws:iam::494101312939:role/${RoleName}
+      TimeoutInMinutes: 30
+      QueuedTimeoutInMinutes: 60
+      LogsConfig: 
+        CloudWatchLogs:
+          Status: ENABLED
+          GroupName: IL_CWL_CodeBuildLogsShared_CD
+          StreamName: !Sub IL_CB__${AppName}P3_CD
+      Visibility: PRIVATE
+      VpcConfig: 
+        VpcId: vpc-0e77a2c68d27aac89
+        Subnets:
+          - subnet-0935da29c1bae9608
+          - subnet-04df48c95bfc3ca2f
+        SecurityGroupIds:
+          - sg-0054504f758dcc752
+      Tags: 
+        - Key: application name
+          Value: !Ref AppName
+        - Key: application owner
+          Value: !Ref AppOwner
+        - Key: portfolio
+          Value: !Ref Portfolio
+        - Key: created by
+          Value: !Ref CreatedBy
+        - Key: created on
+          Value: !Ref CreationDate
+        - Key: environment
+          Value: P3
+
+  CodePipeline:
+    Type: AWS::CodePipeline::Pipeline
+    Properties:
+      Name: !Sub IL_CPL_${AppName}P3_CD
+      RoleArn: arn:aws:iam::494101312939:role/IL_IAM_CodePipelineSharedRole_CD
+      ArtifactStore: 
+        Type: S3
+        Location: il-s3-cicdresources-cd
+        EncryptionKey: 
+          Id: arn:aws:kms:ap-south-1:411761338054:key/46366dbd-ea59-4f85-8093-07a2febf6916
+          Type: KMS
+      RestartExecutionOnUpdate: true
+      Stages:
+        - Name: Source
+          Actions:
+            - Name: Source
+              ActionTypeId: 
+                Category: Source
+                Owner: AWS
+                Provider: CodeCommit
+                Version: 1
+              RunOrder: 1
+              Configuration: 
+                BranchName: !Ref BranchName
+                OutputArtifactFormat: CODE_ZIP
+                PollForSourceChanges: false
+                RepositoryName: !Ref CodeCommitRepoName
+              OutputArtifacts:
+                - Name: SourceArtifact
+              Region: ap-south-1
+        - Name: Build
+          Actions:
+            - Name: Build
+              ActionTypeId: 
+                Category: Build
+                Owner: AWS
+                Provider: CodeBuild
+                Version: 1
+              RunOrder: 1
+              Configuration: 
+                ProjectName: !Ref BuildProject
+              InputArtifacts:
+                - Name: SourceArtifact
+              OutputArtifacts:
+                - Name: BuildArtifact
+              Region: ap-south-1
+        - Name: Deploy
+          Actions:
+            - Name: Deploy
+              ActionTypeId: 
+                Category: Deploy
+                Owner: AWS
+                Provider: ECS
+                Version: 1
+              RunOrder: 1
+              Configuration: 
+                ClusterName: !Ref ECSClusterName
+                ServiceName: !Ref ECSServiceName
+              InputArtifacts:
+                - Name: BuildArtifact
+              RoleArn: arn:aws:iam::592015014223:role/IL_IAM_CICDDeploymentRole_P3
+              Region: ap-south-1
+      Tags: 
+        - Key: application name
+          Value: !Ref AppName
+        - Key: application owner
+          Value: !Ref AppOwner
+        - Key: portfolio
+          Value: !Ref Portfolio
+        - Key: created by
+          Value: !Ref CreatedBy
+        - Key: created on
+          Value: !Ref CreationDate
+        - Key: environment
+          Value: P3 
+
+  PipelineTriggerEvent:
+    Type: AWS::Events::Rule
+    Properties: 
+      Name: !Sub IL_CWE_CPL${AppName}P3_CD
+      State: ENABLED
+      RoleArn: arn:aws:iam::494101312939:role/IL_IAM_CICDCPEventSharedRole_CD
+      EventPattern: !Sub "{\"source\":[\"aws.codecommit\"],\"detail-type\":[\"CodeCommit Repository State Change\"],\"resources\":[\"arn:aws:codecommit:ap-south-1:494101312939:${CodeCommitRepoName}\"],\"detail\":{\"event\": [\"referenceCreated\",\"referenceUpdated\"],\"referenceType\":[\"branch\"],\"referenceName\":[\"${BranchName}\"]}}"
+      Targets: 
+        - Id: 1
+          Arn: !Sub 
+            - arn:aws:codepipeline:ap-south-1:494101312939:${PipelineName}
+            - PipelineName: !Ref CodePipeline
+          RoleArn: arn:aws:iam::494101312939:role/IL_IAM_CICDCPEventSharedRole_CD
