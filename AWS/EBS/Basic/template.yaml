@@ -1,17 +1,41 @@
 AWSTemplateFormatVersion: "2010-09-09"
+Description: "AWS CloudFormation Template to create an EC2 instance"
 Parameters:
    InstanceType:
     Type: String
-    Default: t3.micro
-Resource:
+    Description: "Instance type of the EC2 instance"
+   ImageId: 
+    Type: String
+    Description: "Image ID of the EC2 instance"
+    Default: ami-0b7207e48d1b6c06f
+   SubnetId:
+    Type: String 
+    Description: "Subnet ID of the EC2 instance"
+    Default: subnet-025211a17a085733d
+Resources:
   MyEC2Instace:
     Type: AWS::EC2::Instance
     Properties:
        AvailabilityZone: ap-south-1a
        IamInstanceProfile: EC2RoleforSSM
        InstanceType: !Ref InstanceType
-       ImageId: ami-0b7207e48d1b6c06f
+       ImageId: !Ref ImageId
        Tenancy: default
-       SecurityGroupIds:
-             - sg-0c09c492e6ed00ee6
+       NetworkInterfaces:
+         - DeviceIndex: 0
+           SubnetId: !Ref SubnetId
+           DeleteOnTermination: "true"
+           GroupSet:  
+              - sg-0c09c492e6ed00ee6
+           AssociatePublicIpAddress: "true"
+       Tags:
+         - Key: Name
+           Value: CloudFormationEC2
+         - Key: Environment
+           Value: Development
+    
+
+
+
+       
        
