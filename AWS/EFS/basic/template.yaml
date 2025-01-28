@@ -1,5 +1,14 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Description: "An application load balancer"
+Description: "An Elastic FileSystem"
+Parameters:
+  FileSystemName:
+    Type: String
+    Description: "Name of the Elastic File System"
+    Default: "MyFileSystem"
+  MyVPC:
+    Type: String
+    Description: "VPC to launch the Elastic File System in"
+    Default: vpc-xxxxxxxx
 Resources:
   MyFileSystem:
     Type: AWS::EFS::FileSystem
@@ -7,18 +16,20 @@ Resources:
       AvailabilityZoneName: ap-south-1a
       BackupPolicy: 
            Status: DISABLED
-      BypassPolicyLockoutSafetyCheck: Boolean
       Encrypted: True
-      FileSystemPolicy: Json
-      FileSystemProtection: 
-        FileSystemProtection
       FileSystemTags: 
-        - ElasticFileSystemTag
-      KmsKeyId: String
-      LifecyclePolicies: 
-        - LifecyclePolicy
+        - Key: Name
+          Value: MyFileSystem
       PerformanceMode: generalPurpose
-      ProvisionedThroughputInMibps: Number
-      ReplicationConfiguration: 
-        ReplicationConfiguration
-      ThroughputMode: String
+  MySecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: "Security group for EFS"
+      VpcId: !Ref MyVPC
+  MyMountTarget:
+    Type: AWS::EFS::MountTarget
+    Properties:
+        FileSystemId: !Ref MyFileSystem
+        SecurityGroups: 
+           - !Ref MySecurityGroup
+        SubnetId: <subnetID>
