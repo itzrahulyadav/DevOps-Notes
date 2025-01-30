@@ -89,7 +89,7 @@ docker run --rm -it  -v ~/.aws:/root/.aws  public.ecr.aws/eksctl/eksctl create
 --namespace=kube-system \
 --name=aws-load-balancer-controller \
 --role-name AmazonEKSLoadBalancerControllerRole \
---attach-policy-arn=arn:aws:iam::533267257785:policy/AWSLoadBalancerControllerIAMPolicy \
+--attach-policy-arn=arn:aws:iam::xxxxxxxxxxx:policy/AWSLoadBalancerControllerIAMPolicy \
 --approve
 
 ```
