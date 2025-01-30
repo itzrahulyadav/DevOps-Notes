@@ -1,6 +1,9 @@
 ## EKS - Elastic Kubernetes Service
 
+### **Important Links
 
+- [EKS Best practices](https://docs.aws.amazon.com/eks/latest/best-practices/introduction.html)
+- [Architectures](https://aws.amazon.com/architecture/)
 
 ### Managed Node Groups
 
