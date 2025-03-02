@@ -1,0 +1,2 @@
+# Service Mesh
+A service mesh is a dedicated infrastructure layer in a distributed system (like a Kubernetes cluster) that manages service-to-service communication between microservices. It abstracts away the complexity of networking, security, and observability, allowing developers to focus on application logic rather than low-level infrastructure concerns. Think of it as a "traffic cop" for your microservices, handling how they talk to each other, secure their connections, and monitor their behavior.
