@@ -365,3 +365,60 @@ locals {
 - We can leverage the use of .tfvars files to deploy our applications
 - Create a file <workspace>.tfvars and provide the value for variables and then use the follwoing command  ` terraform apply -var-file=$(terraform workspace show).tfvars `
   
+
+### Ideal directory structure
+
+```
+
+project-root/
+├── environments/
+│   ├── dev/
+│   │   ├── main.tf
+│   │   ├── variables.tf
+│   │   ├── terraform.tfvars
+│   │   └── outputs.tf
+│   ├── staging/
+│   │   ├── main.tf
+│   │   ├── variables.tf
+│   │   ├── terraform.tfvars
+│   │   └── outputs.tf
+│   └── prod/
+│       ├── main.tf
+│       ├── variables.tf
+│       ├── terraform.tfvars
+│       └── outputs.tf
+├── modules/
+│   ├── vpc/
+│   │   ├── main.tf
+│   │   ├── variables.tf
+│   │   ├── outputs.tf
+│   │   └── README.md
+│   ├── security-group/
+│   │   ├── main.tf
+│   │   ├── variables.tf
+│   │   ├── outputs.tf
+│   │   └── README.md
+│   ├── ec2/
+│   │   ├── main.tf
+│   │   ├── variables.tf
+│   │   ├── outputs.tf
+│   │   └── README.md
+│   └── s3/
+│       ├── main.tf
+│       ├── variables.tf
+│       ├── outputs.tf
+│       └── README.md
+├── scripts/
+│   ├── import_resources.sh
+│   ├── validate.sh
+│   └── deploy.sh
+├── global/
+│   ├── main.tf
+│   ├── variables.tf
+│   ├── terraform.tfvars
+│   └── outputs.tf
+├── .gitignore
+├── README.md
+└── terraform.tfvars.example
+
+```
