@@ -422,3 +422,25 @@ project-root/
 └── terraform.tfvars.example
 
 ```
+
+
+### Lifecycle meta-argument
+
+The lifecycle meta-argument is defined within a Terraform resource block to customize how Terraform handles the resource’s lifecycle (creation, update, deletion). It’s particularly useful for managing critical resources like your Lambda function or API Gateway, preventing unintended changes, or handling specific update behaviors.
+
+## Terraform Lifecycle Meta-Arguments
+
+Terraform provides `lifecycle` meta-arguments to control how resources are created, updated, or destroyed. These are not resource arguments but apply to resource **behavior**.
+
+### Supported `lifecycle` Meta-Arguments
+
+```hcl
+resource "aws_instance" "example" {
+  # ...
+
+  lifecycle {
+    create_before_destroy = true
+    prevent_destroy       = true
+    ignore_changes        = [tags["Environment"], ami]
+  }
+}
