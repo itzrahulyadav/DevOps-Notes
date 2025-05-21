@@ -1,0 +1,8 @@
+apiVersion: example.com/v1
+kind: SimpleApp
+metadata:
+  name: my-simpleapp
+  namespace: default
+spec:
+  name: my-app
+  replicas: 2
