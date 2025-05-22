@@ -1,0 +1,13 @@
+apiVersion: example.com/v1
+kind: NamespaceTracker
+metadata:
+  name: nstrack-default
+spec:
+  namespace: default
+status:
+  creationTimestamp: "2025-05-22T16:25:00Z"
+  conditions:
+    - type: NamespaceExists
+      status: "True"
+      lastTransitionTime: "2025-05-22T16:25:00Z"
+      message: "Namespace default exists"
