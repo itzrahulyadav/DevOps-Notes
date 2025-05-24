@@ -9,3 +9,7 @@ sudo apt update && sudo apt install codium
 curl -fsSL https://code-server.dev/install.sh | sh
 code-server --auth none --bind-addr 0.0.0.0:8080
 
+sudo systemctl stop code-server@$USER
+code-server --auth none --bind-addr 0.0.0.0:8080
+sudo systemctl enable --now code-server@$USER
+sudo systemctl restart code-server@$USER
