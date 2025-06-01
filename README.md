@@ -9,11 +9,11 @@
 
 <h2>Follow me</h2>
 
-[Instagram](https://www.instagram.com/_rxhxlx_)
+<a href="https://www.instagram.com/_rxhxlx_">Instagram</a>
 
-[LinkedIn](https://www.linkedin.com/in/rahul-yadav-2a4b3b199)
+<a href="https://www.linkedin.com/in/rahul-yadav-2a4b3b199">Linkedin</a>
 
-[Github](https://github.com/itzrahulyadav)
+<a href="https://github.com/itzrahulyadav">Github</a>
 
 </div>
 
