@@ -9,8 +9,10 @@ image:
   tag: 1.27.0
 
 
+# service.enabled let us decide whether to create a service or not
 service:
-     type: clusterIP
+     enabled: true
+     type: ClusterIP
      port: 80
 
 containerPorts:
