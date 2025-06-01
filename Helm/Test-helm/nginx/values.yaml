@@ -1,1 +1,18 @@
-replicaCount: 2
+replicaCount: 5
+
+#settings for nginx image
+#  @params image.name is the name of the image
+#  @params image.tag is the tag to be used with the image e.g latest
+
+image:
+  name: nginx
+  tag: 1.27.0
+
+
+service:
+     type: clusterIP
+     port: 80
+
+containerPorts:
+     http: 80
+  

@@ -3,10 +3,10 @@ kind: Service
 metadata:
   name: nginx-service
 spec:
-  type: ClusterIP
+  type: {{ .Values.service.type }}
   selector:
     app: nginx
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: 80 
+      port: {{ .Values.service.port }}
+      targetPort: {{ .Values.containerPorts.http }}
