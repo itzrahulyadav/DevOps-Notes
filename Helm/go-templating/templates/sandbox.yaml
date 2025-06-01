@@ -1,4 +1,12 @@
 # This is yaml comment
 {{- /* This is go comment */}}
 
-test: {{ .Values.test }}
+test: {{ lower .Values.test }}
+
+Another_test: {{replace " " "-" .Values.Another_test | lower }}
+
+{{ if eq  .Values.environment "Production" }}
+environment: Production
+{{ else }}
+environement: test
+{{ end }}
