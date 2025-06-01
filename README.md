@@ -10,7 +10,9 @@
 <h2>Follow me</h2>
 
 [Instagram](https://www.instagram.com/_rxhxlx_/)
+
 [LinkedIn](https://www.linkedin.com/in/rahul-yadav-2a4b3b199/)
+
 [Github](https://github.com/itzrahulyadav/)
 
 </div>
