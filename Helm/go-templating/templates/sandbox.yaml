@@ -1,1 +1,4 @@
+# This is yaml comment
+{{- /* This is go comment */}}
+
 test: {{ .Values.test }}
