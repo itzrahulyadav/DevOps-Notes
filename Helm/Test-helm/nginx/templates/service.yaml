@@ -1,11 +1,15 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: nginx-service
+  name: {{ .Release.Name}}-{{ .Chart.Name }}-svc
+  labels:
+    app: {{ .Chart.Name }}
+    release: {{ .Release.Name }}
 spec:
   type: {{ .Values.service.type }}
   selector:
-    app: nginx
+    app: {{ .Chart.Name }}
+    release: {{ .Release.Name }}
   ports:
     - protocol: TCP
       port: {{ .Values.service.port }}
