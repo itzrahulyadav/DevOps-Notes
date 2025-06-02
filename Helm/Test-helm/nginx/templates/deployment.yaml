@@ -19,5 +19,12 @@ spec:
       containers:
         - name: nginx
           image: "{{ .Values.image.name }}:{{ .Values.image.tag }}"
+          {{- if .Values.securityContext.enabled }}
+          securityContext:
+            runAsUser: {{ .Values.securityContext.runAsUser }}  # @param securityContext.runAsUser
+            fsGroup: {{ .Values.securityContext.fsGroup }}
+          {{ end }}
+          {{ if .Values.services | default list | len}}
           ports:
             - containerPort: {{ .Values.containerPorts.http }}
+          {{ end }}

@@ -1,4 +1,5 @@
-{{- if .Values.service.enabled }}
+{{- range $key, $svc := (.Values.services | default list) }}
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -7,7 +8,7 @@ metadata:
     app: {{ .Chart.Name }}
     release: {{ .Release.Name }}
 spec:
-  type: {{ .Values.service.type }}
+  type: {{ $svc.type }}
   selector:
     app: {{ .Chart.Name }}
     release: {{ .Release.Name }}

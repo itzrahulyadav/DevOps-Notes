@@ -10,11 +10,23 @@ image:
 
 
 # service.enabled let us decide whether to create a service or not
-service:
-     enabled: true
+services:
+   svc1:
      type: ClusterIP
      port: 80
+   svc2:
+     type: NodePort
+     port: 30007
 
 containerPorts:
      http: 80
   
+
+#  @param securityContext.enabled 
+#  @param securityContext.runAsUser
+#  @param securityContext.fsGroup
+
+securityContext: 
+  enabled: true
+  runAsUser: 1000
+  fsGroup: 2000
