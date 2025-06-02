@@ -1,19 +1,35 @@
-{{- range $key, $svc := (.Values.services | default list) }}
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: {{ .Release.Name}}-{{ .Chart.Name }}-svc
-  labels:
-    app: {{ .Chart.Name }}
-    release: {{ .Release.Name }}
-spec:
-  type: {{ $svc.type }}
-  selector:
-    app: {{ .Chart.Name }}
-    release: {{ .Release.Name }}
-  ports:
-    - protocol: TCP
-      port: {{ .Values.service.port }}
-      targetPort: {{ .Values.containerPorts.http }}
+{{- if and .Values.securityContext .Values.securityContext.enabled  -}}
+
 {{- end }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name}}-{{ .Chart.Name }}
+  labels:
+    app: nginx
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Chart.Name }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: nginx
+          image: "{{ .Values.image.name }}:{{ .Values.image.tag }}"
+          {{- with .Values.securityContext }}
+          {{- if .enabled}}
+          securityContext:
+            runAsUser: {{ .runAsUser }}  # @param securityContext.runAsUser
+            fsGroup: {{ .fsGroup }}
+          {{- end }}
+          {{- end}}
+          {{- if .Values.services | default list | len}}
+          ports:
+            - containerPort: {{ .Values.containerPorts.http }}
+          {{ end }}
