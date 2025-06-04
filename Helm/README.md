@@ -110,3 +110,74 @@ appVersion: "1.1-SNAPSHOT"
 10. use helm ls to see the charts `helm ls`
 11. Use `helm get manifest my-chart` to see what is created
 12. Use port forward to forward traffic to our system `kubectl port-forward --address 0.0.0.0 deployment/$APP_DEPLOY 8080:80 &`
+
+
+
+# Helm Subcharts Notes:
+
+# 1. Subcharts are charts that can be included inside another chart (parent chart)
+# They allow modular and reusable chart components
+
+# 2. Defined in parent chart's Chart.yaml under 'dependencies' section:
+dependencies:
+  - name: subchart        # Name of subchart
+    version: x.x.x        # Version required
+    repository: url       # Repository URL
+    condition: flag       # Optional condition to enable/disable
+    tags:                 # Optional tags for enabling/disabling groups
+    import-values:        # Values to import from subchart
+
+# 3. Key features:
+# - Each subchart is independent and can have its own values
+# - Parent chart can override subchart values
+# - Subcharts can be enabled/disabled via conditions
+# - Tags can enable/disable groups of charts
+# - Values can be shared between parent and subcharts
+
+# 4. Common commands:
+# helm dependency update  # Download subcharts
+# helm dependency build  # Rebuild charts/ directory
+# helm dependency list   # List chart dependencies
+
+# 5. Values precedence:
+# - Parent chart values override subchart defaults
+# - Global values are accessible to all subcharts
+# - Each subchart maintains own values isolation
+
+# Subcharts in Helm
+# Chart.yaml
+apiVersion: v2
+name: parentchart
+description: A Helm parent chart example
+version: 0.1.0
+dependencies:
+  - name: subchart1
+    version: 0.1.0
+    repository: https://example.com/charts
+  - name: subchart2 
+    version: 1.2.3
+    repository: https://another.example.com/charts
+    condition: subchart2.enabled
+    tags:
+      - front-end
+    import-values:
+      - data
+
+# values.yaml
+subchart1:
+  enabled: true
+  config:
+    key1: value1
+    
+subchart2:
+  enabled: false
+  config:
+    key2: value2
+
+tags:
+  front-end: false
+
+# Commands to manage dependencies
+# helm dependency update
+# helm dependency build
+# helm dependency list
