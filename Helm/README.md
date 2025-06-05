@@ -181,3 +181,57 @@ tags:
 # helm dependency update
 # helm dependency build
 # helm dependency list
+
+
+# Helm Webhooks Notes:
+
+# Full documentation [Here](https://helm.sh/docs/topics/charts_hooks/)
+# 1. Helm Webhooks are special hooks that execute at specific points during chart installation/upgrade:
+# - pre-install   : Before templates are rendered
+# - post-install  : After all resources are loaded into K8s
+# - pre-delete    : Before deletion begins
+# - post-delete   : After deletion completes
+# - pre-upgrade   : Before upgrade begins
+# - post-upgrade  : After upgrade completes
+# - pre-rollback  : Before rollback starts
+# - post-rollback : After rollback completes
+
+# 2. Example webhook manifest:
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: pre-install-job
+  annotations:
+    "helm.sh/hook": pre-install
+    "helm.sh/hook-weight": "5"        # Defines execution order
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  template:
+    spec:
+      containers:
+      - name: pre-install-job
+        image: busybox
+        command: ["/bin/sh", "-c", "echo pre-install"]
+      restartPolicy: Never
+
+# 3. Key webhook features:
+# - Can be any valid Kubernetes resource
+# - Multiple hooks of same type allowed
+# - Weights control execution order
+# - Delete policies control cleanup
+# - Failed hooks block release progress
+
+# 4. Common annotations:
+# helm.sh/hook: <hook-name>           # Defines hook type
+# helm.sh/hook-weight: <number>       # Sets priority (lower runs first)
+# helm.sh/hook-delete-policy:         # Cleanup behavior
+#   - hook-succeeded
+#   - hook-failed  
+#   - before-hook-creation
+
+# 5. Best practices:
+# - Use Jobs for hooks when possible
+# - Set appropriate delete policies
+# - Consider timeout settings
+# - Add proper error handling
+# - Use weights for dependencies
