@@ -1,0 +1,18 @@
+# configmap.yaml can also be written like
+
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+   name:  {{ include "accessing-files.fullname" . }}
+
+type: Opaque
+data: 
+   # {{ range $path, $_ := .Files.Glob "files/*.properties"}}
+   # {{ $path }}: |-
+   # {{ $.Files.Get $path | nindent 4 }}
+   # {{ end}}
+    
+
+
+
