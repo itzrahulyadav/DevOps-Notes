@@ -4,10 +4,19 @@
     - snap install helm --classic
     - snap install tree
 
-2. Create a helm chart `helm create demo`
-3. See the structure using tree `/usr/bin/tree demo`
-4. cd `demo/template` and delete everything `rm -rf *`
-5. Create a configmap yaml
+or
+```sh
+
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+chmod 700 get_helm.sh
+./get_helm.sh
+
+```
+
+1. Create a helm chart `helm create demo`
+2. See the structure using tree `/usr/bin/tree demo`
+3. cd `demo/template` and delete everything `rm -rf *`
+4. Create a configmap yaml
 
 ```
 apiVersion: v1
