@@ -1,0 +1,5 @@
+apiVersion: v2
+name: mydb
+description: A custom database subchart
+version: 0.1.0
+type: application

@@ -1,0 +1,16 @@
+# Parent chart values
+replicaCount: 2
+
+# Subchart: mydb
+mydb:
+  replicaCount: 1
+  image:
+    repository: my-custom-db
+    tag: "1.0.0"
+
+# Dependency: redis
+redis:
+  enabled: true
+  architecture: standalone
+  auth:
+    enabled: false

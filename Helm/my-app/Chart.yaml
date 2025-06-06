@@ -1,0 +1,9 @@
+apiVersion: v2
+name: my-app
+description: A Helm chart for my application
+version: 1.0.0
+dependencies:
+  - name: redis
+    version: "17.3.2"
+    repository: "https://charts.bitnami.com/bitnami"
+    condition: redis.enabled

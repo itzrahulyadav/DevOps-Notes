@@ -1,0 +1,10 @@
+image:
+  repository: my-custom-db
+  tag: "latest"
+replicaCount: 1
+
+serviceAccount:
+    create: true
+
+service: 
+   port: 80
