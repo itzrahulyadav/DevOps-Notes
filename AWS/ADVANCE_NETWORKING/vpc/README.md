@@ -1,5 +1,3 @@
-
-
 # ENI
 - It's a logical component in vpc that represents virtual network card 
 -  enables ip address and allow network communication
