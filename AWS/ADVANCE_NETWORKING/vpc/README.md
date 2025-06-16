@@ -107,3 +107,86 @@ $sudo dhclient -r eth0
 - Set up forwarding rules for domain names
 - Update on-premises DNS servers to use endpoints
 - Test DNS resolution in both directions
+
+
+# VPC Traffic Mirroring
+
+# Key Features
+- Copies network traffic from ENIs to monitoring appliances
+- Can mirror all traffic or filter based on protocol, ports, direction
+- Source traffic can be from EC2 instances, Network Load Balancers, etc
+- Target can be ENI or Network Load Balancer
+- Supports capturing full packets or truncated packets
+- Traffic is encapsulated in VXLAN format
+- Can mirror traffic across accounts and VPCs
+
+# Components
+- Mirror Source: ENI from which traffic is copied
+- Mirror Target: Destination for mirrored traffic (ENI or NLB)
+- Mirror Filter: Rules to control what traffic gets mirrored
+- Mirror Session: Links source, target and filter together
+
+# Common Use Cases
+- Network monitoring and troubleshooting
+- Security analysis and threat detection
+- Application performance monitoring
+- Regulatory compliance and auditing
+- Intrusion detection/prevention systems
+
+# Configuration Steps
+1. Create mirror target (ENI or NLB)
+2. Create mirror filter with desired rules
+3. Create mirror session to connect source and target
+4. Configure monitoring tools to analyze mirrored traffic
+
+# Best Practices
+- Use filters to minimize unnecessary traffic
+- Consider bandwidth impact on source and target
+- Deploy monitoring tools in same AZ as target
+- Use IAM policies to control access to mirroring
+- Monitor costs as mirrored traffic counts toward data transfer
+
+
+
+# Network Access Analyzer
+
+# Key Features
+- Analyzes network configurations and security settings
+- Verifies network access paths and security compliance
+- Identifies potential security risks and unintended access
+- Helps validate network segmentation and security policies
+- Provides detailed findings with configuration suggestions
+- Integrates with AWS Security Hub
+- Supports multi-account analysis through AWS Organizations
+
+# Analysis Capabilities
+- Security group rules and NACLs
+- Route tables and routing policies 
+- Internet and VPC gateway configurations
+- VPC endpoints and interface endpoints
+- Load balancer access controls
+- Transit gateway routes and attachments
+- VPN and Direct Connect configurations
+
+# Common Use Cases
+- Validate security group configurations
+- Verify network isolation requirements
+- Identify unauthorized internet access paths
+- Audit compliance with security policies
+- Troubleshoot connectivity issues
+- Document network access patterns
+
+# Configuration Steps
+1. Enable Network Access Analyzer in VPC console
+2. Define analysis scope (VPC, account, organization)
+3. Create network insights paths to analyze
+4. Review findings and recommendations
+5. Update network configurations as needed
+
+# Best Practices
+- Run regular analyses to catch configuration drift
+- Use findings to validate security controls
+- Document intended network paths
+- Integrate with security compliance workflows
+- Enable organization-wide analysis
+- Review findings as part of change management
