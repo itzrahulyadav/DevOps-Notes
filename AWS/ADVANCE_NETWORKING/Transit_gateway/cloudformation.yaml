@@ -87,4 +87,3 @@ Resources:
       Properties:
         VpcId: !Ref VPC1
         InternetGatewayId: !Ref VPCAIgw
-

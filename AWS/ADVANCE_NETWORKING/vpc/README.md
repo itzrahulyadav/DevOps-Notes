@@ -190,3 +190,7 @@ $sudo dhclient -r eth0
 - Integrate with security compliance workflows
 - Enable organization-wide analysis
 - Review findings as part of change management
+
+
+# Appliance mode 
+Appliance Mode is a feature in AWS Transit Gateway that ensures symmetric routing of network traffic through a specific Availability Zone (AZ) for stateful network appliances, such as firewalls or intrusion detection systems, in a VPC attachment. By enabling Appliance Mode on a VPC attachment, the Transit Gateway uses a flow hash algorithm to route both forward and return traffic of a flow through the same network interface in the same AZ, maintaining state consistency for stateful devices. This is critical for centralized inspection architectures, especially for east-west (VPC-to-VPC) traffic, and works seamlessly with AWS Network Firewall or Gateway Load Balancer. Appliance Mode overrides default AZ affinity, ensuring traffic symmetry, but is only supported for VPC attachments. It can be enabled via the AWS Console, CLI, or Terraform, and is essential for avoiding asymmetric routing issues that could disrupt stateful appliances.
