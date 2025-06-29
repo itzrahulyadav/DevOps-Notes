@@ -236,10 +236,12 @@ metadata:
 spec:
   syncPolicy:
     syncOptions:
+
+      - PruneLast: true
       # Create namespace if it doesn't exist
       - CreateNamespace=true
       
-      # Automatically create/update network policies
+      # ArgoCD sync resourcs with out of sync only
       - ApplyOutOfSyncOnly=true
       
       # Prune resources that are no longer in Git
