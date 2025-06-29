@@ -227,6 +227,7 @@ spec:
 # ArgoCD Sync Options Configuration
 
 # Application-level sync options
+```
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -287,10 +288,12 @@ spec:
       - '*-prod'
       manualSync: true
 
-
+```
 
 
 # Example showing resource-level sync options using annotations
+
+```
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -342,3 +345,5 @@ data:
     {
       "key": "value"
     }
+
+```
