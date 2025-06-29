@@ -1,0 +1,50 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: multi-helm-app
+  namespace: argocd
+  labels:
+    app.kubernetes.io/name: multi-helm-app
+spec:
+  project: default
+  sources:
+    - repoURL: https://charts.bitnami.com/bitnami
+      chart: nginx
+      targetRevision: 15.4.4
+      helm:
+        releaseName: frontend-nginx
+        values: |
+          replicaCount: 2
+          service:
+            type: LoadBalancer
+    - repoURL: https://charts.bitnami.com/bitnami
+      chart: redis
+      targetRevision: 18.1.5
+      helm:
+        releaseName: cache-redis
+        values: |
+          auth:
+            enabled: false
+          replica:
+            replicaCount: 1
+    - repoURL: https://charts.bitnami.com/bitnami
+      chart: postgresql
+      targetRevision: 12.12.10
+      helm:
+        releaseName: db-postgres
+        values: |
+          auth:
+            postgresPassword: "mypassword"
+            database: "myapp"
+          primary:
+            persistence:
+              size: 10Gi
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: multi-app
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
