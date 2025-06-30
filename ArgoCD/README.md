@@ -349,3 +349,329 @@ data:
     }
 
 ```
+
+
+
+# Resource-Level Prune in ArgoCD
+#
+# Resource-level pruning allows fine-grained control over how individual Kubernetes resources
+# are removed when they are no longer present in the Git repository. This can be configured
+# using annotations on specific resources to:
+#
+# - Prevent specific resources from being pruned
+# - Control the order of pruning
+# - Set custom propagation policies
+# - Enable selective pruning based on labels
+#
+# The prune behavior can be controlled using the following annotations:
+# - argocd.argoproj.io/sync-options: Prune=false|true
+# - argocd.argoproj.io/sync-options: PruneLast=true 
+# - argocd.argoproj.io/sync-options: PrunePropagationPolicy=foreground|background
+#
+# This provides more granular control compared to application-level pruning settings.
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+  annotations:
+    argocd.argoproj.io/sync-options: Prune=false
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: example
+  template:
+    metadata:
+      labels:
+        app: example
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.19
+
+# Example demonstrating resource-level prune options in ArgoCD
+
+# 1. Disable pruning for specific resource using annotation
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: no-prune-deployment
+  annotations:
+    argocd.argoproj.io/sync-options: Prune=false  # Prevents this deployment from being pruned
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: example
+  template:
+    metadata:
+      labels:
+        app: example
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.19
+
+---
+# 2. Enable pruning with custom propagation policy
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: prune-statefulset
+  annotations:
+    argocd.argoproj.io/sync-options: PrunePropagationPolicy=foreground
+spec:
+  serviceName: example
+  replicas: 2
+  selector:
+    matchLabels:
+      app: example
+  template:
+    metadata:
+      labels:
+        app: example
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.19
+
+---
+# 3. Prune last - resource will be pruned after all other resources are synced
+apiVersion: v1
+kind: Service
+metadata:
+  name: prune-last-service
+  annotations:
+    argocd.argoproj.io/sync-options: PruneLast=true
+spec:
+  selector:
+    app: example
+  ports:
+  - port: 80
+    targetPort: 80
+
+---
+# 4. Selective pruning with labels
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: selective-prune-config
+  labels:
+    prune-safe: "true"  # Custom label to control pruning
+  annotations:
+    argocd.argoproj.io/sync-options: Prune=true
+data:
+  config.json: |
+    {
+      "key": "value"
+    }
+
+
+
+# Selective Sync in ArgoCD
+# Selective sync allows you to sync only specific resources within an application
+# rather than syncing the entire application. This can be controlled through:
+# 1. Resource inclusion/exclusion
+# 2. Label selectors
+# 3. Resource tracking method
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: selective-sync-demo
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/example/repo.git
+    targetRevision: HEAD
+    path: k8s
+    
+    # Define which resources to include/exclude during sync
+    directory:
+      include: "*.yaml"  # Only sync yaml files
+      exclude: "secrets.*" # Exclude secrets
+      
+    # Use label selector to sync only resources with specific labels  
+    selector:
+      matchLabels:
+        sync: "true"
+        
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: demo
+    
+  # Configure sync options
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - ApplyOutOfSyncOnly=true # Only sync resources that are out of sync
+      
+---
+# Example resources that will be selectively synced based on labels
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: included-deployment
+  labels:
+    sync: "true"  # This deployment will be synced
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: demo
+  template:
+    metadata:
+      labels:
+        app: demo
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: excluded-deployment
+  labels:
+    sync: "false" # This deployment will be excluded from sync
+spec:
+  replicas: 2
+  selector:
+    matchLabels: 
+      app: demo
+  template:
+    metadata:
+      labels:
+        app: demo
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+
+---
+# Resource tracking method example
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: tracked-config
+  annotations:
+    # Track this resource by name only
+    argocd.argoproj.io/tracking-method: name
+data:
+  key: value 
+
+
+# Fail on Shared Resources in ArgoCD
+#
+# This feature prevents multiple applications from managing the same Kubernetes resources
+# to avoid conflicts and unintended modifications. When enabled, ArgoCD will fail 
+# synchronization if it detects that a resource is managed by multiple applications.
+#
+# To enable this feature, use the 'failOnSharedResource' sync option.
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: app1
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/example/repo.git
+    targetRevision: HEAD
+    path: app1
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: shared-ns
+  syncPolicy:
+    syncOptions:
+      - FailOnSharedResource=true # Will fail sync if resources are shared
+    automated:
+      prune: true
+      selfHeal: true
+
+---
+# Another application trying to manage same resources
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: app2
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/example/repo.git
+    targetRevision: HEAD 
+    path: app2
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: shared-ns # Same namespace as app1
+  syncPolicy:
+    syncOptions:
+      - FailOnSharedResource=true
+    automated:
+      prune: true
+      selfHeal: true
+
+---
+# Example shared resource that would cause sync failure
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: shared-config
+  namespace: shared-ns
+data:
+  key: value
+
+
+
+# Replace Resources in ArgoCD
+#
+# The Replace sync option forces ArgoCD to delete and recreate resources instead of 
+# patching them. This is useful when:
+# - Resources cannot be patched and must be recreated
+# - You want to ensure a clean state for the resource
+# - Complex updates require full replacement
+#
+# Can be configured at:
+# 1. Application level using syncOptions
+# 2. Individual resource level using annotations
+
+# Example showing Replace sync option
+
+# 1. Application level Replace
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: replace-demo
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/example/repo.git
+    targetRevision: HEAD
+    path: k8s
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: demo
+  syncPolicy:
+    syncOptions:
+      - Replace=true    # Enable replace for all resources
+
+---
+# 2. Resource level Replace using annotation
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-to-replace
+  annotations:
+    argocd.argoproj.io/sync-options: Replace=true  # This config map will be replaced instead of patched
+data:
+  key1: value1
+  key2: value2
