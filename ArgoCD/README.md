@@ -675,3 +675,358 @@ metadata:
 data:
   key1: value1
   key2: value2
+
+
+
+
+
+
+# ArgoCD Diffing Customization
+#
+# Diffing customization allows you to control how ArgoCD compares resources between 
+# Git and the live cluster state. This can be configured using:
+# 1. ignoreDifferences in Application spec
+# 2. Resource-level annotations
+# 3. Common customization patterns
+
+# Example showing different diffing customization approaches
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: diff-customization-demo
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/example/repo.git
+    targetRevision: HEAD
+    path: manifests
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: demo
+    
+  # Application-level diff customization
+  ignoreDifferences:
+  # Ignore differences in replica count
+  - group: apps
+    kind: Deployment
+    jsonPointers:
+    - /spec/replicas
+    
+  # Ignore differences in specific fields
+  - group: ""
+    kind: Service
+    jsonPointers:
+    - /spec/clusterIP
+    - /metadata/annotations/service.beta.kubernetes.io/*
+    
+  # Ignore differences using JQ expressions  
+  - group: apps
+    kind: Deployment
+    jqPathExpressions:
+    - .spec.template.spec.containers[] | select(.name == "nginx").image
+
+---
+# Resource-level diff customization using annotations
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  annotations:
+    # Ignore container image tags
+    argocd.argoproj.io/compare-options: IgnoreExtraneous
+    # Ignore specific fields
+    argocd.argoproj.io/compare-options: JsonPointers=/spec/replicas,/metadata/annotations
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+
+---
+# Example showing common customization patterns
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo-service
+  annotations:
+    # Ignore system-generated fields
+    argocd.argoproj.io/compare-options: IgnoreExtraneous
+    # Custom diff normalization
+    argocd.argoproj.io/compare-options: NormalizeEmpty
+spec:
+  selector:
+    app: demo
+  ports:
+  - port: 80
+    targetPort: 80
+
+
+
+
+
+# ArgoCD Sync Phases and Hooks
+# Sync phases define the order of resource synchronization
+# Hooks allow running custom actions before, during, or after sync
+
+# Example showing sync phases and hooks
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: pre-sync-job
+  annotations:
+    argocd.argoproj.io/hook: PreSync # Executes before sync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded # Delete after successful execution
+spec:
+  template:
+    spec:
+      containers:
+      - name: pre-sync
+        image: busybox
+        command: ["sh", "-c", "echo 'Running pre-sync tasks'"]
+      restartPolicy: Never
+
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: sync-job
+  annotations:
+    argocd.argoproj.io/hook: Sync # Executes during sync
+    argocd.argoproj.io/sync-wave: "1" # Controls execution order
+spec:
+  template:
+    spec:
+      containers:
+      - name: sync
+        image: busybox
+        command: ["sh", "-c", "echo 'Running sync tasks'"]
+      restartPolicy: Never
+
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: post-sync-job
+  annotations:
+    argocd.argoproj.io/hook: PostSync # Executes after sync
+    argocd.argoproj.io/hook-delete-policy: HookSucceeded
+spec:
+  template:
+    spec:
+      containers:
+      - name: post-sync
+        image: busybox
+        command: ["sh", "-c", "echo 'Running post-sync tasks'"]
+      restartPolicy: Never
+
+---
+# Available Hook Types:
+# - PreSync: Runs before sync
+# - Sync: Runs during sync
+# - PostSync: Runs after sync
+# - SyncFail: Runs if sync fails
+# - Skip: Resource is not synced
+
+# Hook Delete Policies: 
+# - HookSucceeded: Delete after successful execution
+# - HookFailed: Delete after failed execution
+# - BeforeHookCreation: Delete before creating new hook
+
+
+
+
+# ArgoCD Sync Waves
+# Sync waves control the order of resource synchronization within an application.
+# Resources are synced in ascending order based on their wave number.
+# Resources in the same wave are synced in parallel.
+# Default wave number is 0 if not specified.
+
+# Example 1: Basic Sync Wave Order
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: example
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1" # Runs first
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  annotations:
+    argocd.argoproj.io/sync-wave: "0" # Runs second
+data:
+  config.json: |
+    {
+      "key": "value"
+    }
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-deployment
+  annotations:
+    argocd.argoproj.io/sync-wave: "1" # Runs third
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: example
+  template:
+    metadata:
+      labels:
+        app: example
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+
+---
+# Example 2: Complex Application Deployment with Sync Waves
+
+# Wave -2: Create Namespace
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: complex-app
+  annotations:
+    argocd.argoproj.io/sync-wave: "-2"
+
+---
+# Wave -1: Create Secrets and ConfigMaps
+apiVersion: v1
+kind: Secret
+metadata:
+  name: app-secrets
+  namespace: complex-app
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+type: Opaque
+data:
+  api-key: YWJjMTIz
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  namespace: complex-app
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+data:
+  settings.conf: |
+    environment=production
+    debug=false
+
+---
+# Wave 0: Create Services
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-service
+  namespace: complex-app
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  selector:
+    app: complex-app
+  ports:
+  - port: 80
+    targetPort: 8080
+
+---
+# Wave 1: Deploy Database
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: database
+  namespace: complex-app
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  serviceName: database
+  replicas: 1
+  selector:
+    matchLabels:
+      app: database
+  template:
+    metadata:
+      labels:
+        app: database
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:13
+
+---
+# Wave 2: Deploy Application
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: application
+  namespace: complex-app
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: complex-app
+  template:
+    metadata:
+      labels:
+        app: complex-app
+    spec:
+      containers:
+      - name: app
+        image: myapp:1.0
+
+---
+# Wave 3: Deploy Ingress
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: app-ingress
+  namespace: complex-app
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+spec:
+  rules:
+  - host: app.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: app-service
+            port:
+              number: 80
+
+---
+# Wave 4: Post-deployment Jobs
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: db-migration
+  namespace: complex-app
+  annotations:
+    argocd.argoproj.io/sync-wave: "4"
+    argocd.argoproj.io/hook: PostSync
+spec:
+  template:
+    spec:
+      containers:
+      - name: migration
+        image: migration-tool:1.0
+      restartPolicy: Never
