@@ -95,7 +95,3 @@
 
 
 
-## ArgoCD
-<img align="right" src="https://github.com/user-attachments/assets/ca803566-f292-4a43-a8b5-d41859d411f2" height="100" alt="ArgoCD">
-
-- [Notes](https://github.com/itzrahulyadav/DevOps-Notes/tree/main/ArgoCD)
