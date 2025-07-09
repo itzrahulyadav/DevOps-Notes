@@ -1,0 +1,20 @@
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: extra
+  namespace: tenant-a
+spec:
+  endpointSelector: {}
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            k8s:app: backend-service
+            k8s:io.kubernetes.pod.namespace: tenant-b
+      toPorts:
+        - ports:
+            - port: "80"
+    - toFQDNs:
+        - matchName: api.twitter.com
+      toPorts:
+        - ports:
+            - port: "80"
