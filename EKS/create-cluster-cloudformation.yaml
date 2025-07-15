@@ -297,7 +297,18 @@ Resources:
       Tags:
         - Key: "Created-by"
           Value: "cloudformation"
-      
+  EKSNodegroup:
+    Type: 'AWS::EKS::Nodegroup'
+    Properties:
+      ClusterName: Prod
+      NodeRole: 'arn:aws:iam::012345678910:role/eksInstanceRole'
+      ScalingConfig:
+        MinSize: 1
+        DesiredSize: 2
+        MaxSize: 2
+      Subnets:
+        - !Ref PrivateSubnet01
+        - !Ref PrivateSubnet02
 
 Outputs:
   SubnetIds:
