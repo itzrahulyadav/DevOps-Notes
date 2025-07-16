@@ -3,7 +3,6 @@ AWSTemplateFormatVersion: '2010-09-09'
 Description: 'Amazon EKS Sample VPC - Private and Public subnets'
 
 Parameters:
-
   VpcBlock:
     Type: String
     Default: 192.168.0.0/16
@@ -31,6 +30,10 @@ Parameters:
     Type: String
     Default: 192.168.192.0/18
     Description: CidrBlock for private subnet 02 within the VPC
+  EC2RoleARN:
+    Type: String
+    Description: ARN of the role used by EC2 instance
+  
 
 Metadata:
   AWS::CloudFormation::Interface:
@@ -274,6 +277,16 @@ Resources:
     Properties:
       GroupDescription: Cluster communication with worker nodes
       VpcId: !Ref VPC
+  InboundRule:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      GroupId: !Ref ControlPlaneSecurityGroup   
+      DependsOn: ControlPlaneSecurityGroup           # The SG this rule applies to
+      IpProtocol: -1
+      FromPort: -1
+      ToPort: -1
+      SourceSecurityGroupId: !Ref ControlPlaneSecurityGroup 
+ 
 
   EKSCluster:
     Type: AWS::EKS::Cluster
@@ -316,7 +329,7 @@ Resources:
         - !Ref PrivateSubnet01
         - !Ref PrivateSubnet02
 
-  KubectlServer2:
+  KubectlServer:
     Type: AWS::EC2::Instance
     Properties:
       ImageId: ami-0b7207e48d1b6c06f
@@ -373,17 +386,18 @@ Resources:
     Type: 'AWS::EKS::AccessEntry'
     Properties:
         ClusterName: 'Prod'
-        PrincipalArn: 'arn:aws:iam::012345678910:role/my-role'
+        PrincipalArn: !Ref EC2RoleARN
         DependsOn: EKSCluster
         Username: 'admin'
         AccessPolicies:
-            - PolicyArn: 'arn:aws:eks::aws:cluster-access-policy/AmazonEKSEditPolicy'
+            - PolicyArn: 'arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy'
               AccessScope:
                 Type: 'cluster'
         Type: 'STANDARD'
         Tags:
-            - Key: 'my-tagkey'
-              Value: 'my-tagvalue'
+            - Key: 'Used-by'
+              Value: 'EC2-Instance'
+    
 Outputs:
   SubnetIds:
     Description: Subnets IDs in the VPC
