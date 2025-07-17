@@ -279,9 +279,9 @@ Resources:
       VpcId: !Ref VPC
   InboundRule:
     Type: AWS::EC2::SecurityGroupIngress
+    DependsOn: ControlPlaneSecurityGroup
     Properties:
-      GroupId: !Ref ControlPlaneSecurityGroup   
-      DependsOn: ControlPlaneSecurityGroup           # The SG this rule applies to
+      GroupId: !Ref ControlPlaneSecurityGroup              # The SG this rule applies to
       IpProtocol: -1
       FromPort: -1
       ToPort: -1
@@ -315,10 +315,10 @@ Resources:
           Value: "cloudformation"
   EKSNodegroup:
     Type: 'AWS::EKS::Nodegroup'
+    DependsOn: EKSCluster
     Properties:
       ClusterName: Prod
       NodeRole: 'arn:aws:iam::533267257785:role/myAmazonEKSNodeRole'
-      DependsOn: EKSCluster
       InstanceTypes: 
           - t2.medium
       ScalingConfig:
@@ -383,11 +383,11 @@ Resources:
   
 
   MyAccessEntry:
+    DependsOn: EKSCluster
     Type: 'AWS::EKS::AccessEntry'
     Properties:
         ClusterName: 'Prod'
         PrincipalArn: !Ref EC2RoleARN
-        DependsOn: EKSCluster
         Username: 'admin'
         AccessPolicies:
             - PolicyArn: 'arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy'
@@ -397,6 +397,19 @@ Resources:
         Tags:
             - Key: 'Used-by'
               Value: 'EC2-Instance'
+  EksOidcProvider:
+    DependsOn: EKSCluster
+    Type: AWS::IAM::OIDCProvider
+    Properties:
+      Url: !GetAtt EKSCluster.OpenIdConnectIssuerUrl
+      ClientIdList:
+        - sts.amazonaws.com
+      ThumbprintList:
+        - 9e99a48a9960b14926cc7f3b02e22da2b0ab7280
+      Tags:
+        - Key: Name
+          Value: eks-cluster-oidc-provider
+
     
 Outputs:
   SubnetIds:
