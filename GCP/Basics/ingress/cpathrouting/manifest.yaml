@@ -1,0 +1,238 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-1
+  labels:
+    app: app-1
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: app-1
+  template:
+    metadata:
+      labels:
+        app: app-1
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:alpine
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: html
+          mountPath: /usr/share/nginx/html/index.html
+          subPath: index.html
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+          requests:
+            cpu: "200m"
+            memory: "256Mi"
+      volumes:
+      - name: html
+        configMap:
+          name: app-1-html
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-1-html
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Service 1</title>
+    </head>
+    <body>
+      <h1>Welcome to Service 1</h1>
+      <p>This is the response from svc-1.</p>
+    </body>
+    </html>
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-1
+  annotations:
+    cloud.google.com/neg: '{"ingress": true}'  # Enables container-native load balancing
+spec:
+  selector:
+    app: app-1
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-2
+  labels:
+    app: app-2
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: app-2
+  template:
+    metadata:
+      labels:
+        app: app-2
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:alpine
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: html
+          mountPath: /usr/share/nginx/html/index.html
+          subPath: index.html
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+          requests:
+            cpu: "200m"
+            memory: "256Mi"
+      volumes:
+      - name: html
+        configMap:
+          name: app-2-html
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-2-html
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Service 2</title>
+    </head>
+    <body>
+      <h1>Welcome to Service 2</h1>
+      <p>This is the response from svc-2.</p>
+    </body>
+    </html>
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-2
+  annotations:
+    cloud.google.com/neg: '{"ingress": true}'
+spec:
+  selector:
+    app: app-2
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-3
+  labels:
+    app: app-3
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: app-3
+  template:
+    metadata:
+      labels:
+        app: app-3
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:alpine
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: html
+          mountPath: /usr/share/nginx/html/index.html
+          subPath: index.html
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+          requests:
+            cpu: "200m"
+            memory: "256Mi"
+      volumes:
+      - name: html
+        configMap:
+          name: app-3-html
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-3-html
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Service 3</title>
+    </head>
+    <body>
+      <h1>Welcome to Service 3</h1>
+      <p>This is the response from svc-3.</p>
+    </body>
+    </html>
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-3
+  annotations:
+    cloud.google.com/neg: '{"ingress": true}'
+spec:
+  selector:
+    app: app-3
+  ports:
+  - port: 80
+    targetPort: 80
+    protocol: TCP
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: path-routing-ingress
+  annotations:
+    kubernetes.io/ingress.class: "gce"  # Uses GKE's default Ingress Controller
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /svc1
+        pathType: Prefix
+        backend:
+          service:
+            name: svc-1
+            port:
+              number: 80
+      - path: /svc2
+        pathType: Prefix
+        backend:
+          service:
+            name: svc-2
+            port:
+              number: 80
+      - path: /svc3
+        pathType: Prefix
+        backend:
+          service:
+            name: svc-3
+            port:
+              number: 80
