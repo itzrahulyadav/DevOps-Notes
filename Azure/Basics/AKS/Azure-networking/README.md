@@ -494,3 +494,50 @@ Employing a Static Egress Gateway in your AKS cluster offers several advantages:
 * **Granular Control:** You can selectively route traffic from specific applications or namespaces through the egress gateway, while other workloads can continue to use the default egress path.
 
 In essence, the AKS Static Egress Gateway is a valuable feature for organizations that require a higher level of control and security for their outbound cluster traffic, particularly when interacting with IP-restricted external resources.
+
+
+### Preserving Client IP in AKS with `externalTrafficPolicy`
+
+When you expose a service in AKS using a `type: LoadBalancer`, the client's original source IP address is often lost. The network packets get source NAT'd (Network Address Translation) as they move through the cluster's nodes. This means your application sees the IP of the Kubernetes node that routed the traffic, not the actual end-user's IP.
+
+You can preserve the original client IP by setting the `externalTrafficPolicy` field in your Service manifest to `Local`.
+
+---
+
+### How `externalTrafficPolicy` Works
+
+This field in the Kubernetes Service specification defines how to route external traffic to your pods. It has two possible values:
+
+* **`Cluster` (Default):**
+    * Traffic that hits the external load balancer is forwarded to *any* node in the cluster.
+    * The node then uses `kube-proxy` rules to route the traffic to a pod running the service, even if that pod is on a *different* node.
+    * **Pro:** Distributes traffic evenly across all available pods in the cluster.
+    * **Con:** Obscures the client source IP because of the extra network hop and the resulting SNAT. Your application logs will show an internal cluster IP as the source.
+
+* **`Local`:**
+    * Traffic from the external load balancer is routed **only** to nodes that are currently running at least one of the service's pods.
+    * It avoids the second hop within the cluster. The packet goes directly from the load balancer to a pod on the same node.
+    * **Pro:** **Preserves the client's source IP address.** Since there's no extra hop between nodes, the source IP on the incoming packet is not changed.
+    * **Con:** Can lead to uneven traffic distribution. If one node has three pods for a service and another has only one, the node with one pod will still receive a proportional amount of traffic, potentially overloading that single pod. The load isn't spread across *all* pods, only across the nodes that have pods.
+
+---
+
+### Example Service Manifest
+
+To implement this, you simply add `externalTrafficPolicy: Local` to your Service's `spec`.
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-app-service
+spec:
+  type: LoadBalancer
+  # This is the key field to preserve the client IP
+  externalTrafficPolicy: Local
+  selector:
+    app: my-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
