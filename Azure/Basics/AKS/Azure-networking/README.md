@@ -447,9 +447,12 @@ az aks create \
     --network-plugin azure \
     --network-policy calico
 
-
+```
 
 ## Cilium
+
+
+
 ```
 az aks create \
     --resource-group myResourceGroup \
@@ -541,3 +544,102 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 8080
+```
+
+## Installing pods in specific nodepools
+
+It can be achived using **Kyverno**
+
+The controller intercepts pod creation requests, reads a label from the pod's namespace, and then adds the correct `nodeSelector` to the pod before it's created. This enforces scheduling rules at a namespace level.
+
+Here are the notes on how to set it up using Kyverno.
+
+***
+
+### 🏷️ Schedule Pods via Namespace Labels
+
+This method uses a policy engine to automatically assign pods to specific nodepools based on a label applied to their namespace.
+
+The overall workflow is:
+1.  **Label Nodepools:** Assign a unique label to each target nodepool (e.g., `pool=gpu-pool`).
+2.  **Label Namespaces:** Assign a label to a namespace indicating which nodepool it should target (e.g., `target-pool=gpu-pool`).
+3.  **Apply Kyverno Policy:** A cluster-wide policy will watch for new pods. When a pod is created, the policy reads the `target-pool` label from the pod's namespace and injects a `nodeSelector` into the pod's definition, forcing it onto the correct nodepool.
+
+---
+
+### ⚙️ Example Implementation with Kyverno
+
+Let's say you have a nodepool for GPU-intensive applications and another for general-purpose tasks.
+
+#### Step 1: Label Your Nodepools
+
+First, ensure your AKS nodepools have distinct labels. You can add or update labels using the Azure CLI.
+
+```bash
+# Add a label to your GPU nodepool
+az aks nodepool update \
+    --resource-group myResourceGroup \
+    --cluster-name myAKSCluster \
+    --name gpunp \
+    --labels 'pool=gpu-pool'
+
+# Add a label to your general-purpose nodepool
+az aks nodepool update \
+    --resource-group myResourceGroup \
+    --cluster-name myAKSCluster \
+    --name generalnp \
+    --labels 'pool=general-pool'
+```
+
+label the namespaces 
+
+```
+# Label the 'ml-apps' namespace to target the GPU pool
+kubectl label namespace ml-apps target-pool=gpu-pool --overwrite
+
+# Label the 'web-apps' namespace to target the general pool
+kubectl label namespace web-apps target-pool=general-pool --overwrite
+
+```
+
+
+Install kyverno
+
+```
+# Example for a recent version, check Kyverno's docs for the latest install command
+kubectl create -f [https://github.com/kyverno/kyverno/releases/download/v1.12.3/install.yaml](https://github.com/kyverno/kyverno/releases/download/v1.12.3/install.yaml)
+
+```
+
+Create a cluster policy in kyverno
+
+```
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: sync-nodeselector-from-namespace
+spec:
+  rules:
+  - name: add-nodeselector-from-namespace
+    match:
+      any:
+      - resources:
+          kinds:
+          - Pod
+    # Use context to fetch the 'target-pool' label from the pod's namespace
+    context:
+    - name: nodepool_label
+      apiCall:
+        urlPath: "/api/v1/namespaces/{{request.namespace}}"
+        jmesPath: "metadata.labels.\"target-pool\" || ''"
+    # Mutate (modify) the pod being created
+    mutate:
+      patchStrategicMerge:
+        spec:
+          # Add a nodeSelector if the namespace label exists
+          # The '+' character makes it a conditional anchor
+          +(nodeSelector):
+            # The value is taken from the context variable defined above
+            pool: "{{nodepool_label}}"
+
+```
