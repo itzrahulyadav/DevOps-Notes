@@ -110,3 +110,21 @@ spec:
 ```
 curl http://httpbin:8000/headers
 ```
+
+
+The overall architecture and traffic flow
+
+``` mermaid.js
+graph TD
+    A[External Client] -->|HTTP Request to :8000| B[Service<br>port: 8000<br>targetPort: 8080]
+    B -->|Forwards to pod:8080| C[Pod]
+    subgraph Pod
+        D[envoy container<br>port: 8080] -->|Proxies to localhost:80| E[httpbin container<br>port: 80]
+    end
+    C --> D
+    E -->|Response| D
+    D -->|Response| B
+    B -->|Response| A
+
+
+```
