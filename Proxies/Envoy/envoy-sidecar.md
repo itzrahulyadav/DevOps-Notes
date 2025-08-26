@@ -46,6 +46,36 @@ data:
                     port_value: 80
 
 ```
+
+```mermaid
+
+graph TD
+    A[External Client] -->|HTTP Request to Service:8000| B[Kubernetes Service<br>port: 8000<br>targetPort: 8080]
+    B -->|Forwards to Envoy:8080| C[Pod]
+    subgraph Pod
+        subgraph Envoy Container
+            D[Listener<br>name: listener_0<br>address: 0.0.0.0:8080] -->|Intercepts Traffic| E[Filter Chain]
+            E --> F[HTTP Connection Manager<br>name: envoy.filters.network.http_connection_manager<br>stat_prefix: ingress_http]
+            F -->|Routes via| G[Route Config<br>name: local_route<br>virtual_host: local_service<br>match: prefix=/<br>route: cluster=httpbin_service]
+            F -->|Processes via| H[HTTP Filter<br>name: envoy.filters.http.router]
+            G -->|Forwards to| I[Cluster<br>name: httpbin_service<br>type: STRICT_DNS<br>lb_policy: ROUND_ROBIN<br>endpoint: 127.0.0.1:80]
+        end
+        I -->|Proxies to localhost:80| J[httpbin Container<br>port: 80]
+        J -->|Response| I
+    end
+    I -->|Response| H
+    H -->|Response| G
+    G -->|Response| F
+    F -->|Response| E
+    E -->|Response| D
+    D -->|Response| B
+    B -->|Response| A
+
+
+
+```
+
+
 ### Create a deployment
 
 2. deployment.yaml
@@ -112,9 +142,10 @@ curl http://httpbin:8000/headers
 ```
 
 
-The overall architecture and traffic flow
 
-``` mermaid.js
+Overall architecture and traffic flow
+
+```mermaid
 graph TD
     A[External Client] -->|HTTP Request to :8000| B[Service<br>port: 8000<br>targetPort: 8080]
     B -->|Forwards to pod:8080| C[Pod]
@@ -125,6 +156,5 @@ graph TD
     E -->|Response| D
     D -->|Response| B
     B -->|Response| A
-
-
 ```
+
