@@ -204,3 +204,103 @@ spec:
 
 
 
+# Adding timeouts to our services
+
+
+1. Modify the envoy-config
+
+```
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: client-envoy-config
+data:
+  envoy.yaml: |
+    static_resources:
+      listeners:
+      - name: outbound_listener
+        address:
+          socket_address: { address: 127.0.0.1, port_value: 9000 }
+        filter_chains:
+        - filters:
+          - name: envoy.filters.network.http_connection_manager
+            typed_config:
+              "@type": type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager
+              stat_prefix: outbound_http
+              route_config:
+                name: local_route
+                virtual_hosts:
+                - name: backend_service
+                  domains: ["*"]
+                  routes:
+                  - match: { prefix: "/" }
+                    route:
+                      weighted_clusters:
+                        clusters:
+                        - name: backend_v1_cluster
+                          weight: 90
+                        - name: backend_v2_cluster
+                          weight: 10
+                      # ==================================
+                      # === NEW RESILIENCE SECTION START ===
+                      # ==================================
+                      timeout: 5s
+                      retry_policy:
+                        retry_on: 5xx
+                        num_retries: 3
+                        per_try_timeout: 1s
+                      # ==================================
+                      # ===  NEW RESILIENCE SECTION END  ===
+                      # ==================================
+
+              http_filters:
+              - name: envoy.filters.http.router
+                typed_config:
+                  "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
+      clusters:
+      - name: backend_v1_cluster
+        connect_timeout: 0.25s
+        type: STRICT_DNS
+        lb_policy: ROUND_ROBIN
+        load_assignment:
+          cluster_name: backend_v1_cluster
+          endpoints:
+          - lb_endpoints:
+            - endpoint:
+                address:
+                  socket_address:
+                    address: backend-v1-svc.default.svc.cluster.local
+                    port_value: 80
+      - name: backend_v2_cluster
+        connect_timeout: 0.25s
+        type: STRICT_DNS
+        lb_policy: ROUND_ROBIN
+        load_assignment:
+          cluster_name: backend_v2_cluster
+          endpoints:
+          - lb_endpoints:
+            - endpoint:
+                address:
+                  socket_address:
+                    address: backend-v2-svc.default.svc.cluster.local
+                    port_value: 80
+
+```
+
+2.  Restart client pod
+3.  Simulate a failure by reducing the pod count to 0 for v2 of backend
+```
+kubectl scale deployment backend-v2 --replicas=0
+
+```
+
+4. Send traffic to the application which is not available
+
+```
+CLIENT_POD_NAME=$(kubectl get pods -l app=client -o jsonpath='{.items[0].metadata.name}')
+kubectl exec -it $CLIENT_POD_NAME -c client-app -- sh
+
+# Inside the client pod, run a loop
+for i in $(seq 1 20); do curl http://localhost:9000; sleep 0.5; done
+
+```
