@@ -2,22 +2,6 @@
 
 <p align="center"> Resources and Notes to get started with DevOps</p>
 
-<div align = "center">
-<h1>I am Rahul</h1>
-<img src="https://github.com/user-attachments/assets/b9e8ed2e-cfdd-4134-b3d3-881030c2d3fa" height="100" alt="Rahul-Yadav" style="border-radius: 50%" />
-
-
-<h2>Follow me</h2>
-
-<a href="https://www.instagram.com/_rxhxlx_">Instagram</a>
-
-<a href="https://www.linkedin.com/in/rahul-yadav-2a4b3b199">Linkedin</a>
-
-<a href="https://github.com/itzrahulyadav">Github</a>
-
-</div>
-
- 
 ## Bash Scripting 
 
 <img align="right" src="https://user-images.githubusercontent.com/65400893/214107182-3d4e2553-c2ae-4538-80ac-a5ac58e20996.jpg" height="100" alt="Bash"> 
