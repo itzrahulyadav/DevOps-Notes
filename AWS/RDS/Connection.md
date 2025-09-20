@@ -34,7 +34,9 @@ psql \
    --port=<port> \
    --username=<master username> \
    --password \
-   --dbname=<database name>
+   --dbname=postgres <default db>
+
+It will prompt for password
 
 // psql example
 psql --host=mypostgresql.c6c8mwvfdgv0.us-west-2.rds.amazonaws.com --port=5432 --username=awsuser --password --dbname=mypgdb 
