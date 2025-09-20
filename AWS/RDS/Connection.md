@@ -52,7 +52,8 @@ mysql -h <endpoint> -P 3306 -u <username> -p
 CREATE DATABASE mydatabase; // for postgres
 create database mydatabase; // for sql
 
-show databases;
+show databases; //for sql
+SELECT datname FROM pg_database; //for psql or \c
 ````
 
 13. use the database
@@ -78,7 +79,8 @@ CREATE TABLE users (
     email VARCHAR(255) UNIQUE NOT NULL
 );
 
-describe users
+describe users //sql
+\dt //psql
 
 ```
 
@@ -103,4 +105,12 @@ select * from users
 
 ```
 
+
+17. exit
+
+```
+
+\q
+
+```
 
