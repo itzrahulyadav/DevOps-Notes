@@ -114,3 +114,20 @@ select * from users
 
 ```
 
+
+## Create a user in postgres db
+
+1.
+
+```
+CREATE USER myuser WITH PASSWORD 'Myp@ssw0rd';
+
+```
+
+2. 
+
+```
+GRANT ALL PRIVILEGES ON DATABASE <dbname> TO <username>;
+```
+
+
