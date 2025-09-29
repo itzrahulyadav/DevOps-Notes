@@ -15,6 +15,58 @@ service:
   port: 8080
 
 ```
+or for eks create storageclass.yaml and apply it.
+
+```
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: efs-sc
+provisioner: efs.csi.aws.com
+
+```
+create pv.yaml
+
+```
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: jenkins-pv
+spec:
+  capacity:
+    storage: 10Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: efs-sc
+  csi:
+    driver: efs.csi.aws.com
+    volumeHandle: <FILE_SYSTEM_ID>
+
+```
+create pvc.yaml
+
+```
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: jenkins-pvc
+  namespace: jenkins
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: efs-sc
+  resources:
+    requests:
+      storage: 10Gi
+
+```
+install helm
+
+```
+helm install jenkins jenkinsci/jenkins --namespace jenkins --set persistence.existingClaim=jenkins-pvc --set controller.serviceType=LoadBalancer
+```
 
 5. helm install my-jenkins jenkins/jenkins --namespace jenkins -f values.yaml
 6. printf $(kubectl get secret --namespace jenkins my-jenkins -o jsonpath="{.data.jenkins-admin-password}" | base64 --decode); echo
